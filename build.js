@@ -20,26 +20,26 @@ function isURLParameter(target) {
 }
 
 // Function to extract slug from filename
-// Format: DATE--(tags)--Title--slug.md (exactly 3 '--')
+// Format: DATE--slug--(tags)--Title--preview.md (exactly 4 '--')
 function extractSlug(filename) {
     // Remove .md extension
     const withoutExt = filename.replace(/\.md$/, '');
     
-    // Split by '--' - should have exactly 4 parts: [DATE, (tags), Title, slug]
+    // Split by '--' - should have exactly 5 parts: [DATE, slug, (tags), Title, preview]
     const parts = withoutExt.split('--');
-    if (parts.length === 4) {
-        return parts[3]; // Last part is the slug
+    if (parts.length === 5) {
+        return parts[1]; // Second part is the slug
     }
     
     return null; // No slug found or invalid format
 }
 
 // Function to extract date from filename
-// Format: DATE--(tags)--Title--slug.md
+// Format: DATE--slug--(tags)--Title--preview.md
 function extractDateFromFilename(filename) {
     const withoutExt = filename.replace(/\.md$/, '');
     const parts = withoutExt.split('--');
-    if (parts.length === 4) {
+    if (parts.length === 5) {
         return parts[0]; // First part is the date (e.g., "2025-12-8")
     }
     return null;
@@ -68,12 +68,12 @@ function formatDate(dateString) {
 }
 
 // Function to extract tags from filename
-// Format: DATE--(tags)--Title--slug.md
+// Format: DATE--slug--(tags)--Title--preview.md
 function extractTagsFromFilename(filename) {
     const withoutExt = filename.replace(/\.md$/, '');
     const parts = withoutExt.split('--');
-    if (parts.length === 4) {
-        const tagsPart = parts[1]; // Second part contains tags in parentheses
+    if (parts.length === 5) {
+        const tagsPart = parts[2]; // Third part contains tags in parentheses
         // Remove parentheses and return tags
         if (tagsPart.startsWith('(') && tagsPart.endsWith(')')) {
             return tagsPart.slice(1, -1); // Remove parentheses
@@ -83,16 +83,16 @@ function extractTagsFromFilename(filename) {
 }
 
 // Function to validate post filename format
-// Expected format: DATE--(tags)--Title--slug.md (exactly 3 '--')
+// Expected format: DATE--slug--(tags)--Title--preview.md (exactly 4 '--')
 function validatePostFilename(filename) {
     // Count occurrences of '--'
     const matches = filename.match(/--/g);
     const dashCount = matches ? matches.length : 0;
     
-    if (dashCount !== 3) {
+    if (dashCount !== 4) {
         return {
             valid: false,
-            error: `Post file "${filename}" must have exactly 3 '--' separators. Found ${dashCount}. Expected format: DATE--(tags)--Title--slug.md`
+            error: `Post file "${filename}" must have exactly 4 '--' separators. Found ${dashCount}. Expected format: DATE--slug--(tags)--Title--preview.md`
         };
     }
     
@@ -320,12 +320,12 @@ function getTagsFromFilePath(filePath) {
 }
 
 // Function to extract title from post filename
-// Format: DATE--(tags)--Title--slug.md
+// Format: DATE--slug--(tags)--Title--preview.md
 function extractTitleFromFilename(filename) {
     const withoutExt = filename.replace(/\.md$/, '');
     const parts = withoutExt.split('--');
-    if (parts.length === 4) {
-        return parts[2]; // Title is the third part (index 2)
+    if (parts.length === 5) {
+        return parts[3]; // Title is the fourth part (index 3)
     }
     return null;
 }
@@ -338,6 +338,7 @@ function generatePostsMd() {
     
     const files = fs.readdirSync(postsPath);
     const posts = [];
+    const allTagsSet = new Set(); // Use Set to automatically handle distinct tags
     
     files.forEach(file => {
         if (file.endsWith('.md')) {
@@ -350,12 +351,26 @@ function generatePostsMd() {
             const title = extractTitleFromFilename(file);
             const slug = extractSlug(file);
             const dateString = extractDateFromFilename(file);
+            const tags = extractTagsFromFilename(file);
+            
+            // Collect all tags
+            if (tags) {
+                const tagList = tags.split(',').map(t => t.trim());
+                tagList.forEach(tag => {
+                    if (tag) {
+                        allTagsSet.add(tag);
+                    }
+                });
+            }
             
             if (title && slug) {
                 posts.push({ title, slug, filename: file, dateString });
             }
         }
     });
+    
+    // Convert Set to sorted array
+    const distinctTags = Array.from(allTagsSet).sort();
     
     // Sort posts by date - newest first
     posts.sort((a, b) => {
@@ -379,6 +394,19 @@ function generatePostsMd() {
     // Generate markdown content
     let postsMd = '# Posts\n\n';
     
+    // Add tags section if there are any tags
+    if (distinctTags.length > 0) {
+        postsMd += '## Tags\n\n';
+        distinctTags.forEach((tag, index) => {
+            postsMd += `[${tag}](?tag=${encodeURIComponent(tag)})`;
+            if (index < distinctTags.length - 1) {
+                postsMd += ' • '; // Add bullet separator between tags
+            }
+        });
+        postsMd += '\n\n---\n\n';
+    }
+    
+    // Add posts list
     posts.forEach(post => {
         postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
     });

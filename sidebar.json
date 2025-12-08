@@ -2,11 +2,11 @@
     "": {
         "🏠 Home": {
             "target": "?page=home",
-            "openInNewTab": true
+            "openInNewTab": false
         },
         "✍️ Posts": {
             "target": "?page=posts",
-            "openInNewTab": true
+            "openInNewTab": false
         }
     },
     "Socials": {
