@@ -25,6 +25,45 @@
             </div>
         </main>
     </div>
+
+    <script>
+        // Content switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link[data-content]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetContent = this.getAttribute('data-content');
+                    const contentId = 'content-' + targetContent.replace(/\./g, '-');
+                    const contentSection = document.getElementById(contentId);
+                    
+                    if (contentSection) {
+                        // Hide all content sections
+                        document.querySelectorAll('.content-section').forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        
+                        // Show selected content
+                        contentSection.style.display = 'block';
+                        
+                        // Update active state
+                        document.querySelectorAll('.nav-link').forEach(nav => {
+                            nav.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Handle Home link (default content) - now also has data-content attribute
+            const homeLink = document.querySelector('.nav-link[data-content="home.md"]');
+            if (homeLink) {
+                // Same handler as other content links, but ensure it's set up
+            }
+        });
+    </script>
 </body>
 </html>
 

@@ -5,13 +5,13 @@
             "openInNewTab": false
         },
         "✍️ Posts": {
-            "target": "https://blog.vatsalambastha.com",
-            "openInNewTab": true
+            "target": "posts.md",
+            "openInNewTab": false
         }
     },
     "Socials": {
         "Facebook": {
-            "target" : "facebook.com/vatsalAmbastha",
+            "target" : "https://www.facebook.com/vatsalAmbastha",
             "openInNewTab" : true
         },
         "Twitter": {
