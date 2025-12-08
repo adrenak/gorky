@@ -250,8 +250,8 @@ function checkDuplicateSlugs(postsPath) {
 
 if (require.main === module) {
     const PATHS = {
-        posts: path.join(__dirname, 'user-content', 'posts'),
-        postsMd: path.join(__dirname, 'user-content', 'posts.md'),
+        posts: path.join(__dirname, '..', 'user-content', 'posts'),
+        postsMd: path.join(__dirname, '..', 'user-content', 'posts.md'),
     };
     generatePostsMd(PATHS.posts, PATHS.postsMd);
 }
@@ -265,4 +265,3 @@ module.exports = {
     checkDuplicateSlugs,
     generatePostsMd,
 };
-

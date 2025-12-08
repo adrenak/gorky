@@ -8,12 +8,12 @@ const { parsePostFilename, validatePostFilename, extractPostMetadata, isPostFile
 // ============================================================================
 
 const PATHS = {
-    sidebar: path.join(__dirname, 'user-content', 'sidebar.json'),
-    template: path.join(__dirname, 'index-template.html'),
-    output: path.join(__dirname, 'index.html'),
-    posts: path.join(__dirname, 'user-content', 'posts'),
-    postsMd: path.join(__dirname, 'user-content', 'posts.md'),
-    homeMd: path.join(__dirname, 'user-content', 'home.md'),
+    sidebar: path.join(__dirname, '..', 'user-content', 'sidebar.json'),
+    template: path.join(__dirname, '..', 'index-template.html'),
+    output: path.join(__dirname, '..', 'index.html'),
+    posts: path.join(__dirname, '..', 'user-content', 'posts'),
+    postsMd: path.join(__dirname, '..', 'user-content', 'posts.md'),
+    homeMd: path.join(__dirname, '..', 'user-content', 'home.md'),
 };
 
 const POSTS_FOLDER_PREFIX = 'user-content/posts/';
@@ -203,7 +203,7 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
     
     markdownFiles.forEach((filePath, key) => {
         try {
-            const fullPath = path.join(__dirname, filePath);
+            const fullPath = path.join(__dirname, '..', filePath);
             if (!fs.existsSync(fullPath)) return;
             
             const markdown = fs.readFileSync(fullPath, 'utf8');
