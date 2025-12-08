@@ -244,6 +244,23 @@ function checkDuplicateSlugs(postsPath) {
     }
 }
 
+/**
+ * Generates HTML attributes for post metadata
+ * @param {Object} metadata - Object with slug, date, tags, title
+ * @returns {string} HTML attributes string
+ */
+function generatePostAttributes(metadata) {
+    const attrs = [];
+    if (metadata.slug) attrs.push(`data-slug="${metadata.slug}"`);
+    if (metadata.date) attrs.push(`data-date="${metadata.date}"`);
+    if (metadata.tags) attrs.push(`data-tags="${metadata.tags}"`);
+    if (metadata.title) {
+        const escapedTitle = metadata.title.replace(/"/g, '&quot;');
+        attrs.push(`data-title="${escapedTitle}"`);
+    }
+    return attrs.join(' ');
+}
+
 // ============================================================================
 // MAIN (for direct execution)
 // ============================================================================
@@ -264,4 +281,5 @@ module.exports = {
     normalizePath,
     checkDuplicateSlugs,
     generatePostsMd,
+    generatePostAttributes,
 };

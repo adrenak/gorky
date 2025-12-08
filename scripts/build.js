@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
-const { generatePostsMd, extractPostMetadata, isPostFile, normalizePath, checkDuplicateSlugs } = require('./posts');
+const { generatePostsMd, extractPostMetadata, isPostFile, normalizePath, checkDuplicateSlugs, generatePostAttributes } = require('./posts');
 const { isMarkdownFile, isURLParameter } = require('./utils');
 
 // ============================================================================
@@ -139,21 +139,6 @@ function collectMarkdownFiles(sidebarData) {
 // ============================================================================
 // CONTENT GENERATION
 // ============================================================================
-
-/**
- * Generates HTML attributes for post metadata
- */
-function generatePostAttributes(metadata) {
-    const attrs = [];
-    if (metadata.slug) attrs.push(`data-slug="${metadata.slug}"`);
-    if (metadata.date) attrs.push(`data-date="${metadata.date}"`);
-    if (metadata.tags) attrs.push(`data-tags="${metadata.tags}"`);
-    if (metadata.title) {
-        const escapedTitle = metadata.title.replace(/"/g, '&quot;');
-        attrs.push(`data-title="${escapedTitle}"`);
-    }
-    return attrs.join(' ');
-}
 
 /**
  * Generates content sections for all markdown files
