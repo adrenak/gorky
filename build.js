@@ -7,7 +7,7 @@ const markdownPath = path.join(__dirname, 'home.md');
 const sidebarPath = path.join(__dirname, 'sidebar.json');
 const templatePath = path.join(__dirname, 'index-template.html');
 const outputPath = path.join(__dirname, 'index.html');
-const postsPath = path.join(__dirname, 'posts');
+const postsPath = path.join(__dirname, 'user-content', 'posts');
 
 // Function to check if a target is a markdown file
 function isMarkdownFile(target) {
@@ -241,12 +241,12 @@ function collectMarkdownFiles(sidebarData) {
         });
     });
     
-    // Also load all post files from posts folder
+    // Also load all post files from user-content/posts folder
     if (fs.existsSync(postsPath)) {
         const postFiles = fs.readdirSync(postsPath);
         postFiles.forEach(file => {
             if (file.endsWith('.md')) {
-                const filePath = path.join('posts', file);
+                const filePath = path.join('user-content', 'posts', file);
                 markdownFiles.set(filePath, filePath);
             }
         });
@@ -261,7 +261,7 @@ function getSlugFromFilePath(filePath) {
     const normalizedPath = filePath.replace(/\\/g, '/');
     
     // If it's a post file, extract slug from filename
-    if (normalizedPath.startsWith('posts/')) {
+    if (normalizedPath.startsWith('user-content/posts/')) {
         const filename = path.basename(filePath);
         return extractSlug(filename);
     }
@@ -275,7 +275,7 @@ function getDateFromFilePath(filePath) {
     const normalizedPath = filePath.replace(/\\/g, '/');
     
     // If it's a post file, extract and format date from filename
-    if (normalizedPath.startsWith('posts/')) {
+    if (normalizedPath.startsWith('user-content/posts/')) {
         const filename = path.basename(filePath);
         const dateString = extractDateFromFilename(filename);
         return formatDate(dateString);
@@ -290,7 +290,7 @@ function getTagsFromFilePath(filePath) {
     const normalizedPath = filePath.replace(/\\/g, '/');
     
     // If it's a post file, extract tags from filename
-    if (normalizedPath.startsWith('posts/')) {
+    if (normalizedPath.startsWith('user-content/posts/')) {
         const filename = path.basename(filePath);
         return extractTagsFromFilename(filename);
     }
@@ -370,18 +370,18 @@ function generatePostsMd() {
 }
 
 // Function to fix image paths in HTML for post files
-// Converts relative image paths to posts/images/ paths
+// Converts relative image paths to user-content/posts/images/ paths
 function fixImagePaths(htmlContent, filePath) {
     // Normalize path separators
     const normalizedPath = filePath.replace(/\\/g, '/');
     
     // Only fix paths for post files
-    if (normalizedPath.startsWith('posts/')) {
+    if (normalizedPath.startsWith('user-content/posts/')) {
         // Replace image src attributes that are relative paths
         // Matches: src="images/..." or src='images/...' or src="./images/..."
         htmlContent = htmlContent.replace(
             /src=["'](\.\/)?images\//g,
-            'src="posts/images/'
+            'src="user-content/posts/images/'
         );
     }
     
