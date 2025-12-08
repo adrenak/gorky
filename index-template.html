@@ -294,7 +294,7 @@
                     const tagList = tags.split(',').map(t => t.trim().toLowerCase());
                     if (tagList.includes(tag.toLowerCase())) {
                         const slug = post.getAttribute('data-slug');
-                        const title = getPostTitle(post);
+                        const title = post.getAttribute('data-title'); // Get title from filename, not content
                         const date = post.getAttribute('data-date');
                         if (slug && title) {
                             matchingPosts.push({ slug, title, date, post });

@@ -1,4 +1,4 @@
-<img src="images/sf.jpg" alt="Description" style="max-width: 50%;">
+<img src="user-content/images/sf.jpg" alt="Description" style="max-width: 50%;">
 
 Hi, I'm Vatsal 👋
 

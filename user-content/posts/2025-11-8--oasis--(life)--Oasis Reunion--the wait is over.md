@@ -1,4 +1,4 @@
-<img src="images/rdr.jpg" alt="Description" style="max-width: 50%; float: right; padding: 0px 50px 0px 0px">
+<img src="user-content/images/rdr.jpg" alt="Description" style="max-width: 50%; float: right; padding: 0px 50px 0px 0px">
 
 The long-awaited Oasis reunion finally happened in 2025, bringing together the Gallagher brothers after years of public feuding and separation. This momentous event marked a significant chapter in rock music history.
 
