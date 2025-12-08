@@ -1,0 +1,13 @@
+{
+  "name": "gwebx",
+  "version": "1.0.0",
+  "description": "Static site generator for markdown content",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "marked": "^9.1.6"
+  }
+}
+
