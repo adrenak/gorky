@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
 const { generatePostsMd, extractPostMetadata, isPostFile, normalizePath, checkDuplicateSlugs, generatePostAttributes } = require('./posts');
-const { isMarkdownFile, isURLParameter } = require('./utils');
+const { isURLParameter } = require('./utils');
 
 // ============================================================================
 // CONSTANTS
@@ -33,16 +33,14 @@ function generateNavItem(label, config, isActive = false) {
     const text = emojiMatch ? emojiMatch[2] : label;
     
     const activeClass = isActive ? ' active' : '';
-    const isMarkdown = isMarkdownFile(config.target);
     const isURLParam = isURLParameter(config.target);
-    const isInternal = isMarkdown || (isURLParam && !config.openInNewTab);
+    const isInternal = isURLParam && !config.openInNewTab;
     
     const targetAttr = config.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-    const dataContentAttr = isMarkdown ? ` data-content="${config.target}"` : '';
-    const dataURLAttr = (isURLParam && !config.openInNewTab) ? ` data-url="${config.target}"` : '';
+    const dataURLAttr = isInternal ? ` data-url="${config.target}"` : '';
     const hrefValue = isInternal ? '#' : config.target;
     
-    let itemHTML = `<a href="${hrefValue}" class="nav-link${activeClass}"${targetAttr}${dataContentAttr}${dataURLAttr}>\n`;
+    let itemHTML = `<a href="${hrefValue}" class="nav-link${activeClass}"${targetAttr}${dataURLAttr}>\n`;
     if (emoji) {
         itemHTML += `    <span class="nav-icon">${emoji}</span>\n`;
     }
@@ -67,7 +65,7 @@ function generateSidebarNav(sidebarData) {
             // Root navigation items
             Object.entries(items).forEach(([label, config]) => {
                 if (config.target === '#' || config.target === '') {
-                    config.target = 'user-content/home.md';
+                    config.target = '?page=home';
                 }
                 navHTML += generateNavItem(label, config, isFirstRootItem);
                 isFirstRootItem = false;
@@ -106,12 +104,10 @@ function collectMarkdownFiles(sidebarData) {
     // Default home.md
     markdownFiles.set('user-content/home.md', 'user-content/home.md');
     
-    // Traverse sidebar data to find all .md files and URL parameters
+    // Traverse sidebar data to find URL parameters
     Object.values(sidebarData).forEach(items => {
         Object.values(items).forEach(config => {
-            if (isMarkdownFile(config.target)) {
-                markdownFiles.set(config.target, config.target);
-            } else if (isURLParameter(config.target)) {
+            if (isURLParameter(config.target)) {
                 const urlParams = new URLSearchParams(config.target.substring(1));
                 const pageParam = urlParams.get('page');
                 if (pageParam) {

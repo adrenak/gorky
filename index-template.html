@@ -192,24 +192,10 @@
                     });
                 }
                 
-                // Update active state - find nav link that matches this content
+                // Update active state
                 document.querySelectorAll('.nav-link').forEach(nav => {
                     nav.classList.remove('active');
                 });
-                
-                // Try to find and activate the corresponding nav link
-                const contentId = contentSection.id;
-                const navLink = document.querySelector(`.nav-link[data-content]`);
-                if (navLink) {
-                    // Find the nav link that points to this content
-                    document.querySelectorAll('.nav-link[data-content]').forEach(link => {
-                        const targetContent = link.getAttribute('data-content');
-                        const targetId = 'content-' + targetContent.replace(/\./g, '-');
-                        if (targetId === contentId) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
                 
                 return true;
             }
@@ -249,41 +235,24 @@
                     nav.classList.remove('active');
                 });
                 
-                // Activate the corresponding nav link (check data-content first)
-                let foundActive = false;
-                document.querySelectorAll('.nav-link[data-content]').forEach(link => {
-                    const targetContent = link.getAttribute('data-content');
-                    const targetId = 'content-' + targetContent.replace(/\./g, '-');
-                    if (targetId === contentId) {
-                        link.classList.add('active');
-                        foundActive = true;
-                    }
-                });
-                
-                // If not found in data-content, check data-url attributes and href attributes
-                if (!foundActive) {
-                    // Get current page parameter from URL
-                    const currentPage = getURLParameter('page');
-                    if (currentPage) {
-                        const expectedURL = `?page=${currentPage}`;
-                        // Check data-url attributes (for internal navigation)
-                        document.querySelectorAll('.nav-link[data-url]').forEach(link => {
-                            const targetURL = link.getAttribute('data-url');
-                            if (targetURL === expectedURL) {
-                                link.classList.add('active');
-                                foundActive = true;
-                            }
-                        });
-                        // Also check href attributes (for links that open in new tab)
-                        if (!foundActive) {
-                            document.querySelectorAll('.nav-link').forEach(link => {
-                                const href = link.getAttribute('href');
-                                if (href === expectedURL) {
-                                    link.classList.add('active');
-                                }
-                            });
+                // Activate the corresponding nav link
+                const currentPage = getURLParameter('page');
+                if (currentPage) {
+                    const expectedURL = `?page=${currentPage}`;
+                    // Check data-url attributes (for internal navigation)
+                    document.querySelectorAll('.nav-link[data-url]').forEach(link => {
+                        const targetURL = link.getAttribute('data-url');
+                        if (targetURL === expectedURL) {
+                            link.classList.add('active');
                         }
-                    }
+                    });
+                    // Also check href attributes (for links that open in new tab)
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href === expectedURL) {
+                            link.classList.add('active');
+                        }
+                    });
                 }
                 
                 return true;
@@ -443,24 +412,7 @@
         
         // Content switching functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Set up nav link click handlers first (always needed)
-            // Handle navigation links with data-content (markdown files)
-            const navLinksWithContent = document.querySelectorAll('.nav-link[data-content]');
-            navLinksWithContent.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetContent = this.getAttribute('data-content');
-                    if (targetContent) {
-                        showContentByFile(targetContent);
-                        // Update URL without reload
-                        const newUrl = window.location.pathname + '?page=' + targetContent.replace('.md', '');
-                        window.history.pushState({}, '', newUrl);
-                        updateCanonicalURL();
-                    }
-                });
-            });
-            
+            // Set up nav link click handlers
             // Handle navigation links with data-url (URL parameters)
             const navLinksWithURL = document.querySelectorAll('.nav-link[data-url]');
             navLinksWithURL.forEach(link => {
