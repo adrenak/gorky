@@ -90,6 +90,12 @@
         function showContentBySlug(slug) {
             if (!slug) return false;
             
+            // Hide tag posts list if it exists
+            const tagListContainer = document.getElementById('tag-posts-list');
+            if (tagListContainer) {
+                tagListContainer.style.display = 'none';
+            }
+            
             const contentSection = document.querySelector(`.content-section[data-slug="${slug}"]`);
             if (contentSection) {
                 // Hide all content sections
@@ -137,6 +143,12 @@
         
         // Function to show content by file path
         function showContentByFile(filePath) {
+            // Hide tag posts list if it exists
+            const tagListContainer = document.getElementById('tag-posts-list');
+            if (tagListContainer) {
+                tagListContainer.style.display = 'none';
+            }
+            
             const contentId = 'content-' + filePath.replace(/\./g, '-');
             const contentSection = document.getElementById(contentId);
             
@@ -176,9 +188,131 @@
             return false;
         }
         
+        // Function to get title from a post content section
+        function getPostTitle(postSection) {
+            const h1 = postSection.querySelector('h1');
+            if (h1) {
+                return h1.textContent;
+            }
+            // Fallback: try to get from slug or other heading
+            const h2 = postSection.querySelector('h2');
+            if (h2) {
+                return h2.textContent;
+            }
+            return 'Untitled Post';
+        }
+        
+        // Function to show posts by tag (list view similar to posts.md)
+        function showPostsByTag(tag) {
+            if (!tag) return false;
+            
+            // Hide all content sections first (except tag list container)
+            document.querySelectorAll('.content-section').forEach(section => {
+                // Only hide sections that are not the tag list container
+                if (section.id !== 'tag-posts-list') {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Find all post content sections (those with data-tags attribute)
+            const allPosts = document.querySelectorAll('.content-section[data-tags]');
+            const matchingPosts = [];
+            
+            allPosts.forEach(post => {
+                const tags = post.getAttribute('data-tags');
+                if (tags) {
+                    // Split tags by comma and check if the tag matches (case-insensitive)
+                    const tagList = tags.split(',').map(t => t.trim().toLowerCase());
+                    if (tagList.includes(tag.toLowerCase())) {
+                        const slug = post.getAttribute('data-slug');
+                        const title = getPostTitle(post);
+                        const date = post.getAttribute('data-date');
+                        if (slug && title) {
+                            matchingPosts.push({ slug, title, date, post });
+                        }
+                    }
+                }
+            });
+            
+            if (matchingPosts.length > 0) {
+                // Create or get the container for the tag-filtered posts list
+                let tagListContainer = document.getElementById('tag-posts-list');
+                if (!tagListContainer) {
+                    tagListContainer = document.createElement('div');
+                    tagListContainer.id = 'tag-posts-list';
+                    tagListContainer.className = 'content-section';
+                    document.getElementById('markdown-content').appendChild(tagListContainer);
+                }
+                
+                // Show the container
+                tagListContainer.style.display = 'block';
+                
+                // Clear and populate the container
+                tagListContainer.innerHTML = '';
+                
+                // Add header
+                const header = document.createElement('h1');
+                header.textContent = `Posts tagged ${tag}`;
+                tagListContainer.appendChild(header);
+                
+                // Sort posts by date (newest first)
+                matchingPosts.sort((a, b) => {
+                    if (!a.date || !b.date) return 0;
+                    // Parse dates for sorting (format: "25 Sep 2025")
+                    const parseDate = (dateStr) => {
+                        const months = { 'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                                        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11 };
+                        const parts = dateStr.split(' ');
+                        if (parts.length === 3) {
+                            const day = parseInt(parts[0], 10);
+                            const month = months[parts[1]];
+                            const year = parseInt(parts[2], 10);
+                            return new Date(year, month, day);
+                        }
+                        return new Date(0);
+                    };
+                    return parseDate(b.date) - parseDate(a.date);
+                });
+                
+                // Add post links
+                matchingPosts.forEach(({ slug, title }) => {
+                    const postLink = document.createElement('h2');
+                    const link = document.createElement('a');
+                    link.href = `?post=${slug}`;
+                    link.textContent = title;
+                    link.style.textDecoration = 'none';
+                    link.style.color = 'inherit';
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showContentBySlug(slug);
+                        window.history.pushState({}, '', `?post=${slug}`);
+                    });
+                    postLink.appendChild(link);
+                    tagListContainer.appendChild(postLink);
+                });
+                
+                // Update active state - deactivate all nav links
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                return true;
+            }
+            
+            return false;
+        }
+        
         // Function to handle URL changes and update content
         function handleURLChange() {
-            // Check for page parameter first (home or posts)
+            // Check for tag parameter first (filter posts by tag)
+            const tagParam = getURLParameter('tag');
+            if (tagParam) {
+                if (showPostsByTag(tagParam)) {
+                    return; // Successfully showed posts by tag
+                }
+            }
+            
+            // Check for page parameter (home or posts)
             const pageParam = getURLParameter('page');
             if (pageParam === 'home' || pageParam === 'posts') {
                 const targetFile = pageParam + '.md';

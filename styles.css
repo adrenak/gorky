@@ -325,6 +325,31 @@ body {
     margin: 1rem 0; /* Vertical spacing around images */
 }
 
+/* Links in markdown content */
+#markdown-content a {
+    color: #0066cc; /* Blue link color */
+    text-decoration: none; /* Remove underline by default */
+    transition: color 0.2s ease;
+}
+
+#markdown-content a:hover {
+    color: #0052a3; /* Darker blue on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Tag posts list styling - ensure links look like links */
+#tag-posts-list h2 a {
+    color: #0066cc !important; /* Blue link color - override any heading styles */
+    text-decoration: none; /* Remove underline by default */
+    transition: color 0.2s ease;
+    font-weight: 600; /* Keep heading weight */
+}
+
+#tag-posts-list h2 a:hover {
+    color: #0052a3 !important; /* Darker blue on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
 /* ============================================
    RESPONSIVE DESIGN - DESKTOP BREAKPOINTS
    ============================================ */
