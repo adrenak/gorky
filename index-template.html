@@ -81,7 +81,37 @@
                 const tagsElement = document.createElement('div');
                 tagsElement.className = 'post-tags';
                 tagsElement.style.cssText = 'font-style: italic;';
-                tagsElement.textContent = 'Tagged: ' + tags;
+                
+                // Split tags by comma and create clickable links
+                const tagList = tags.split(',').map(t => t.trim());
+                const tagText = document.createTextNode('Tagged: ');
+                tagsElement.appendChild(tagText);
+                
+                tagList.forEach((tag, index) => {
+                    const tagLink = document.createElement('a');
+                    tagLink.href = `?tag=${encodeURIComponent(tag)}`;
+                    tagLink.textContent = tag;
+                    tagLink.style.cssText = 'color: #0066cc; text-decoration: none; margin-left: 0.25rem;';
+                    tagLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showPostsByTag(tag);
+                        window.history.pushState({}, '', `?tag=${encodeURIComponent(tag)}`);
+                    });
+                    tagLink.addEventListener('mouseenter', function() {
+                        this.style.textDecoration = 'underline';
+                    });
+                    tagLink.addEventListener('mouseleave', function() {
+                        this.style.textDecoration = 'none';
+                    });
+                    tagsElement.appendChild(tagLink);
+                    
+                    // Add comma separator (except for last tag)
+                    if (index < tagList.length - 1) {
+                        const comma = document.createTextNode(', ');
+                        tagsElement.appendChild(comma);
+                    }
+                });
+                
                 metadataContainer.appendChild(tagsElement);
             }
         }
