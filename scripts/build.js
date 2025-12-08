@@ -114,7 +114,7 @@ function collectMarkdownFiles(sidebarData) {
             } else if (isURLParameter(config.target)) {
                 const urlParams = new URLSearchParams(config.target.substring(1));
                 const pageParam = urlParams.get('page');
-                if (pageParam && (pageParam === 'home' || pageParam === 'posts')) {
+                if (pageParam) {
                     const mdFile = `user-content/${pageParam}.md`;
                     markdownFiles.set(mdFile, mdFile);
                 }
