@@ -1,70 +1,16 @@
 const fs = require('fs');
 const path = require('path');
-
-// ============================================================================
-// CONFIGURATION
-// ============================================================================
-
-const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
+const { parsePostFilename, validatePostFilename } = require('./posts');
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
 
 const PATHS = {
-    posts: path.join(__dirname, config.paths.posts),
-    postsMd: path.join(__dirname, config.paths.postsMd),
+    posts: path.join(__dirname, 'user-content', 'posts'),
+    postsMd: path.join(__dirname, 'user-content', 'posts.md'),
 };
 
-const POST_FILENAME_PARTS = 5; // DATE--slug--(tags)--Title--preview.md
-const POST_FILENAME_SEPARATOR = '--';
-const REQUIRED_DASHES = 4; // Number of '--' separators in post filename
-
-// ============================================================================
-// POST FILENAME PARSING
-// ============================================================================
-
-/**
- * Parses a post filename and returns all parts
- * Format: DATE--slug--(tags)--Title--preview.md
- * @returns {Object|null} Object with date, slug, tags, title, preview or null if invalid
- */
-function parsePostFilename(filename) {
-    const withoutExt = filename.replace(/\.md$/, '');
-    const parts = withoutExt.split(POST_FILENAME_SEPARATOR);
-    
-    if (parts.length !== POST_FILENAME_PARTS) {
-        return null;
-    }
-    
-    const [date, slug, tagsPart, title, preview] = parts;
-    
-    // Extract tags from parentheses
-    let tags = null;
-    if (tagsPart.startsWith('(') && tagsPart.endsWith(')')) {
-        tags = tagsPart.slice(1, -1);
-    }
-    
-    return { date, slug, tags, title, preview };
-}
-
-/**
- * Validates post filename format
- * @returns {Object} { valid: boolean, error?: string }
- */
-function validatePostFilename(filename) {
-    const matches = filename.match(/--/g);
-    const dashCount = matches ? matches.length : 0;
-    
-    if (dashCount !== REQUIRED_DASHES) {
-        return {
-            valid: false,
-            error: `Post file "${filename}" must have exactly ${REQUIRED_DASHES} '--' separators. Found ${dashCount}. Expected format: DATE--slug--(tags)--Title--preview.md`
-        };
-    }
-    
-    return { valid: true };
-}
 
 // ============================================================================
 // POSTS.MD GENERATION

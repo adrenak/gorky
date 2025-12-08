@@ -1,52 +1,26 @@
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
-
-// ============================================================================
-// CONFIGURATION
-// ============================================================================
-
-const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
+const { parsePostFilename, validatePostFilename, extractPostMetadata, isPostFile, normalizePath, checkDuplicateSlugs } = require('./posts');
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
 
 const PATHS = {
-    sidebar: path.join(__dirname, config.paths.sidebar),
+    sidebar: path.join(__dirname, 'user-content', 'sidebar.json'),
     template: path.join(__dirname, 'index-template.html'),
     output: path.join(__dirname, 'index.html'),
-    posts: path.join(__dirname, config.paths.posts),
-    postsMd: path.join(__dirname, config.paths.postsMd),
+    posts: path.join(__dirname, 'user-content', 'posts'),
+    postsMd: path.join(__dirname, 'user-content', 'posts.md'),
     homeMd: path.join(__dirname, 'user-content', 'home.md'),
 };
 
-// POSTS_FOLDER_PREFIX is derived from config.paths.posts
-const POSTS_FOLDER_PREFIX = config.paths.posts.replace(/\\/g, '/') + '/';
-const POST_FILENAME_PARTS = 5; // DATE--slug--(tags)--Title--preview.md
-const POST_FILENAME_SEPARATOR = '--';
-const REQUIRED_DASHES = 4; // Number of '--' separators in post filename
-
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const POSTS_FOLDER_PREFIX = 'user-content/posts/';
 
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
-
-/**
- * Normalizes a file path to use forward slashes
- */
-function normalizePath(filePath) {
-    return filePath.replace(/\\/g, '/');
-}
-
-/**
- * Checks if a path is a post file
- */
-function isPostFile(filePath) {
-    return normalizePath(filePath).startsWith(POSTS_FOLDER_PREFIX);
-}
 
 /**
  * Checks if a target is a markdown file
@@ -62,157 +36,6 @@ function isURLParameter(target) {
     return target.startsWith('?');
 }
 
-// ============================================================================
-// POST FILENAME PARSING
-// ============================================================================
-
-/**
- * Parses a post filename and returns all parts
- * Format: DATE--slug--(tags)--Title--preview.md
- * @returns {Object|null} Object with date, slug, tags, title, preview or null if invalid
- */
-function parsePostFilename(filename) {
-    const withoutExt = filename.replace(/\.md$/, '');
-    const parts = withoutExt.split(POST_FILENAME_SEPARATOR);
-    
-    if (parts.length !== POST_FILENAME_PARTS) {
-        return null;
-    }
-    
-    const [date, slug, tagsPart, title, preview] = parts;
-    
-    // Extract tags from parentheses
-    let tags = null;
-    if (tagsPart.startsWith('(') && tagsPart.endsWith(')')) {
-        tags = tagsPart.slice(1, -1);
-    }
-    
-    return { date, slug, tags, title, preview };
-}
-
-/**
- * Validates post filename format
- * @returns {Object} { valid: boolean, error?: string }
- */
-function validatePostFilename(filename) {
-    const matches = filename.match(/--/g);
-    const dashCount = matches ? matches.length : 0;
-    
-    if (dashCount !== REQUIRED_DASHES) {
-        return {
-            valid: false,
-            error: `Post file "${filename}" must have exactly ${REQUIRED_DASHES} '--' separators. Found ${dashCount}. Expected format: DATE--slug--(tags)--Title--preview.md`
-        };
-    }
-    
-    return { valid: true };
-}
-
-/**
- * Formats date from "2025-12-8" to "8 Dec 2025"
- */
-function formatDate(dateString) {
-    if (!dateString) return null;
-    
-    const parts = dateString.split('-');
-    if (parts.length !== 3) return null;
-    
-    const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10);
-    const day = parseInt(parts[2], 10);
-    
-    if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
-    if (month < 1 || month > 12) return null;
-    
-    return `${day} ${MONTH_NAMES[month - 1]} ${year}`;
-}
-
-/**
- * Extracts post metadata from a file path
- * @returns {Object} Object with slug, date, tags, title (or null for non-post files)
- */
-function extractPostMetadata(filePath) {
-    if (!isPostFile(filePath)) {
-        return { slug: null, date: null, tags: null, title: null };
-    }
-    
-    const filename = path.basename(filePath);
-    const parsed = parsePostFilename(filename);
-    
-    if (!parsed) {
-        return { slug: null, date: null, tags: null, title: null };
-    }
-    
-    return {
-        slug: parsed.slug,
-        date: formatDate(parsed.date),
-        tags: parsed.tags,
-        title: parsed.title,
-    };
-}
-
-// ============================================================================
-// VALIDATION
-// ============================================================================
-
-/**
- * Checks for duplicate slugs in posts folder
- */
-function checkDuplicateSlugs() {
-    if (!fs.existsSync(PATHS.posts)) {
-        return;
-    }
-    
-    const files = fs.readdirSync(PATHS.posts);
-    const slugMap = new Map(); // slug -> array of filenames
-    const invalidFiles = [];
-    
-    files.forEach(file => {
-        if (!file.endsWith('.md')) return;
-        
-        const validation = validatePostFilename(file);
-        if (!validation.valid) {
-            invalidFiles.push(validation.error);
-            return;
-        }
-        
-        const parsed = parsePostFilename(file);
-        if (parsed && parsed.slug) {
-            if (!slugMap.has(parsed.slug)) {
-                slugMap.set(parsed.slug, []);
-            }
-            slugMap.get(parsed.slug).push(file);
-        }
-    });
-    
-    // Report invalid filenames
-    if (invalidFiles.length > 0) {
-        console.error('❌ Error: Invalid post filename format!');
-        invalidFiles.forEach(error => {
-            console.error(`   ${error}`);
-        });
-        throw new Error(`Found ${invalidFiles.length} post file(s) with invalid format.`);
-    }
-    
-    // Check for duplicates
-    const duplicates = [];
-    slugMap.forEach((filenames, slug) => {
-        if (filenames.length > 1) {
-            duplicates.push({ slug, files: filenames });
-        }
-    });
-    
-    if (duplicates.length > 0) {
-        console.error('❌ Error: Duplicate slugs found!');
-        duplicates.forEach(({ slug, files }) => {
-            console.error(`   Slug "${slug}" is used in:`);
-            files.forEach(file => {
-                console.error(`     - ${file}`);
-            });
-        });
-        throw new Error(`Found ${duplicates.length} duplicate slug(s). Each slug must be unique.`);
-    }
-}
 
 // ============================================================================
 // SIDEBAR GENERATION
@@ -389,7 +212,7 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
             
             const isDefault = filePath === defaultFile;
             const displayStyle = isDefault ? 'block' : 'none';
-            const metadata = extractPostMetadata(filePath);
+            const metadata = extractPostMetadata(filePath, POSTS_FOLDER_PREFIX);
             const attributes = generatePostAttributes(metadata);
             const contentId = `content-${key.replace(/\./g, '-')}`;
             
@@ -411,7 +234,7 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
 function build() {
     try {
         // Validation
-        checkDuplicateSlugs();
+        checkDuplicateSlugs(PATHS.posts);
         
         // Generate posts.md
         generatePostsMd();
