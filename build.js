@@ -177,7 +177,7 @@ function generateSidebarNav(sidebarData) {
     return navHTML;
 }
 
-// Function to collect all markdown files referenced in sidebar
+// Function to collect all markdown files referenced in sidebar and posts folder
 function collectMarkdownFiles(sidebarData) {
     const markdownFiles = new Map();
     
@@ -193,7 +193,32 @@ function collectMarkdownFiles(sidebarData) {
         });
     });
     
+    // Also load all post files from posts folder
+    if (fs.existsSync(postsPath)) {
+        const postFiles = fs.readdirSync(postsPath);
+        postFiles.forEach(file => {
+            if (file.endsWith('.md')) {
+                const filePath = path.join('posts', file);
+                markdownFiles.set(filePath, filePath);
+            }
+        });
+    }
+    
     return markdownFiles;
+}
+
+// Function to get slug from a markdown file path
+function getSlugFromFilePath(filePath) {
+    // Normalize path separators
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    
+    // If it's a post file, extract slug from filename
+    if (normalizedPath.startsWith('posts/')) {
+        const filename = path.basename(filePath);
+        return extractSlug(filename);
+    }
+    // For non-post files like home.md, return null (no slug)
+    return null;
 }
 
 // Function to generate content sections for all markdown files
@@ -208,7 +233,9 @@ function generateContentSections(markdownFiles, defaultFile = 'home.md') {
                 const htmlContent = marked.parse(markdown);
                 const isDefault = filePath === defaultFile;
                 const displayStyle = isDefault ? 'block' : 'none';
-                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section" style="display: ${displayStyle};">\n`;
+                const slug = getSlugFromFilePath(filePath);
+                const slugAttr = slug ? ` data-slug="${slug}"` : '';
+                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section"${slugAttr} style="display: ${displayStyle};">\n`;
                 contentHTML += htmlContent;
                 contentHTML += `</div>\n`;
             }

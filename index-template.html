@@ -27,8 +27,95 @@
     </div>
 
     <script>
+        // Function to get URL parameter value
+        function getURLParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // Function to show content by slug
+        function showContentBySlug(slug) {
+            if (!slug) return false;
+            
+            const contentSection = document.querySelector(`.content-section[data-slug="${slug}"]`);
+            if (contentSection) {
+                // Hide all content sections
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show selected content
+                contentSection.style.display = 'block';
+                
+                // Update active state - find nav link that matches this content
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Try to find and activate the corresponding nav link
+                const contentId = contentSection.id;
+                const navLink = document.querySelector(`.nav-link[data-content]`);
+                if (navLink) {
+                    // Find the nav link that points to this content
+                    document.querySelectorAll('.nav-link[data-content]').forEach(link => {
+                        const targetContent = link.getAttribute('data-content');
+                        const targetId = 'content-' + targetContent.replace(/\./g, '-');
+                        if (targetId === contentId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+                
+                return true;
+            }
+            return false;
+        }
+        
+        // Function to show content by file path
+        function showContentByFile(filePath) {
+            const contentId = 'content-' + filePath.replace(/\./g, '-');
+            const contentSection = document.getElementById(contentId);
+            
+            if (contentSection) {
+                // Hide all content sections
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show selected content
+                contentSection.style.display = 'block';
+                
+                // Update active state
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Activate the corresponding nav link
+                document.querySelectorAll('.nav-link[data-content]').forEach(link => {
+                    const targetContent = link.getAttribute('data-content');
+                    const targetId = 'content-' + targetContent.replace(/\./g, '-');
+                    if (targetId === contentId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                return true;
+            }
+            return false;
+        }
+        
         // Content switching functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for URL parameter first
+            const postSlug = getURLParameter('post');
+            if (postSlug) {
+                if (showContentBySlug(postSlug)) {
+                    return; // Successfully showed post, exit early
+                }
+                // If slug not found, fall through to default behavior
+            }
+            
+            // Set up nav link click handlers
             const navLinks = document.querySelectorAll('.nav-link[data-content]');
             
             navLinks.forEach(link => {
@@ -36,32 +123,9 @@
                     e.preventDefault();
                     
                     const targetContent = this.getAttribute('data-content');
-                    const contentId = 'content-' + targetContent.replace(/\./g, '-');
-                    const contentSection = document.getElementById(contentId);
-                    
-                    if (contentSection) {
-                        // Hide all content sections
-                        document.querySelectorAll('.content-section').forEach(section => {
-                            section.style.display = 'none';
-                        });
-                        
-                        // Show selected content
-                        contentSection.style.display = 'block';
-                        
-                        // Update active state
-                        document.querySelectorAll('.nav-link').forEach(nav => {
-                            nav.classList.remove('active');
-                        });
-                        this.classList.add('active');
-                    }
+                    showContentByFile(targetContent);
                 });
             });
-            
-            // Handle Home link (default content) - now also has data-content attribute
-            const homeLink = document.querySelector('.nav-link[data-content="home.md"]');
-            if (homeLink) {
-                // Same handler as other content links, but ensure it's set up
-            }
         });
     </script>
 </body>
