@@ -155,10 +155,10 @@ function collectMarkdownFiles(sidebarData) {
 }
 
 // ============================================================================
-// POSTS.MD GENERATION (imported from process-posts.js)
+// POSTS.MD GENERATION (imported from posts.js)
 // ============================================================================
 
-const { generatePostsMd } = require('./process-posts');
+const { generatePostsMd } = require('./posts');
 
 // ============================================================================
 // CONTENT GENERATION
@@ -237,7 +237,7 @@ function build() {
         checkDuplicateSlugs(PATHS.posts);
         
         // Generate posts.md
-        generatePostsMd();
+        generatePostsMd(PATHS.posts, PATHS.postsMd);
         
         // Read sidebar JSON
         const sidebarData = JSON.parse(fs.readFileSync(PATHS.sidebar, 'utf8'));
