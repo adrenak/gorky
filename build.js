@@ -328,20 +328,31 @@ function generatePostsMd() {
             
             const title = extractTitleFromFilename(file);
             const slug = extractSlug(file);
+            const dateString = extractDateFromFilename(file);
             
             if (title && slug) {
-                posts.push({ title, slug });
+                posts.push({ title, slug, filename: file, dateString });
             }
         }
     });
     
-    // Sort posts by filename (which includes date) - newest first
+    // Sort posts by date - newest first
     posts.sort((a, b) => {
-        // Find the files that match these slugs
-        const fileA = files.find(f => extractSlug(f) === a.slug);
-        const fileB = files.find(f => extractSlug(f) === b.slug);
-        // Sort by filename (descending - newest first)
-        return fileB.localeCompare(fileA);
+        // Parse dates from date strings (format: YYYY-M-D or YYYY-MM-DD)
+        const parseDate = (dateStr) => {
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return new Date(0);
+            const year = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+            const day = parseInt(parts[2], 10);
+            return new Date(year, month, day);
+        };
+        
+        const dateA = parseDate(a.dateString);
+        const dateB = parseDate(b.dateString);
+        
+        // Sort descending (newest first)
+        return dateB - dateA;
     });
     
     // Generate markdown content
