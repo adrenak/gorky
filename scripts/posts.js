@@ -153,6 +153,7 @@ function generatePostsMd(postsPath, postsMdPath) {
             title: parsed.title,
             slug: parsed.slug,
             dateString: parsed.date,
+            preview: parsed.preview || '',
         });
     });
     
@@ -177,6 +178,9 @@ function generatePostsMd(postsPath, postsMdPath) {
     // Add posts list
     posts.forEach(post => {
         postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
+        if (post.preview) {
+            postsMd += `${post.preview}\n\n`;
+        }
     });
     
     // Write to posts.md
