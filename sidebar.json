@@ -1,12 +1,12 @@
 {
     "": {
         "🏠 Home": {
-            "target": "#",
+            "target": "?page=home",
             "openInNewTab": false
         },
         "✍️ Posts": {
-            "target": "posts.md",
-            "openInNewTab": false
+            "target": "?page=posts",
+            "openInNewTab": true
         }
     },
     "Socials": {

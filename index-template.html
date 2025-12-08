@@ -204,14 +204,31 @@
                     nav.classList.remove('active');
                 });
                 
-                // Activate the corresponding nav link
+                // Activate the corresponding nav link (check data-content first)
+                let foundActive = false;
                 document.querySelectorAll('.nav-link[data-content]').forEach(link => {
                     const targetContent = link.getAttribute('data-content');
                     const targetId = 'content-' + targetContent.replace(/\./g, '-');
                     if (targetId === contentId) {
                         link.classList.add('active');
+                        foundActive = true;
                     }
                 });
+                
+                // If not found in data-content, check data-url attributes
+                if (!foundActive) {
+                    // Get current page parameter from URL
+                    const currentPage = getURLParameter('page');
+                    if (currentPage) {
+                        const expectedURL = `?page=${currentPage}`;
+                        document.querySelectorAll('.nav-link[data-url]').forEach(link => {
+                            const targetURL = link.getAttribute('data-url');
+                            if (targetURL === expectedURL) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                }
                 
                 return true;
             }
@@ -366,9 +383,9 @@
         // Content switching functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Set up nav link click handlers first (always needed)
-            const navLinks = document.querySelectorAll('.nav-link[data-content]');
-            
-            navLinks.forEach(link => {
+            // Handle navigation links with data-content (markdown files)
+            const navLinksWithContent = document.querySelectorAll('.nav-link[data-content]');
+            navLinksWithContent.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
@@ -378,6 +395,21 @@
                         // Update URL without reload
                         const newUrl = window.location.pathname + '?page=' + targetContent.replace('.md', '');
                         window.history.pushState({}, '', newUrl);
+                    }
+                });
+            });
+            
+            // Handle navigation links with data-url (URL parameters)
+            const navLinksWithURL = document.querySelectorAll('.nav-link[data-url]');
+            navLinksWithURL.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetURL = this.getAttribute('data-url');
+                    if (targetURL) {
+                        // Update URL and trigger content change
+                        window.history.pushState({}, '', targetURL);
+                        handleURLChange();
                     }
                 });
             });

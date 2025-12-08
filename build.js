@@ -14,6 +14,11 @@ function isMarkdownFile(target) {
     return target.endsWith('.md') && !target.startsWith('http');
 }
 
+// Function to check if a target is a URL parameter (internal navigation)
+function isURLParameter(target) {
+    return target.startsWith('?');
+}
+
 // Function to extract slug from filename
 // Format: DATE--(tags)--Title--slug.md (exactly 3 '--')
 function extractSlug(filename) {
@@ -164,21 +169,27 @@ function generateNavItem(label, config, isActive = false) {
     
     // Check if it's a markdown file (internal content switch)
     const isMarkdown = isMarkdownFile(config.target);
+    // Check if it's a URL parameter (internal navigation)
+    const isURLParam = isURLParameter(config.target);
+    // Internal navigation (markdown files or URL parameters)
+    const isInternal = isMarkdown || isURLParam;
     
     // Build target attribute - only for external links
-    const targetAttr = (!isMarkdown && config.openInNewTab) ? ' target="_blank" rel="noopener noreferrer"' : '';
+    const targetAttr = (!isInternal && config.openInNewTab) ? ' target="_blank" rel="noopener noreferrer"' : '';
     
-    // Build data attribute for content switching
-    const dataAttr = isMarkdown ? ` data-content="${config.target}"` : '';
+    // Build data attribute for content switching (markdown files)
+    const dataContentAttr = isMarkdown ? ` data-content="${config.target}"` : '';
+    // Build data attribute for URL parameter navigation
+    const dataURLAttr = isURLParam ? ` data-url="${config.target}"` : '';
     
     // Generate HTML for this nav item
-    let itemHTML = `<a href="${isMarkdown ? '#' : config.target}" class="nav-link${activeClass}"${targetAttr}${dataAttr}>\n`;
+    let itemHTML = `<a href="${isInternal ? '#' : config.target}" class="nav-link${activeClass}"${targetAttr}${dataContentAttr}${dataURLAttr}>\n`;
     if (emoji) {
         itemHTML += `    <span class="nav-icon">${emoji}</span>\n`;
     }
     itemHTML += `    <span>${text}</span>\n`;
-    // Only show external icon for non-markdown external links
-    if (!isMarkdown && config.openInNewTab) {
+    // Only show external icon for non-internal external links
+    if (!isInternal && config.openInNewTab) {
         itemHTML += `    <span class="external-icon">↗</span>\n`;
     }
     itemHTML += `</a>\n`;
@@ -232,11 +243,19 @@ function collectMarkdownFiles(sidebarData) {
     // Default home.md
     markdownFiles.set('home.md', 'home.md');
     
-    // Traverse sidebar data to find all .md files
+    // Traverse sidebar data to find all .md files and URL parameters
     Object.values(sidebarData).forEach(items => {
         Object.values(items).forEach(config => {
             if (isMarkdownFile(config.target)) {
                 markdownFiles.set(config.target, config.target);
+            } else if (isURLParameter(config.target)) {
+                // Extract page name from URL parameter (e.g., ?page=posts -> posts.md)
+                const urlParams = new URLSearchParams(config.target.substring(1)); // Remove '?'
+                const pageParam = urlParams.get('page');
+                if (pageParam && (pageParam === 'home' || pageParam === 'posts')) {
+                    const mdFile = pageParam + '.md';
+                    markdownFiles.set(mdFile, mdFile);
+                }
             }
         });
     });
