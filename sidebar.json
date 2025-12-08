@@ -2,7 +2,7 @@
     "": {
         "🏠 Home": {
             "target": "?page=home",
-            "openInNewTab": false
+            "openInNewTab": true
         },
         "✍️ Posts": {
             "target": "?page=posts",

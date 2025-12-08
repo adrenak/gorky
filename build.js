@@ -171,25 +171,27 @@ function generateNavItem(label, config, isActive = false) {
     const isMarkdown = isMarkdownFile(config.target);
     // Check if it's a URL parameter (internal navigation)
     const isURLParam = isURLParameter(config.target);
-    // Internal navigation (markdown files or URL parameters)
-    const isInternal = isMarkdown || isURLParam;
+    // Internal navigation (markdown files or URL parameters that don't open in new tab)
+    const isInternal = isMarkdown || (isURLParam && !config.openInNewTab);
     
-    // Build target attribute - only for external links
-    const targetAttr = (!isInternal && config.openInNewTab) ? ' target="_blank" rel="noopener noreferrer"' : '';
+    // Build target attribute - for external links or URL params that should open in new tab
+    const targetAttr = (config.openInNewTab) ? ' target="_blank" rel="noopener noreferrer"' : '';
     
     // Build data attribute for content switching (markdown files)
     const dataContentAttr = isMarkdown ? ` data-content="${config.target}"` : '';
-    // Build data attribute for URL parameter navigation
-    const dataURLAttr = isURLParam ? ` data-url="${config.target}"` : '';
+    // Build data attribute for URL parameter navigation (only if not opening in new tab)
+    const dataURLAttr = (isURLParam && !config.openInNewTab) ? ` data-url="${config.target}"` : '';
     
     // Generate HTML for this nav item
-    let itemHTML = `<a href="${isInternal ? '#' : config.target}" class="nav-link${activeClass}"${targetAttr}${dataContentAttr}${dataURLAttr}>\n`;
+    // If it's a URL param that opens in new tab, use the full URL; otherwise use # for internal
+    const hrefValue = isInternal ? '#' : config.target;
+    let itemHTML = `<a href="${hrefValue}" class="nav-link${activeClass}"${targetAttr}${dataContentAttr}${dataURLAttr}>\n`;
     if (emoji) {
         itemHTML += `    <span class="nav-icon">${emoji}</span>\n`;
     }
     itemHTML += `    <span>${text}</span>\n`;
-    // Only show external icon for non-internal external links
-    if (!isInternal && config.openInNewTab) {
+    // Show external icon for links that open in new tab, but not for URL parameter links
+    if (config.openInNewTab && !isURLParam) {
         itemHTML += `    <span class="external-icon">↗</span>\n`;
     }
     itemHTML += `</a>\n`;

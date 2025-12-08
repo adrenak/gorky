@@ -215,18 +215,29 @@
                     }
                 });
                 
-                // If not found in data-content, check data-url attributes
+                // If not found in data-content, check data-url attributes and href attributes
                 if (!foundActive) {
                     // Get current page parameter from URL
                     const currentPage = getURLParameter('page');
                     if (currentPage) {
                         const expectedURL = `?page=${currentPage}`;
+                        // Check data-url attributes (for internal navigation)
                         document.querySelectorAll('.nav-link[data-url]').forEach(link => {
                             const targetURL = link.getAttribute('data-url');
                             if (targetURL === expectedURL) {
                                 link.classList.add('active');
+                                foundActive = true;
                             }
                         });
+                        // Also check href attributes (for links that open in new tab)
+                        if (!foundActive) {
+                            document.querySelectorAll('.nav-link').forEach(link => {
+                                const href = link.getAttribute('href');
+                                if (href === expectedURL) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
                     }
                 }
                 
