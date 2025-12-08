@@ -243,6 +243,16 @@ body {
 #markdown-content pre code {
     background-color: transparent; /* No background (uses pre's background) */
     padding: 0; /* No padding (uses pre's padding) */
+    font-size: 0.9em; /* Slightly smaller font for code blocks */
+}
+
+/* Prism.js syntax highlighting styles */
+#markdown-content pre[class*="language-"] {
+    background-color: #f4f4f4; /* Light gray background */
+}
+
+#markdown-content code[class*="language-"] {
+    background-color: transparent;
 }
 
 /* Images in markdown content - constrain to text width */
