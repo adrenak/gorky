@@ -384,7 +384,7 @@
             // Check for page parameter (home or posts)
             const pageParam = getURLParameter('page');
             if (pageParam === 'home' || pageParam === 'posts') {
-                const targetFile = pageParam + '.md';
+                const targetFile = `user-content/${pageParam}.md`;
                 if (showContentByFile(targetFile)) {
                     return; // Successfully showed page
                 }
@@ -399,7 +399,7 @@
             }
             
             // Default: show home.md if no parameters
-            showContentByFile('home.md');
+            showContentByFile('user-content/home.md');
         }
         
         // Content switching functionality

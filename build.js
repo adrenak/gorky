@@ -3,8 +3,8 @@ const path = require('path');
 const { marked } = require('marked');
 
 // File paths
-const markdownPath = path.join(__dirname, 'home.md');
-const sidebarPath = path.join(__dirname, 'sidebar.json');
+const markdownPath = path.join(__dirname, 'user-content', 'home.md');
+const sidebarPath = path.join(__dirname, 'user-content', 'sidebar.json');
 const templatePath = path.join(__dirname, 'index-template.html');
 const outputPath = path.join(__dirname, 'index.html');
 const postsPath = path.join(__dirname, 'user-content', 'posts');
@@ -209,9 +209,9 @@ function generateSidebarNav(sidebarData) {
         if (sectionName === '') {
             // Root navigation items (no section header)
             Object.entries(items).forEach(([label, config]) => {
-                // If target is "#" or empty, treat as home.md
+                // If target is "#" or empty, treat as user-content/home.md
                 if (config.target === '#' || config.target === '') {
-                    config.target = 'home.md';
+                    config.target = 'user-content/home.md';
                 }
                 navHTML += generateNavItem(label, config, isFirstRootItem);
                 isFirstRootItem = false;
@@ -242,8 +242,8 @@ function generateSidebarNav(sidebarData) {
 function collectMarkdownFiles(sidebarData) {
     const markdownFiles = new Map();
     
-    // Default home.md
-    markdownFiles.set('home.md', 'home.md');
+    // Default home.md (in user-content folder)
+    markdownFiles.set('user-content/home.md', 'user-content/home.md');
     
     // Traverse sidebar data to find all .md files and URL parameters
     Object.values(sidebarData).forEach(items => {
@@ -251,11 +251,11 @@ function collectMarkdownFiles(sidebarData) {
             if (isMarkdownFile(config.target)) {
                 markdownFiles.set(config.target, config.target);
             } else if (isURLParameter(config.target)) {
-                // Extract page name from URL parameter (e.g., ?page=posts -> posts.md)
+                // Extract page name from URL parameter (e.g., ?page=posts -> user-content/posts.md)
                 const urlParams = new URLSearchParams(config.target.substring(1)); // Remove '?'
                 const pageParam = urlParams.get('page');
                 if (pageParam && (pageParam === 'home' || pageParam === 'posts')) {
-                    const mdFile = pageParam + '.md';
+                    const mdFile = `user-content/${pageParam}.md`;
                     markdownFiles.set(mdFile, mdFile);
                 }
             }
@@ -426,7 +426,7 @@ function generatePostsMd() {
     });
     
     // Write to posts.md
-    const postsMdPath = path.join(__dirname, 'posts.md');
+    const postsMdPath = path.join(__dirname, 'user-content', 'posts.md');
     fs.writeFileSync(postsMdPath, postsMd, 'utf8');
     
     console.log(`✓ Generated posts.md with ${posts.length} post(s)`);
@@ -504,7 +504,7 @@ try {
     const markdownFiles = collectMarkdownFiles(sidebarData);
     
     // Generate content sections for all markdown files
-    const contentHTML = generateContentSections(markdownFiles, 'home.md');
+    const contentHTML = generateContentSections(markdownFiles, 'user-content/home.md');
     
     // Read template
     let template = fs.readFileSync(templatePath, 'utf8');
