@@ -26,5 +26,19 @@ function formatDate(dateString) {
     return `${day} ${MONTH_NAMES[month - 1]} ${year}`;
 }
 
-module.exports = { formatDate };
+/**
+ * Checks if a target is a markdown file
+ */
+function isMarkdownFile(target) {
+    return target.endsWith('.md') && !target.startsWith('http');
+}
+
+/**
+ * Checks if a target is a URL parameter (internal navigation)
+ */
+function isURLParameter(target) {
+    return target.startsWith('?');
+}
+
+module.exports = { formatDate, isMarkdownFile, isURLParameter };
 

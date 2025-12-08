@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
-const { parsePostFilename, validatePostFilename, extractPostMetadata, isPostFile, normalizePath, checkDuplicateSlugs } = require('./posts');
+const { generatePostsMd, extractPostMetadata, isPostFile, normalizePath, checkDuplicateSlugs } = require('./posts');
+const { isMarkdownFile, isURLParameter } = require('./utils');
 
 // ============================================================================
 // CONSTANTS
@@ -17,25 +18,6 @@ const PATHS = {
 };
 
 const POSTS_FOLDER_PREFIX = 'user-content/posts/';
-
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
-
-/**
- * Checks if a target is a markdown file
- */
-function isMarkdownFile(target) {
-    return target.endsWith('.md') && !target.startsWith('http');
-}
-
-/**
- * Checks if a target is a URL parameter (internal navigation)
- */
-function isURLParameter(target) {
-    return target.startsWith('?');
-}
-
 
 // ============================================================================
 // SIDEBAR GENERATION
@@ -155,30 +137,8 @@ function collectMarkdownFiles(sidebarData) {
 }
 
 // ============================================================================
-// POSTS.MD GENERATION (imported from posts.js)
-// ============================================================================
-
-const { generatePostsMd } = require('./posts');
-
-// ============================================================================
 // CONTENT GENERATION
 // ============================================================================
-
-/**
- * Fixes image paths in HTML for post files
- * Converts relative image paths to user-content/posts/images/ paths
- */
-function fixImagePaths(htmlContent, filePath) {
-    if (!isPostFile(filePath)) {
-        return htmlContent;
-    }
-    
-    // Replace image src attributes that are relative paths
-    return htmlContent.replace(
-        /src=["'](\.\/)?images\//g,
-        'src="user-content/posts/images/'
-    );
-}
 
 /**
  * Generates HTML attributes for post metadata
@@ -208,7 +168,6 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
             
             const markdown = fs.readFileSync(fullPath, 'utf8');
             let htmlContent = marked.parse(markdown);
-            htmlContent = fixImagePaths(htmlContent, filePath);
             
             const isDefault = filePath === defaultFile;
             const displayStyle = isDefault ? 'block' : 'none';
