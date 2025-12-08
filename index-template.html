@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Column Layout</title>
+    <meta name="description" content="Vatsal Ambastha - Unity game developer, VR developer at ManageXR, and open source contributor. Creating games, apps, libraries, and tutorials with Unity engine.">
+    <meta name="keywords" content="Vatsal Ambastha, Unity, game development, VR, virtual reality, open source, UniVoice, C#, software development, game programming, ManageXR, Unity developer, game developer, proximity audio, Unity tutorials, adrenak, GitHub">
+    <link rel="canonical" href="https://vatsalambastha.com?page=home">
+    <title>Vatsal Ambastha</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
@@ -41,10 +44,40 @@
     </div>
 
     <script>
+        // Base URL for canonical links (update this to match your actual domain)
+        const BASE_URL = 'https://vatsalambastha.com';
+        
         // Function to get URL parameter value
         function getURLParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
+        }
+        
+        // Function to update canonical URL based on current page
+        function updateCanonicalURL() {
+            let canonicalURL = BASE_URL;
+            const tagParam = getURLParameter('tag');
+            const pageParam = getURLParameter('page');
+            const postSlug = getURLParameter('post');
+            
+            if (postSlug) {
+                canonicalURL += `?post=${postSlug}`;
+            } else if (tagParam) {
+                canonicalURL += `?tag=${encodeURIComponent(tagParam)}`;
+            } else if (pageParam === 'posts') {
+                canonicalURL += '?page=posts';
+            } else if (pageParam === 'home' || !pageParam) {
+                canonicalURL += '?page=home';
+            }
+            
+            // Get or create canonical link element
+            let canonicalLink = document.querySelector('link[rel="canonical"]');
+            if (!canonicalLink) {
+                canonicalLink = document.createElement('link');
+                canonicalLink.setAttribute('rel', 'canonical');
+                document.head.appendChild(canonicalLink);
+            }
+            canonicalLink.setAttribute('href', canonicalURL);
         }
         
         // Function to show date and tags for post content
@@ -107,6 +140,7 @@
                         e.preventDefault();
                         showPostsByTag(tag);
                         window.history.pushState({}, '', `?tag=${encodeURIComponent(tag)}`);
+                        updateCanonicalURL();
                     });
                     tagLink.addEventListener('mouseenter', function() {
                         this.style.textDecoration = 'underline';
@@ -355,6 +389,7 @@
                         e.preventDefault();
                         showContentBySlug(slug);
                         window.history.pushState({}, '', `?post=${slug}`);
+                        updateCanonicalURL();
                     });
                     postLink.appendChild(link);
                     tagListContainer.appendChild(postLink);
@@ -377,6 +412,7 @@
             const tagParam = getURLParameter('tag');
             if (tagParam) {
                 if (showPostsByTag(tagParam)) {
+                    updateCanonicalURL();
                     return; // Successfully showed posts by tag
                 }
             }
@@ -386,6 +422,7 @@
             if (pageParam === 'home' || pageParam === 'posts') {
                 const targetFile = `user-content/${pageParam}.md`;
                 if (showContentByFile(targetFile)) {
+                    updateCanonicalURL();
                     return; // Successfully showed page
                 }
             }
@@ -394,12 +431,14 @@
             const postSlug = getURLParameter('post');
             if (postSlug) {
                 if (showContentBySlug(postSlug)) {
+                    updateCanonicalURL();
                     return; // Successfully showed post
                 }
             }
             
             // Default: show home.md if no parameters
             showContentByFile('user-content/home.md');
+            updateCanonicalURL();
         }
         
         // Content switching functionality
@@ -417,6 +456,7 @@
                         // Update URL without reload
                         const newUrl = window.location.pathname + '?page=' + targetContent.replace('.md', '');
                         window.history.pushState({}, '', newUrl);
+                        updateCanonicalURL();
                     }
                 });
             });
@@ -432,6 +472,7 @@
                         // Update URL and trigger content change
                         window.history.pushState({}, '', targetURL);
                         handleURLChange();
+                        updateCanonicalURL();
                     }
                 });
             });
@@ -443,6 +484,9 @@
             
             // Initial load - handle URL parameters
             handleURLChange();
+            
+            // Update canonical URL on initial load (handleURLChange already calls it, but ensure it's set)
+            updateCanonicalURL();
             
             // Highlight syntax in initially visible content
             if (window.Prism) {
