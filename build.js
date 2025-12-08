@@ -221,6 +221,66 @@ function getSlugFromFilePath(filePath) {
     return null;
 }
 
+// Function to extract title from post filename
+// Format: DATE--(tags)--Title--slug.md
+function extractTitleFromFilename(filename) {
+    const withoutExt = filename.replace(/\.md$/, '');
+    const parts = withoutExt.split('--');
+    if (parts.length === 4) {
+        return parts[2]; // Title is the third part (index 2)
+    }
+    return null;
+}
+
+// Function to generate posts.md from files in posts folder
+function generatePostsMd() {
+    if (!fs.existsSync(postsPath)) {
+        return; // No posts folder, nothing to generate
+    }
+    
+    const files = fs.readdirSync(postsPath);
+    const posts = [];
+    
+    files.forEach(file => {
+        if (file.endsWith('.md')) {
+            // Validate filename format first
+            const validation = validatePostFilename(file);
+            if (!validation.valid) {
+                return; // Skip invalid files
+            }
+            
+            const title = extractTitleFromFilename(file);
+            const slug = extractSlug(file);
+            
+            if (title && slug) {
+                posts.push({ title, slug });
+            }
+        }
+    });
+    
+    // Sort posts by filename (which includes date) - newest first
+    posts.sort((a, b) => {
+        // Find the files that match these slugs
+        const fileA = files.find(f => extractSlug(f) === a.slug);
+        const fileB = files.find(f => extractSlug(f) === b.slug);
+        // Sort by filename (descending - newest first)
+        return fileB.localeCompare(fileA);
+    });
+    
+    // Generate markdown content
+    let postsMd = '# Posts\n\n';
+    
+    posts.forEach(post => {
+        postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
+    });
+    
+    // Write to posts.md
+    const postsMdPath = path.join(__dirname, 'posts.md');
+    fs.writeFileSync(postsMdPath, postsMd, 'utf8');
+    
+    console.log(`✓ Generated posts.md with ${posts.length} post(s)`);
+}
+
 // Function to generate content sections for all markdown files
 function generateContentSections(markdownFiles, defaultFile = 'home.md') {
     let contentHTML = '';
@@ -250,6 +310,9 @@ function generateContentSections(markdownFiles, defaultFile = 'home.md') {
 try {
     // Check for duplicate slugs in posts folder
     checkDuplicateSlugs();
+    
+    // Generate posts.md from files in posts folder
+    generatePostsMd();
     
     // Read sidebar JSON
     const sidebarData = JSON.parse(fs.readFileSync(sidebarPath, 'utf8'));

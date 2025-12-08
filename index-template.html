@@ -104,18 +104,32 @@
             return false;
         }
         
-        // Content switching functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check for URL parameter first
+        // Function to handle URL changes and update content
+        function handleURLChange() {
+            // Check for page parameter first (home or posts)
+            const pageParam = getURLParameter('page');
+            if (pageParam === 'home' || pageParam === 'posts') {
+                const targetFile = pageParam + '.md';
+                if (showContentByFile(targetFile)) {
+                    return; // Successfully showed page
+                }
+            }
+            
+            // Check for post slug parameter (individual posts)
             const postSlug = getURLParameter('post');
             if (postSlug) {
                 if (showContentBySlug(postSlug)) {
-                    return; // Successfully showed post, exit early
+                    return; // Successfully showed post
                 }
-                // If slug not found, fall through to default behavior
             }
             
-            // Set up nav link click handlers
+            // Default: show home.md if no parameters
+            showContentByFile('home.md');
+        }
+        
+        // Content switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up nav link click handlers first (always needed)
             const navLinks = document.querySelectorAll('.nav-link[data-content]');
             
             navLinks.forEach(link => {
@@ -123,9 +137,22 @@
                     e.preventDefault();
                     
                     const targetContent = this.getAttribute('data-content');
-                    showContentByFile(targetContent);
+                    if (targetContent) {
+                        showContentByFile(targetContent);
+                        // Update URL without reload
+                        const newUrl = window.location.pathname + '?page=' + targetContent.replace('.md', '');
+                        window.history.pushState({}, '', newUrl);
+                    }
                 });
             });
+            
+            // Handle browser back/forward navigation
+            window.addEventListener('popstate', function(event) {
+                handleURLChange();
+            });
+            
+            // Initial load - handle URL parameters
+            handleURLChange();
         });
     </script>
 </body>
