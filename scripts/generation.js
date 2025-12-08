@@ -21,10 +21,11 @@ const POSTS_FOLDER_PREFIX = 'user-content/posts/';
  * @returns {Map} Map of markdown file paths
  */
 function collectMarkdownFiles(sidebarData, postsPath) {
+    const DEFAULT_HOME_FILE = 'user-content/home.md';
     const markdownFiles = new Map();
     
     // Default home.md
-    markdownFiles.set('user-content/home.md', 'user-content/home.md');
+    markdownFiles.set(DEFAULT_HOME_FILE, DEFAULT_HOME_FILE);
     
     // Traverse sidebar data to find URL parameters
     Object.values(sidebarData).forEach(items => {
@@ -67,7 +68,7 @@ function collectMarkdownFiles(sidebarData, postsPath) {
 function generateContentSections(markdownFiles, defaultFile = 'user-content/home.md') {
     let contentHTML = '';
     
-    markdownFiles.forEach((filePath, key) => {
+    markdownFiles.forEach((filePath) => {
         try {
             const fullPath = path.join(__dirname, '..', filePath);
             if (!fs.existsSync(fullPath)) return;
@@ -79,7 +80,7 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
             const displayStyle = isDefault ? 'block' : 'none';
             const metadata = extractPostMetadata(filePath, POSTS_FOLDER_PREFIX);
             const attributes = generatePostAttributes(metadata);
-            const contentId = `content-${key.replace(/\./g, '-')}`;
+            const contentId = `content-${filePath.replace(/\./g, '-')}`;
             
             contentHTML += `<div id="${contentId}" class="content-section"${attributes ? ' ' + attributes : ''} style="display: ${displayStyle};">\n`;
             contentHTML += htmlContent;

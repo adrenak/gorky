@@ -17,7 +17,8 @@ function generateNavItem(label, config, isActive = false) {
     const isURLParam = isURLParameter(config.target);
     const isInternal = isURLParam && !config.openInNewTab;
     
-    const targetAttr = config.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+    const TARGET_BLANK = ' target="_blank" rel="noopener noreferrer"';
+    const targetAttr = config.openInNewTab ? TARGET_BLANK : '';
     const dataURLAttr = isInternal ? ` data-url="${config.target}"` : '';
     const hrefValue = isInternal ? '#' : config.target;
     
@@ -45,8 +46,9 @@ function generateSidebarNav(sidebarData) {
         if (sectionName === '') {
             // Root navigation items
             Object.entries(items).forEach(([label, config]) => {
-                if (config.target === '#' || config.target === '') {
-                    config.target = '?page=home';
+                const DEFAULT_TARGET = '?page=home';
+                if (!config.target || config.target === '#' || config.target === '') {
+                    config.target = DEFAULT_TARGET;
                 }
                 navHTML += generateNavItem(label, config, isFirstRootItem);
                 isFirstRootItem = false;
@@ -59,8 +61,12 @@ function generateSidebarNav(sidebarData) {
             
             Object.entries(items).forEach(([label, config]) => {
                 navHTML += `        <li>\n`;
+                // Indent the nav item HTML by 4 spaces for proper nesting
                 const itemHTML = generateNavItem(label, config, false);
-                navHTML += itemHTML.split('\n').map(line => line ? `            ${line}` : line).join('\n');
+                const indentedHTML = itemHTML.split('\n')
+                    .map(line => line ? `            ${line}` : line)
+                    .join('\n');
+                navHTML += indentedHTML;
                 navHTML += `        </li>\n`;
             });
             

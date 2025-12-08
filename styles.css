@@ -338,16 +338,54 @@ body {
 }
 
 /* Tag posts list styling - ensure links look like links */
-#tag-posts-list h2 a {
-    color: #0066cc !important; /* Blue link color - override any heading styles */
-    text-decoration: none; /* Remove underline by default */
-    transition: color 0.2s ease;
-    font-weight: 600; /* Keep heading weight */
+/* Post metadata container */
+.post-metadata {
+    margin-bottom: 1.5rem;
 }
 
-#tag-posts-list h2 a:hover {
-    color: #0052a3 !important; /* Darker blue on hover */
-    text-decoration: underline; /* Underline on hover */
+/* Post title in metadata */
+.post-title {
+    margin-bottom: 0.5rem;
+}
+
+/* Post date in metadata */
+.post-date {
+    color: #666;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+/* Post tags container */
+.post-tags {
+    font-style: italic;
+}
+
+/* Tag links in post metadata */
+.post-tags .tag-link {
+    color: #0066cc;
+    text-decoration: none;
+    margin-left: 0.25rem;
+    transition: text-decoration 0.2s ease;
+}
+
+.post-tags .tag-link:hover {
+    text-decoration: underline;
+}
+
+/* Post links in tag-filtered list */
+#tag-posts-list h2 a,
+.post-link {
+    color: #0066cc !important;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 600;
+}
+
+#tag-posts-list h2 a:hover,
+.post-link:hover {
+    color: #0052a3 !important;
+    text-decoration: underline;
 }
 
 /* ============================================

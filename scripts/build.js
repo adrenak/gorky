@@ -37,12 +37,14 @@ function build() {
         
         // Collect and generate content
         const markdownFiles = collectMarkdownFiles(sidebarData, PATHS.posts);
-        const contentHTML = generateContentSections(markdownFiles, 'user-content/home.md');
+        const DEFAULT_CONTENT_FILE = 'user-content/home.md';
+        const contentHTML = generateContentSections(markdownFiles, DEFAULT_CONTENT_FILE);
         
         // Read template and replace placeholders
         let template = fs.readFileSync(PATHS.template, 'utf8');
-        template = template.replace('{{SIDEBAR_NAV}}', sidebarNavHTML);
-        template = template.replace('{{MARKDOWN_CONTENT}}', contentHTML);
+        template = template
+            .replace('{{SIDEBAR_NAV}}', sidebarNavHTML)
+            .replace('{{MARKDOWN_CONTENT}}', contentHTML);
         
         // Write output
         fs.writeFileSync(PATHS.output, template, 'utf8');
