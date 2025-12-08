@@ -51,8 +51,10 @@
         function showPostMetadata(contentSection) {
             const date = contentSection.getAttribute('data-date');
             const tags = contentSection.getAttribute('data-tags');
+            const title = contentSection.getAttribute('data-title');
             
-            if (!date && !tags) return; // No metadata to show
+            // Only show metadata if we have at least a title, date, or tags
+            if (!title && !date && !tags) return;
             
             // Check if metadata container already exists
             let metadataContainer = contentSection.querySelector('.post-metadata');
@@ -60,18 +62,27 @@
                 // Create metadata container and insert it at the beginning
                 metadataContainer = document.createElement('div');
                 metadataContainer.className = 'post-metadata';
-                metadataContainer.style.cssText = 'color: #666; font-size: 0.9rem; margin-bottom: 1.5rem;';
+                metadataContainer.style.cssText = 'margin-bottom: 1.5rem;';
                 contentSection.insertBefore(metadataContainer, contentSection.firstChild);
             }
             
             // Clear existing content
             metadataContainer.innerHTML = '';
             
+            // Add title as header if available (from filename, not markdown content)
+            if (title) {
+                const titleElement = document.createElement('h1');
+                titleElement.className = 'post-title';
+                titleElement.style.cssText = 'margin-bottom: 0.5rem;';
+                titleElement.textContent = title;
+                metadataContainer.appendChild(titleElement);
+            }
+            
             // Add date if available
             if (date) {
                 const dateElement = document.createElement('div');
                 dateElement.className = 'post-date';
-                dateElement.style.cssText = 'font-style: italic; margin-bottom: 0.5rem;';
+                dateElement.style.cssText = 'color: #666; font-size: 0.9rem; font-style: italic; margin-bottom: 0.5rem;';
                 dateElement.textContent = date;
                 metadataContainer.appendChild(dateElement);
             }

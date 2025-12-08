@@ -319,6 +319,20 @@ function getTagsFromFilePath(filePath) {
     return null;
 }
 
+// Function to get title from a markdown file path
+function getTitleFromFilePath(filePath) {
+    // Normalize path separators
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    
+    // If it's a post file, extract title from filename
+    if (normalizedPath.startsWith('user-content/posts/')) {
+        const filename = path.basename(filePath);
+        return extractTitleFromFilename(filename);
+    }
+    // For non-post files, return null (no title)
+    return null;
+}
+
 // Function to extract title from post filename
 // Format: DATE--slug--(tags)--Title--preview.md
 function extractTitleFromFilename(filename) {
@@ -456,10 +470,12 @@ function generateContentSections(markdownFiles, defaultFile = 'home.md') {
                 const slug = getSlugFromFilePath(filePath);
                 const formattedDate = getDateFromFilePath(filePath);
                 const tags = getTagsFromFilePath(filePath);
+                const title = getTitleFromFilePath(filePath);
                 const slugAttr = slug ? ` data-slug="${slug}"` : '';
                 const dateAttr = formattedDate ? ` data-date="${formattedDate}"` : '';
                 const tagsAttr = tags ? ` data-tags="${tags}"` : '';
-                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section"${slugAttr}${dateAttr}${tagsAttr} style="display: ${displayStyle};">\n`;
+                const titleAttr = title ? ` data-title="${title.replace(/"/g, '&quot;')}"` : '';
+                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section"${slugAttr}${dateAttr}${tagsAttr}${titleAttr} style="display: ${displayStyle};">\n`;
                 contentHTML += htmlContent;
                 contentHTML += `</div>\n`;
             }
