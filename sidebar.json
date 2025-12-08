@@ -1,0 +1,11 @@
+{
+    "🏠 Home": {
+        "target": "#",
+        "openInNewTab": false
+    },
+    "✍️ Posts": {
+        "target": "https://blog.vatsalambastha.com",
+        "openInNewTab": true
+    }
+}
+
