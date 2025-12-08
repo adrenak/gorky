@@ -7,10 +7,101 @@ const markdownPath = path.join(__dirname, 'home.md');
 const sidebarPath = path.join(__dirname, 'sidebar.json');
 const templatePath = path.join(__dirname, 'index-template.html');
 const outputPath = path.join(__dirname, 'index.html');
+const postsPath = path.join(__dirname, 'posts');
 
 // Function to check if a target is a markdown file
 function isMarkdownFile(target) {
     return target.endsWith('.md') && !target.startsWith('http');
+}
+
+// Function to extract slug from filename
+// Format: DATE--(tags)--Title--slug.md (exactly 3 '--')
+function extractSlug(filename) {
+    // Remove .md extension
+    const withoutExt = filename.replace(/\.md$/, '');
+    
+    // Split by '--' - should have exactly 4 parts: [DATE, (tags), Title, slug]
+    const parts = withoutExt.split('--');
+    if (parts.length === 4) {
+        return parts[3]; // Last part is the slug
+    }
+    
+    return null; // No slug found or invalid format
+}
+
+// Function to validate post filename format
+// Expected format: DATE--(tags)--Title--slug.md (exactly 3 '--')
+function validatePostFilename(filename) {
+    // Count occurrences of '--'
+    const matches = filename.match(/--/g);
+    const dashCount = matches ? matches.length : 0;
+    
+    if (dashCount !== 3) {
+        return {
+            valid: false,
+            error: `Post file "${filename}" must have exactly 3 '--' separators. Found ${dashCount}. Expected format: DATE--(tags)--Title--slug.md`
+        };
+    }
+    
+    return { valid: true };
+}
+
+// Function to check for duplicate slugs in posts folder
+function checkDuplicateSlugs() {
+    if (!fs.existsSync(postsPath)) {
+        return; // No posts folder, nothing to check
+    }
+    
+    const files = fs.readdirSync(postsPath);
+    const slugMap = new Map(); // slug -> array of filenames
+    const invalidFiles = [];
+    
+    files.forEach(file => {
+        if (file.endsWith('.md')) {
+            // Validate filename format first
+            const validation = validatePostFilename(file);
+            if (!validation.valid) {
+                invalidFiles.push(validation.error);
+                return; // Skip this file
+            }
+            
+            const slug = extractSlug(file);
+            if (slug) {
+                if (!slugMap.has(slug)) {
+                    slugMap.set(slug, []);
+                }
+                slugMap.get(slug).push(file);
+            }
+        }
+    });
+    
+    // Report invalid filenames
+    if (invalidFiles.length > 0) {
+        console.error('❌ Error: Invalid post filename format!');
+        invalidFiles.forEach(error => {
+            console.error(`   ${error}`);
+        });
+        throw new Error(`Found ${invalidFiles.length} post file(s) with invalid format.`);
+    }
+    
+    // Check for duplicates
+    const duplicates = [];
+    slugMap.forEach((filenames, slug) => {
+        if (filenames.length > 1) {
+            duplicates.push({ slug, files: filenames });
+        }
+    });
+    
+    if (duplicates.length > 0) {
+        console.error('❌ Error: Duplicate slugs found!');
+        duplicates.forEach(({ slug, files }) => {
+            console.error(`   Slug "${slug}" is used in:`);
+            files.forEach(file => {
+                console.error(`     - ${file}`);
+            });
+        });
+        throw new Error(`Found ${duplicates.length} duplicate slug(s). Each slug must be unique.`);
+    }
 }
 
 // Function to generate a single nav item HTML
@@ -130,6 +221,9 @@ function generateContentSections(markdownFiles, defaultFile = 'home.md') {
 }
 
 try {
+    // Check for duplicate slugs in posts folder
+    checkDuplicateSlugs();
+    
     // Read sidebar JSON
     const sidebarData = JSON.parse(fs.readFileSync(sidebarPath, 'utf8'));
     
