@@ -1,11 +1,33 @@
 {
-    "🏠 Home": {
-        "target": "#",
-        "openInNewTab": false
+    "": {
+        "🏠 Home": {
+            "target": "#",
+            "openInNewTab": false
+        },
+        "✍️ Posts": {
+            "target": "https://blog.vatsalambastha.com",
+            "openInNewTab": true
+        }
     },
-    "✍️ Posts": {
-        "target": "https://blog.vatsalambastha.com",
-        "openInNewTab": true
+    "Socials": {
+        "Facebook": {
+            "target" : "facebook.com/vatsalAmbastha",
+            "openInNewTab" : true
+        },
+        "Twitter": {
+            "target" : "x.com/vatsalAmbastha",
+            "openInNewTab" : true
+        }
+    },
+    "Work": {
+        "LinkedIn" : {
+            "target" : "linkedin.com/in/vatsalambastha",
+            "openInNewTab": true
+        },
+        "Github" : {
+            "target" : "github.com/adrenak",
+            "openInNewTab": true
+        }
     }
 }
 
