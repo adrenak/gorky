@@ -12,8 +12,15 @@
 </head>
 <body>
     <div class="container">
+        <!-- Hamburger Menu Button (mobile/portrait only) -->
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
         <!-- Left Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h1>Vatsal Ambastha</h1>
             </div>
@@ -21,6 +28,9 @@
                 {{SIDEBAR_NAV}}
             </nav>
         </aside>
+        
+        <!-- Overlay for mobile (closes sidebar when clicked) -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -220,6 +230,42 @@
             if (window.Prism) {
                 Prism.highlightAll();
             }
+            
+            // Hamburger menu toggle functionality
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+            }
+            
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+            
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', toggleSidebar);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+            
+            // Close sidebar when clicking on a nav link (mobile)
+            const mobileNavLinks = document.querySelectorAll('.nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Check if we're in mobile/portrait mode
+                    if (window.matchMedia('(max-aspect-ratio: 1/1)').matches) {
+                        closeSidebar();
+                    }
+                });
+            });
         });
     </script>
 </body>
