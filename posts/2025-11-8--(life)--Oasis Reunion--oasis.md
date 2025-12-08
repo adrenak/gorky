@@ -1,3 +1,4 @@
+![Alt text](images/rdr.jpg)
 # Oasis Reunion
 
 The long-awaited Oasis reunion finally happened in 2025, bringing together the Gallagher brothers after years of public feuding and separation. This momentous event marked a significant chapter in rock music history.

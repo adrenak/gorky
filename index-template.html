@@ -33,6 +33,45 @@
             return urlParams.get(name);
         }
         
+        // Function to show date and tags for post content
+        function showPostMetadata(contentSection) {
+            const date = contentSection.getAttribute('data-date');
+            const tags = contentSection.getAttribute('data-tags');
+            
+            if (!date && !tags) return; // No metadata to show
+            
+            // Check if metadata container already exists
+            let metadataContainer = contentSection.querySelector('.post-metadata');
+            if (!metadataContainer) {
+                // Create metadata container and insert it at the beginning
+                metadataContainer = document.createElement('div');
+                metadataContainer.className = 'post-metadata';
+                metadataContainer.style.cssText = 'color: #666; font-size: 0.9rem; margin-bottom: 1.5rem;';
+                contentSection.insertBefore(metadataContainer, contentSection.firstChild);
+            }
+            
+            // Clear existing content
+            metadataContainer.innerHTML = '';
+            
+            // Add date if available
+            if (date) {
+                const dateElement = document.createElement('div');
+                dateElement.className = 'post-date';
+                dateElement.style.cssText = 'font-style: italic; margin-bottom: 0.5rem;';
+                dateElement.textContent = date;
+                metadataContainer.appendChild(dateElement);
+            }
+            
+            // Add tags if available
+            if (tags) {
+                const tagsElement = document.createElement('div');
+                tagsElement.className = 'post-tags';
+                tagsElement.style.cssText = 'font-style: italic;';
+                tagsElement.textContent = 'Tagged: ' + tags;
+                metadataContainer.appendChild(tagsElement);
+            }
+        }
+        
         // Function to show content by slug
         function showContentBySlug(slug) {
             if (!slug) return false;
@@ -46,6 +85,9 @@
                 
                 // Show selected content
                 contentSection.style.display = 'block';
+                
+                // Show date and tags if it's a post
+                showPostMetadata(contentSection);
                 
                 // Update active state - find nav link that matches this content
                 document.querySelectorAll('.nav-link').forEach(nav => {

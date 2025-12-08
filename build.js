@@ -29,6 +29,54 @@ function extractSlug(filename) {
     return null; // No slug found or invalid format
 }
 
+// Function to extract date from filename
+// Format: DATE--(tags)--Title--slug.md
+function extractDateFromFilename(filename) {
+    const withoutExt = filename.replace(/\.md$/, '');
+    const parts = withoutExt.split('--');
+    if (parts.length === 4) {
+        return parts[0]; // First part is the date (e.g., "2025-12-8")
+    }
+    return null;
+}
+
+// Function to format date from "2025-12-8" to "8 Dec 2025"
+function formatDate(dateString) {
+    if (!dateString) return null;
+    
+    // Parse date string (format: YYYY-M-D or YYYY-MM-DD)
+    const parts = dateString.split('-');
+    if (parts.length !== 3) return null;
+    
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    const day = parseInt(parts[2], 10);
+    
+    if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
+    
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    if (month < 1 || month > 12) return null;
+    
+    return `${day} ${monthNames[month - 1]} ${year}`;
+}
+
+// Function to extract tags from filename
+// Format: DATE--(tags)--Title--slug.md
+function extractTagsFromFilename(filename) {
+    const withoutExt = filename.replace(/\.md$/, '');
+    const parts = withoutExt.split('--');
+    if (parts.length === 4) {
+        const tagsPart = parts[1]; // Second part contains tags in parentheses
+        // Remove parentheses and return tags
+        if (tagsPart.startsWith('(') && tagsPart.endsWith(')')) {
+            return tagsPart.slice(1, -1); // Remove parentheses
+        }
+    }
+    return null;
+}
+
 // Function to validate post filename format
 // Expected format: DATE--(tags)--Title--slug.md (exactly 3 '--')
 function validatePostFilename(filename) {
@@ -221,6 +269,35 @@ function getSlugFromFilePath(filePath) {
     return null;
 }
 
+// Function to get formatted date from a markdown file path
+function getDateFromFilePath(filePath) {
+    // Normalize path separators
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    
+    // If it's a post file, extract and format date from filename
+    if (normalizedPath.startsWith('posts/')) {
+        const filename = path.basename(filePath);
+        const dateString = extractDateFromFilename(filename);
+        return formatDate(dateString);
+    }
+    // For non-post files, return null (no date)
+    return null;
+}
+
+// Function to get tags from a markdown file path
+function getTagsFromFilePath(filePath) {
+    // Normalize path separators
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    
+    // If it's a post file, extract tags from filename
+    if (normalizedPath.startsWith('posts/')) {
+        const filename = path.basename(filePath);
+        return extractTagsFromFilename(filename);
+    }
+    // For non-post files, return null (no tags)
+    return null;
+}
+
 // Function to extract title from post filename
 // Format: DATE--(tags)--Title--slug.md
 function extractTitleFromFilename(filename) {
@@ -281,6 +358,25 @@ function generatePostsMd() {
     console.log(`✓ Generated posts.md with ${posts.length} post(s)`);
 }
 
+// Function to fix image paths in HTML for post files
+// Converts relative image paths to posts/images/ paths
+function fixImagePaths(htmlContent, filePath) {
+    // Normalize path separators
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    
+    // Only fix paths for post files
+    if (normalizedPath.startsWith('posts/')) {
+        // Replace image src attributes that are relative paths
+        // Matches: src="images/..." or src='images/...' or src="./images/..."
+        htmlContent = htmlContent.replace(
+            /src=["'](\.\/)?images\//g,
+            'src="posts/images/'
+        );
+    }
+    
+    return htmlContent;
+}
+
 // Function to generate content sections for all markdown files
 function generateContentSections(markdownFiles, defaultFile = 'home.md') {
     let contentHTML = '';
@@ -290,12 +386,20 @@ function generateContentSections(markdownFiles, defaultFile = 'home.md') {
             const fullPath = path.join(__dirname, filePath);
             if (fs.existsSync(fullPath)) {
                 const markdown = fs.readFileSync(fullPath, 'utf8');
-                const htmlContent = marked.parse(markdown);
+                let htmlContent = marked.parse(markdown);
+                
+                // Fix image paths for post files
+                htmlContent = fixImagePaths(htmlContent, filePath);
+                
                 const isDefault = filePath === defaultFile;
                 const displayStyle = isDefault ? 'block' : 'none';
                 const slug = getSlugFromFilePath(filePath);
+                const formattedDate = getDateFromFilePath(filePath);
+                const tags = getTagsFromFilePath(filePath);
                 const slugAttr = slug ? ` data-slug="${slug}"` : '';
-                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section"${slugAttr} style="display: ${displayStyle};">\n`;
+                const dateAttr = formattedDate ? ` data-date="${formattedDate}"` : '';
+                const tagsAttr = tags ? ` data-tags="${tags}"` : '';
+                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section"${slugAttr}${dateAttr}${tagsAttr} style="display: ${displayStyle};">\n`;
                 contentHTML += htmlContent;
                 contentHTML += `</div>\n`;
             }
