@@ -2,54 +2,118 @@ const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
 
-// File paths
-const markdownPath = path.join(__dirname, 'user-content', 'home.md');
-const sidebarPath = path.join(__dirname, 'user-content', 'sidebar.json');
-const templatePath = path.join(__dirname, 'index-template.html');
-const outputPath = path.join(__dirname, 'index.html');
-const postsPath = path.join(__dirname, 'user-content', 'posts');
+// ============================================================================
+// CONFIGURATION
+// ============================================================================
 
-// Function to check if a target is a markdown file
+const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const PATHS = {
+    sidebar: path.join(__dirname, config.paths.sidebar),
+    template: path.join(__dirname, 'index-template.html'),
+    output: path.join(__dirname, 'index.html'),
+    posts: path.join(__dirname, config.paths.posts),
+    postsMd: path.join(__dirname, config.paths.postsMd),
+    homeMd: path.join(__dirname, 'user-content', 'home.md'),
+};
+
+// POSTS_FOLDER_PREFIX is derived from config.paths.posts
+const POSTS_FOLDER_PREFIX = config.paths.posts.replace(/\\/g, '/') + '/';
+const POST_FILENAME_PARTS = 5; // DATE--slug--(tags)--Title--preview.md
+const POST_FILENAME_SEPARATOR = '--';
+const REQUIRED_DASHES = 4; // Number of '--' separators in post filename
+
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+/**
+ * Normalizes a file path to use forward slashes
+ */
+function normalizePath(filePath) {
+    return filePath.replace(/\\/g, '/');
+}
+
+/**
+ * Checks if a path is a post file
+ */
+function isPostFile(filePath) {
+    return normalizePath(filePath).startsWith(POSTS_FOLDER_PREFIX);
+}
+
+/**
+ * Checks if a target is a markdown file
+ */
 function isMarkdownFile(target) {
     return target.endsWith('.md') && !target.startsWith('http');
 }
 
-// Function to check if a target is a URL parameter (internal navigation)
+/**
+ * Checks if a target is a URL parameter (internal navigation)
+ */
 function isURLParameter(target) {
     return target.startsWith('?');
 }
 
-// Function to extract slug from filename
-// Format: DATE--slug--(tags)--Title--preview.md (exactly 4 '--')
-function extractSlug(filename) {
-    // Remove .md extension
+// ============================================================================
+// POST FILENAME PARSING
+// ============================================================================
+
+/**
+ * Parses a post filename and returns all parts
+ * Format: DATE--slug--(tags)--Title--preview.md
+ * @returns {Object|null} Object with date, slug, tags, title, preview or null if invalid
+ */
+function parsePostFilename(filename) {
     const withoutExt = filename.replace(/\.md$/, '');
+    const parts = withoutExt.split(POST_FILENAME_SEPARATOR);
     
-    // Split by '--' - should have exactly 5 parts: [DATE, slug, (tags), Title, preview]
-    const parts = withoutExt.split('--');
-    if (parts.length === 5) {
-        return parts[1]; // Second part is the slug
+    if (parts.length !== POST_FILENAME_PARTS) {
+        return null;
     }
     
-    return null; // No slug found or invalid format
-}
-
-// Function to extract date from filename
-// Format: DATE--slug--(tags)--Title--preview.md
-function extractDateFromFilename(filename) {
-    const withoutExt = filename.replace(/\.md$/, '');
-    const parts = withoutExt.split('--');
-    if (parts.length === 5) {
-        return parts[0]; // First part is the date (e.g., "2025-12-8")
+    const [date, slug, tagsPart, title, preview] = parts;
+    
+    // Extract tags from parentheses
+    let tags = null;
+    if (tagsPart.startsWith('(') && tagsPart.endsWith(')')) {
+        tags = tagsPart.slice(1, -1);
     }
-    return null;
+    
+    return { date, slug, tags, title, preview };
 }
 
-// Function to format date from "2025-12-8" to "8 Dec 2025"
+/**
+ * Validates post filename format
+ * @returns {Object} { valid: boolean, error?: string }
+ */
+function validatePostFilename(filename) {
+    const matches = filename.match(/--/g);
+    const dashCount = matches ? matches.length : 0;
+    
+    if (dashCount !== REQUIRED_DASHES) {
+        return {
+            valid: false,
+            error: `Post file "${filename}" must have exactly ${REQUIRED_DASHES} '--' separators. Found ${dashCount}. Expected format: DATE--slug--(tags)--Title--preview.md`
+        };
+    }
+    
+    return { valid: true };
+}
+
+/**
+ * Formats date from "2025-12-8" to "8 Dec 2025"
+ */
 function formatDate(dateString) {
     if (!dateString) return null;
     
-    // Parse date string (format: YYYY-M-D or YYYY-MM-DD)
     const parts = dateString.split('-');
     if (parts.length !== 3) return null;
     
@@ -58,73 +122,66 @@ function formatDate(dateString) {
     const day = parseInt(parts[2], 10);
     
     if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
-    
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
     if (month < 1 || month > 12) return null;
     
-    return `${day} ${monthNames[month - 1]} ${year}`;
+    return `${day} ${MONTH_NAMES[month - 1]} ${year}`;
 }
 
-// Function to extract tags from filename
-// Format: DATE--slug--(tags)--Title--preview.md
-function extractTagsFromFilename(filename) {
-    const withoutExt = filename.replace(/\.md$/, '');
-    const parts = withoutExt.split('--');
-    if (parts.length === 5) {
-        const tagsPart = parts[2]; // Third part contains tags in parentheses
-        // Remove parentheses and return tags
-        if (tagsPart.startsWith('(') && tagsPart.endsWith(')')) {
-            return tagsPart.slice(1, -1); // Remove parentheses
-        }
-    }
-    return null;
-}
-
-// Function to validate post filename format
-// Expected format: DATE--slug--(tags)--Title--preview.md (exactly 4 '--')
-function validatePostFilename(filename) {
-    // Count occurrences of '--'
-    const matches = filename.match(/--/g);
-    const dashCount = matches ? matches.length : 0;
-    
-    if (dashCount !== 4) {
-        return {
-            valid: false,
-            error: `Post file "${filename}" must have exactly 4 '--' separators. Found ${dashCount}. Expected format: DATE--slug--(tags)--Title--preview.md`
-        };
+/**
+ * Extracts post metadata from a file path
+ * @returns {Object} Object with slug, date, tags, title (or null for non-post files)
+ */
+function extractPostMetadata(filePath) {
+    if (!isPostFile(filePath)) {
+        return { slug: null, date: null, tags: null, title: null };
     }
     
-    return { valid: true };
+    const filename = path.basename(filePath);
+    const parsed = parsePostFilename(filename);
+    
+    if (!parsed) {
+        return { slug: null, date: null, tags: null, title: null };
+    }
+    
+    return {
+        slug: parsed.slug,
+        date: formatDate(parsed.date),
+        tags: parsed.tags,
+        title: parsed.title,
+    };
 }
 
-// Function to check for duplicate slugs in posts folder
+// ============================================================================
+// VALIDATION
+// ============================================================================
+
+/**
+ * Checks for duplicate slugs in posts folder
+ */
 function checkDuplicateSlugs() {
-    if (!fs.existsSync(postsPath)) {
-        return; // No posts folder, nothing to check
+    if (!fs.existsSync(PATHS.posts)) {
+        return;
     }
     
-    const files = fs.readdirSync(postsPath);
+    const files = fs.readdirSync(PATHS.posts);
     const slugMap = new Map(); // slug -> array of filenames
     const invalidFiles = [];
     
     files.forEach(file => {
-        if (file.endsWith('.md')) {
-            // Validate filename format first
-            const validation = validatePostFilename(file);
-            if (!validation.valid) {
-                invalidFiles.push(validation.error);
-                return; // Skip this file
+        if (!file.endsWith('.md')) return;
+        
+        const validation = validatePostFilename(file);
+        if (!validation.valid) {
+            invalidFiles.push(validation.error);
+            return;
+        }
+        
+        const parsed = parsePostFilename(file);
+        if (parsed && parsed.slug) {
+            if (!slugMap.has(parsed.slug)) {
+                slugMap.set(parsed.slug, []);
             }
-            
-            const slug = extractSlug(file);
-            if (slug) {
-                if (!slugMap.has(slug)) {
-                    slugMap.set(slug, []);
-                }
-                slugMap.get(slug).push(file);
-            }
+            slugMap.get(parsed.slug).push(file);
         }
     });
     
@@ -157,40 +214,34 @@ function checkDuplicateSlugs() {
     }
 }
 
-// Function to generate a single nav item HTML
+// ============================================================================
+// SIDEBAR GENERATION
+// ============================================================================
+
+/**
+ * Generates HTML for a single navigation item
+ */
 function generateNavItem(label, config, isActive = false) {
     // Extract emoji and text from label (e.g., "🏠 Home" -> emoji: "🏠", text: "Home")
     const emojiMatch = label.match(/^([^\s]+)\s+(.+)$/);
     const emoji = emojiMatch ? emojiMatch[1] : '';
     const text = emojiMatch ? emojiMatch[2] : label;
     
-    // Determine if this is the active link
     const activeClass = isActive ? ' active' : '';
-    
-    // Check if it's a markdown file (internal content switch)
     const isMarkdown = isMarkdownFile(config.target);
-    // Check if it's a URL parameter (internal navigation)
     const isURLParam = isURLParameter(config.target);
-    // Internal navigation (markdown files or URL parameters that don't open in new tab)
     const isInternal = isMarkdown || (isURLParam && !config.openInNewTab);
     
-    // Build target attribute - for external links or URL params that should open in new tab
-    const targetAttr = (config.openInNewTab) ? ' target="_blank" rel="noopener noreferrer"' : '';
-    
-    // Build data attribute for content switching (markdown files)
+    const targetAttr = config.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
     const dataContentAttr = isMarkdown ? ` data-content="${config.target}"` : '';
-    // Build data attribute for URL parameter navigation (only if not opening in new tab)
     const dataURLAttr = (isURLParam && !config.openInNewTab) ? ` data-url="${config.target}"` : '';
-    
-    // Generate HTML for this nav item
-    // If it's a URL param that opens in new tab, use the full URL; otherwise use # for internal
     const hrefValue = isInternal ? '#' : config.target;
+    
     let itemHTML = `<a href="${hrefValue}" class="nav-link${activeClass}"${targetAttr}${dataContentAttr}${dataURLAttr}>\n`;
     if (emoji) {
         itemHTML += `    <span class="nav-icon">${emoji}</span>\n`;
     }
     itemHTML += `    <span>${text}</span>\n`;
-    // Show external icon for links that open in new tab, but not for URL parameter links
     if (config.openInNewTab && !isURLParam) {
         itemHTML += `    <span class="external-icon">↗</span>\n`;
     }
@@ -199,17 +250,17 @@ function generateNavItem(label, config, isActive = false) {
     return itemHTML;
 }
 
-// Function to generate sidebar navigation HTML from JSON
+/**
+ * Generates sidebar navigation HTML from JSON
+ */
 function generateSidebarNav(sidebarData) {
     let navHTML = '';
     let isFirstRootItem = true;
     
-    // Process sections in order
     Object.entries(sidebarData).forEach(([sectionName, items]) => {
         if (sectionName === '') {
-            // Root navigation items (no section header)
+            // Root navigation items
             Object.entries(items).forEach(([label, config]) => {
-                // If target is "#" or empty, treat as user-content/home.md
                 if (config.target === '#' || config.target === '') {
                     config.target = 'user-content/home.md';
                 }
@@ -224,7 +275,6 @@ function generateSidebarNav(sidebarData) {
             
             Object.entries(items).forEach(([label, config]) => {
                 navHTML += `        <li>\n`;
-                // Indent the nav item HTML
                 const itemHTML = generateNavItem(label, config, false);
                 navHTML += itemHTML.split('\n').map(line => line ? `            ${line}` : line).join('\n');
                 navHTML += `        </li>\n`;
@@ -238,11 +288,17 @@ function generateSidebarNav(sidebarData) {
     return navHTML;
 }
 
-// Function to collect all markdown files referenced in sidebar and posts folder
+// ============================================================================
+// MARKDOWN FILE COLLECTION
+// ============================================================================
+
+/**
+ * Collects all markdown files referenced in sidebar and posts folder
+ */
 function collectMarkdownFiles(sidebarData) {
     const markdownFiles = new Map();
     
-    // Default home.md (in user-content folder)
+    // Default home.md
     markdownFiles.set('user-content/home.md', 'user-content/home.md');
     
     // Traverse sidebar data to find all .md files and URL parameters
@@ -251,8 +307,7 @@ function collectMarkdownFiles(sidebarData) {
             if (isMarkdownFile(config.target)) {
                 markdownFiles.set(config.target, config.target);
             } else if (isURLParameter(config.target)) {
-                // Extract page name from URL parameter (e.g., ?page=posts -> user-content/posts.md)
-                const urlParams = new URLSearchParams(config.target.substring(1)); // Remove '?'
+                const urlParams = new URLSearchParams(config.target.substring(1));
                 const pageParam = urlParams.get('page');
                 if (pageParam && (pageParam === 'home' || pageParam === 'posts')) {
                     const mdFile = `user-content/${pageParam}.md`;
@@ -262,9 +317,9 @@ function collectMarkdownFiles(sidebarData) {
         });
     });
     
-    // Also load all post files from user-content/posts folder
-    if (fs.existsSync(postsPath)) {
-        const postFiles = fs.readdirSync(postsPath);
+    // Load all post files from user-content/posts folder
+    if (fs.existsSync(PATHS.posts)) {
+        const postFiles = fs.readdirSync(PATHS.posts);
         postFiles.forEach(file => {
             if (file.endsWith('.md')) {
                 const filePath = path.join('user-content', 'posts', file);
@@ -276,209 +331,71 @@ function collectMarkdownFiles(sidebarData) {
     return markdownFiles;
 }
 
-// Function to get slug from a markdown file path
-function getSlugFromFilePath(filePath) {
-    // Normalize path separators
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    
-    // If it's a post file, extract slug from filename
-    if (normalizedPath.startsWith('user-content/posts/')) {
-        const filename = path.basename(filePath);
-        return extractSlug(filename);
-    }
-    // For non-post files like home.md, return null (no slug)
-    return null;
-}
+// ============================================================================
+// POSTS.MD GENERATION (imported from process-posts.js)
+// ============================================================================
 
-// Function to get formatted date from a markdown file path
-function getDateFromFilePath(filePath) {
-    // Normalize path separators
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    
-    // If it's a post file, extract and format date from filename
-    if (normalizedPath.startsWith('user-content/posts/')) {
-        const filename = path.basename(filePath);
-        const dateString = extractDateFromFilename(filename);
-        return formatDate(dateString);
-    }
-    // For non-post files, return null (no date)
-    return null;
-}
+const { generatePostsMd } = require('./process-posts');
 
-// Function to get tags from a markdown file path
-function getTagsFromFilePath(filePath) {
-    // Normalize path separators
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    
-    // If it's a post file, extract tags from filename
-    if (normalizedPath.startsWith('user-content/posts/')) {
-        const filename = path.basename(filePath);
-        return extractTagsFromFilename(filename);
-    }
-    // For non-post files, return null (no tags)
-    return null;
-}
+// ============================================================================
+// CONTENT GENERATION
+// ============================================================================
 
-// Function to get title from a markdown file path
-function getTitleFromFilePath(filePath) {
-    // Normalize path separators
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    
-    // If it's a post file, extract title from filename
-    if (normalizedPath.startsWith('user-content/posts/')) {
-        const filename = path.basename(filePath);
-        return extractTitleFromFilename(filename);
-    }
-    // For non-post files, return null (no title)
-    return null;
-}
-
-// Function to extract title from post filename
-// Format: DATE--slug--(tags)--Title--preview.md
-function extractTitleFromFilename(filename) {
-    const withoutExt = filename.replace(/\.md$/, '');
-    const parts = withoutExt.split('--');
-    if (parts.length === 5) {
-        return parts[3]; // Title is the fourth part (index 3)
-    }
-    return null;
-}
-
-// Function to generate posts.md from files in posts folder
-function generatePostsMd() {
-    if (!fs.existsSync(postsPath)) {
-        return; // No posts folder, nothing to generate
-    }
-    
-    const files = fs.readdirSync(postsPath);
-    const posts = [];
-    const allTagsSet = new Set(); // Use Set to automatically handle distinct tags
-    
-    files.forEach(file => {
-        if (file.endsWith('.md')) {
-            // Validate filename format first
-            const validation = validatePostFilename(file);
-            if (!validation.valid) {
-                return; // Skip invalid files
-            }
-            
-            const title = extractTitleFromFilename(file);
-            const slug = extractSlug(file);
-            const dateString = extractDateFromFilename(file);
-            const tags = extractTagsFromFilename(file);
-            
-            // Collect all tags
-            if (tags) {
-                const tagList = tags.split(',').map(t => t.trim());
-                tagList.forEach(tag => {
-                    if (tag) {
-                        allTagsSet.add(tag);
-                    }
-                });
-            }
-            
-            if (title && slug) {
-                posts.push({ title, slug, filename: file, dateString });
-            }
-        }
-    });
-    
-    // Convert Set to sorted array
-    const distinctTags = Array.from(allTagsSet).sort();
-    
-    // Sort posts by date - newest first
-    posts.sort((a, b) => {
-        // Parse dates from date strings (format: YYYY-M-D or YYYY-MM-DD)
-        const parseDate = (dateStr) => {
-            const parts = dateStr.split('-');
-            if (parts.length !== 3) return new Date(0);
-            const year = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
-            const day = parseInt(parts[2], 10);
-            return new Date(year, month, day);
-        };
-        
-        const dateA = parseDate(a.dateString);
-        const dateB = parseDate(b.dateString);
-        
-        // Sort descending (newest first)
-        return dateB - dateA;
-    });
-    
-    // Generate markdown content
-    let postsMd = '# Posts\n\n';
-    
-    // Add tags section if there are any tags
-    if (distinctTags.length > 0) {
-        postsMd += '## Tags\n\n';
-        distinctTags.forEach((tag, index) => {
-            postsMd += `[${tag}](?tag=${encodeURIComponent(tag)})`;
-            if (index < distinctTags.length - 1) {
-                postsMd += ' • '; // Add bullet separator between tags
-            }
-        });
-        postsMd += '\n\n---\n\n';
-    }
-    
-    // Add posts list
-    posts.forEach(post => {
-        postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
-    });
-    
-    // Write to posts.md
-    const postsMdPath = path.join(__dirname, 'user-content', 'posts.md');
-    fs.writeFileSync(postsMdPath, postsMd, 'utf8');
-    
-    console.log(`✓ Generated posts.md with ${posts.length} post(s)`);
-}
-
-// Function to fix image paths in HTML for post files
-// Converts relative image paths to user-content/posts/images/ paths
+/**
+ * Fixes image paths in HTML for post files
+ * Converts relative image paths to user-content/posts/images/ paths
+ */
 function fixImagePaths(htmlContent, filePath) {
-    // Normalize path separators
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    
-    // Only fix paths for post files
-    if (normalizedPath.startsWith('user-content/posts/')) {
-        // Replace image src attributes that are relative paths
-        // Matches: src="images/..." or src='images/...' or src="./images/..."
-        htmlContent = htmlContent.replace(
-            /src=["'](\.\/)?images\//g,
-            'src="user-content/posts/images/'
-        );
+    if (!isPostFile(filePath)) {
+        return htmlContent;
     }
     
-    return htmlContent;
+    // Replace image src attributes that are relative paths
+    return htmlContent.replace(
+        /src=["'](\.\/)?images\//g,
+        'src="user-content/posts/images/'
+    );
 }
 
-// Function to generate content sections for all markdown files
-function generateContentSections(markdownFiles, defaultFile = 'home.md') {
+/**
+ * Generates HTML attributes for post metadata
+ */
+function generatePostAttributes(metadata) {
+    const attrs = [];
+    if (metadata.slug) attrs.push(`data-slug="${metadata.slug}"`);
+    if (metadata.date) attrs.push(`data-date="${metadata.date}"`);
+    if (metadata.tags) attrs.push(`data-tags="${metadata.tags}"`);
+    if (metadata.title) {
+        const escapedTitle = metadata.title.replace(/"/g, '&quot;');
+        attrs.push(`data-title="${escapedTitle}"`);
+    }
+    return attrs.join(' ');
+}
+
+/**
+ * Generates content sections for all markdown files
+ */
+function generateContentSections(markdownFiles, defaultFile = 'user-content/home.md') {
     let contentHTML = '';
     
     markdownFiles.forEach((filePath, key) => {
         try {
             const fullPath = path.join(__dirname, filePath);
-            if (fs.existsSync(fullPath)) {
-                const markdown = fs.readFileSync(fullPath, 'utf8');
-                let htmlContent = marked.parse(markdown);
-                
-                // Fix image paths for post files
-                htmlContent = fixImagePaths(htmlContent, filePath);
-                
-                const isDefault = filePath === defaultFile;
-                const displayStyle = isDefault ? 'block' : 'none';
-                const slug = getSlugFromFilePath(filePath);
-                const formattedDate = getDateFromFilePath(filePath);
-                const tags = getTagsFromFilePath(filePath);
-                const title = getTitleFromFilePath(filePath);
-                const slugAttr = slug ? ` data-slug="${slug}"` : '';
-                const dateAttr = formattedDate ? ` data-date="${formattedDate}"` : '';
-                const tagsAttr = tags ? ` data-tags="${tags}"` : '';
-                const titleAttr = title ? ` data-title="${title.replace(/"/g, '&quot;')}"` : '';
-                contentHTML += `<div id="content-${key.replace(/\./g, '-')}" class="content-section"${slugAttr}${dateAttr}${tagsAttr}${titleAttr} style="display: ${displayStyle};">\n`;
-                contentHTML += htmlContent;
-                contentHTML += `</div>\n`;
-            }
+            if (!fs.existsSync(fullPath)) return;
+            
+            const markdown = fs.readFileSync(fullPath, 'utf8');
+            let htmlContent = marked.parse(markdown);
+            htmlContent = fixImagePaths(htmlContent, filePath);
+            
+            const isDefault = filePath === defaultFile;
+            const displayStyle = isDefault ? 'block' : 'none';
+            const metadata = extractPostMetadata(filePath);
+            const attributes = generatePostAttributes(metadata);
+            const contentId = `content-${key.replace(/\./g, '-')}`;
+            
+            contentHTML += `<div id="${contentId}" class="content-section"${attributes ? ' ' + attributes : ''} style="display: ${displayStyle};">\n`;
+            contentHTML += htmlContent;
+            contentHTML += `</div>\n`;
         } catch (error) {
             console.warn(`Warning: Could not load ${filePath}:`, error.message);
         }
@@ -487,38 +404,42 @@ function generateContentSections(markdownFiles, defaultFile = 'home.md') {
     return contentHTML;
 }
 
-try {
-    // Check for duplicate slugs in posts folder
-    checkDuplicateSlugs();
-    
-    // Generate posts.md from files in posts folder
-    generatePostsMd();
-    
-    // Read sidebar JSON
-    const sidebarData = JSON.parse(fs.readFileSync(sidebarPath, 'utf8'));
-    
-    // Generate sidebar navigation HTML
-    const sidebarNavHTML = generateSidebarNav(sidebarData);
-    
-    // Collect all markdown files referenced in sidebar
-    const markdownFiles = collectMarkdownFiles(sidebarData);
-    
-    // Generate content sections for all markdown files
-    const contentHTML = generateContentSections(markdownFiles, 'user-content/home.md');
-    
-    // Read template
-    let template = fs.readFileSync(templatePath, 'utf8');
-    
-    // Replace placeholders
-    template = template.replace('{{SIDEBAR_NAV}}', sidebarNavHTML);
-    template = template.replace('{{MARKDOWN_CONTENT}}', contentHTML);
-    
-    // Write output
-    fs.writeFileSync(outputPath, template, 'utf8');
-    
-    console.log('✓ Successfully generated index.html from markdown files and sidebar.json');
-} catch (error) {
-    console.error('Error building HTML:', error.message);
-    process.exit(1);
+// ============================================================================
+// MAIN BUILD PROCESS
+// ============================================================================
+
+function build() {
+    try {
+        // Validation
+        checkDuplicateSlugs();
+        
+        // Generate posts.md
+        generatePostsMd();
+        
+        // Read sidebar JSON
+        const sidebarData = JSON.parse(fs.readFileSync(PATHS.sidebar, 'utf8'));
+        
+        // Generate sidebar navigation
+        const sidebarNavHTML = generateSidebarNav(sidebarData);
+        
+        // Collect and generate content
+        const markdownFiles = collectMarkdownFiles(sidebarData);
+        const contentHTML = generateContentSections(markdownFiles, 'user-content/home.md');
+        
+        // Read template and replace placeholders
+        let template = fs.readFileSync(PATHS.template, 'utf8');
+        template = template.replace('{{SIDEBAR_NAV}}', sidebarNavHTML);
+        template = template.replace('{{MARKDOWN_CONTENT}}', contentHTML);
+        
+        // Write output
+        fs.writeFileSync(PATHS.output, template, 'utf8');
+        
+        console.log('✓ Successfully generated index.html from markdown files and sidebar.json');
+    } catch (error) {
+        console.error('Error building HTML:', error.message);
+        process.exit(1);
+    }
 }
 
+// Run build
+build();

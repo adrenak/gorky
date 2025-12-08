@@ -1,0 +1,8 @@
+{
+  "paths": {
+    "sidebar": "user-content/sidebar.json",
+    "posts": "user-content/posts",
+    "postsMd": "user-content/posts.md"
+  }
+}
+
