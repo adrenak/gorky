@@ -139,9 +139,11 @@ function generatePostsMd(postsPath, postsMdPath) {
         return;
     }
 
-    // Only consider markdown files
-    const files = fs.readdirSync(postsPath).filter(file => file.endsWith('.md'));
-    if (files.length === 0) {
+    // Get all files in posts directory
+    const allFiles = fs.readdirSync(postsPath);
+    const mdFiles = allFiles.filter(file => file.endsWith('.md'));
+    
+    if (mdFiles.length === 0) {
         deletePostsMdIfExists();
         return;
     }
@@ -149,7 +151,7 @@ function generatePostsMd(postsPath, postsMdPath) {
     const posts = [];
     const allTagsSet = new Set();
 
-    files.forEach(file => {
+    mdFiles.forEach(file => {
         const validation = validatePostFilename(file);
         if (!validation.valid) return;
 
@@ -163,11 +165,25 @@ function generatePostsMd(postsPath, postsMdPath) {
             });
         }
 
+        // Check for matching thumbnail image
+        const baseFilename = file.replace(/\.md$/, '');
+        const imageExtensions = ['.png', '.jpg', '.jpeg'];
+        let thumbnailPath = null;
+        
+        for (const ext of imageExtensions) {
+            const imageFilename = baseFilename + ext;
+            if (allFiles.includes(imageFilename)) {
+                thumbnailPath = `user-content/posts/${imageFilename}`;
+                break;
+            }
+        }
+
         posts.push({
             title: parsed.title,
             slug: parsed.slug,
             dateString: parsed.date,
             preview: parsed.preview || '',
+            thumbnail: thumbnailPath,
         });
     });
 
@@ -197,9 +213,24 @@ function generatePostsMd(postsPath, postsMdPath) {
 
     // Add posts list
     posts.forEach(post => {
-        postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
-        if (post.preview) {
-            postsMd += `${post.preview}\n\n`;
+        // For posts with thumbnails, generate HTML directly to avoid markdown parsing issues
+        if (post.thumbnail) {
+            const escapedTitle = post.title.replace(/"/g, '&quot;');
+            const escapedPreview = (post.preview || '').replace(/"/g, '&quot;');
+            postsMd += `<div class="post-entry">\n`;
+            postsMd += `<img src="${post.thumbnail}" alt="${escapedTitle}" class="post-thumbnail" />\n`;
+            postsMd += `<div class="post-content">\n`;
+            postsMd += `<h2><a href="?post=${post.slug}">${post.title}</a></h2>\n`;
+            if (post.preview) {
+                postsMd += `<p>${post.preview}</p>\n`;
+            }
+            postsMd += `</div>\n</div>\n\n`;
+        } else {
+            // For posts without thumbnails, use markdown
+            postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
+            if (post.preview) {
+                postsMd += `${post.preview}\n\n`;
+            }
         }
     });
 

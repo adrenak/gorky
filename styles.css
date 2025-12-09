@@ -388,6 +388,43 @@ body {
     text-decoration: underline;
 }
 
+/* ============================================
+   POST ENTRIES (for posts.md)
+   ============================================ */
+
+.post-entry {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+}
+
+.post-thumbnail {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid #e0e0e0;
+}
+
+.post-content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+#markdown-content .post-entry h2 {
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem;
+}
+
+#markdown-content .post-entry p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #tag-posts-list h2 a,
 .post-link {
     color: #0066cc !important;
@@ -594,5 +631,16 @@ body {
     #markdown-content img {
         max-width: 100%;
         margin: 0.75rem 0;
+    }
+    
+    .post-entry {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .post-thumbnail {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
     }
 }
