@@ -1,14 +1,14 @@
-# GWeb
+# gorky
 
-**GWeb** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
+**gorky** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
-## Why GWeb?
+## Why gorky?
 
-GWeb makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and GWeb handles the rest.
+gorky makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and gorky handles the rest.
 
 ### Perfect for GitHub Pages
 
-GWeb is optimized for GitHub Pages deployment. Simply:
+gorky is optimized for GitHub Pages deployment. Simply:
 1. Write your content in markdown
 2. Run `npm run build`
 3. Push to GitHub
@@ -18,7 +18,7 @@ Your site is live!
 
 ### Markdown-First Approach
 
-All your content lives in markdown files. Whether it's blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. GWeb automatically:
+All your content lives in markdown files. Whether it's blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. gorky automatically:
 - Converts markdown to beautiful HTML
 - Generates navigation from your sidebar configuration
 - Creates a posts listing page
@@ -57,11 +57,11 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 2025-12-15--my-first-post--(blog,tutorial)--My First Post--This is a preview of my first post.md
 ```
 
-GWeb extracts:
+gorky extracts:
 - **Date**: 2025-12-15
 - **Slug**: my-first-post
 - **Tags**: blog, tutorial
 - **Title**: My First Post
 - **Preview**: This is a preview of my first post
 
-Start writing in markdown and let GWeb handle the rest!
+Start writing in markdown and let gorky handle the rest!

@@ -1,5 +1,5 @@
 {
-  "name": "gweb",
+  "name": "gorky",
   "version": "1.0.0",
   "description": "Static site generator for markdown content",
   "main": "scripts/build.js",
