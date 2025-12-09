@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Vatsal Ambastha - Unity game developer, VR developer at ManageXR, and open source contributor. Creating games, apps, libraries, and tutorials with Unity engine.">
-    <meta name="keywords" content="Vatsal Ambastha, Unity, game development, VR, virtual reality, open source, UniVoice, C#, software development, game programming, ManageXR, Unity developer, game developer, proximity audio, Unity tutorials, adrenak, GitHub">
-    <link rel="canonical" href="https://vatsalambastha.com?page=home">
-    <title>Vatsal Ambastha</title>
+    <meta name="description" content="GWeb - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.">
+    <meta name="keywords" content="GWeb, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog">
+    <link rel="canonical" href="https://yourusername.github.io/gweb?page=home">
+    <title>GWeb</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
@@ -25,7 +25,7 @@
         <!-- Left Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h1>Vatsal Ambastha</h1>
+                <h1>GWeb</h1>
             </div>
             <nav class="sidebar-nav">
                 {{SIDEBAR_NAV}}
@@ -48,7 +48,7 @@
         // CONSTANTS
         // ============================================================================
         
-        const BASE_URL = 'https://vatsalambastha.com';
+        const BASE_URL = 'https://yourusername.github.io/gweb';
         const DEFAULT_PAGE = 'user-content/home.md';
         const CONTENT_ID_PREFIX = 'content-';
         const TAG_LIST_ID = 'tag-posts-list';
@@ -417,7 +417,7 @@
                 contentShown = true;
             } else if (postSlug && showContentBySlug(postSlug)) {
                 contentShown = true;
-            } else if (pageParam && (pageParam === 'home' || pageParam === 'posts')) {
+            } else if (pageParam) {
                 const targetFile = `user-content/${pageParam}.md`;
                 contentShown = showContentByFile(targetFile);
             }

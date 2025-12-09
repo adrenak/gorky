@@ -2,33 +2,153 @@
    GLOBAL RESET & BASE STYLES
    ============================================ */
 
-/* Universal reset - removes default margins and padding from all elements */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Makes padding and border included in element's total width/height */
+    box-sizing: border-box;
 }
 
-/* Body element - defines base typography and page layout */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; /* System font stack for native look */
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* Prevents page scrolling */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Main container - creates the two-column flexbox layout */
 .container {
-    display: flex; /* Enables flexbox layout */
-    height: 100vh; /* Full viewport height */
+    display: flex;
+    height: 100vh;
 }
 
 /* ============================================
-   LEFT SIDEBAR
+   MAIN CONTENT AREA
    ============================================ */
 
-/* Hamburger menu button (hidden by default, shown on mobile/portrait) */
+.main-content {
+    flex: 1;
+    background-color: #ffffff;
+    padding-top: 10rem;
+    padding-right: 40rem;
+    padding-bottom: 2rem;
+    padding-left: 40rem;
+    overflow-y: auto;
+    line-height: 1.8;
+    transition: margin-left 0.3s ease;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+.sidebar {
+    width: 250px;
+    background-color: #f5f5f5;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+.sidebar-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+}
+
+.sidebar-nav {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sidebar-section {
+    margin-top: 1.5rem;
+}
+
+.section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(0, 0, 0, 0.75);
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
+}
+
+.section-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.section-list li {
+    margin: 0;
+}
+
+/* ============================================
+   NAVIGATION LINKS
+   ============================================ */
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    font-size: .9rem;
+    gap: 0.5rem;
+    padding: 0.5rem .5rem;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.nav-link:hover {
+    background-color: rgb(188, 188, 188);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.nav-link.active {
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+}
+
+.nav-link.active:hover {
+    background-color: #000000;
+}
+
+.nav-icon {
+    font-size: 1.1rem;
+}
+
+.external-icon {
+    margin-left: auto;
+    font-size: 1rem;
+    opacity: 0.6;
+    color: rgba(0, 0, 0, 1);
+    flex-shrink: 0;
+}
+
+.nav-link.active .external-icon {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+
 .hamburger-menu {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     top: 1rem;
     left: 1rem;
@@ -66,7 +186,6 @@ body {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Sidebar overlay for mobile (hidden by default) */
 .sidebar-overlay {
     display: none;
     position: fixed;
@@ -78,277 +197,134 @@ body {
     z-index: 999;
     opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none; /* Allow clicks to pass through when not active */
+    pointer-events: none;
 }
 
 .sidebar-overlay.active {
     opacity: 1;
-    pointer-events: auto; /* Block clicks when active */
-}
-
-/* Main sidebar container - fixed width left column */
-.sidebar {
-    width: 250px; /* Fixed width for sidebar */
-    background-color: #f5f5f5; /* Light gray background */
-    color: white; /* Default text color (overridden by specific elements) */
-    display: flex; /* Flexbox for vertical layout */
-    flex-direction: column; /* Stacks children vertically */
-    padding: 2rem 0; /* Vertical padding only */
-    transition: transform 0.3s ease; /* Smooth slide animation */
-}
-
-/* Sidebar header section - contains the name/title */
-.sidebar-header {
-    padding: 0 1.5rem 1.5rem 1.5rem; /* Horizontal and bottom padding */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle bottom border */
-    margin-bottom: 1rem; /* Space below header */
-}
-
-/* Name/title text in sidebar header */
-.sidebar-header h1 {
-    font-size: 1.25rem; /* Header text size */
-    font-weight: 600; /* Semi-bold weight */
-    color: rgb(0, 0, 0); /* Black text */
-}
-
-/* Navigation container - holds all nav links and sections */
-.sidebar-nav {
-    padding: 0 1rem; /* Horizontal padding */
-    display: flex; /* Flexbox for vertical stacking */
-    flex-direction: column; /* Stacks nav items vertically */
-    gap: 0.25rem; /* Space between nav items */
-}
-
-/* Individual navigation link/item */
-.nav-link {
-    display: flex; /* Flexbox for horizontal layout of icon + text */
-    align-items: center; /* Vertically centers icon and text */
-    font-size: .9rem; /* Text size for nav items */
-    gap: 0.5rem; /* Space between icon and text */
-    padding: 0.5rem .5rem; /* Internal spacing */
-    color: rgba(0, 0, 0, 0.6); /* Semi-transparent black text */
-    text-decoration: none; /* Removes underline from links */
-    border-radius: 6px; /* Rounded corners */
-    background-color: rgba(255, 255, 255, 0.05); /* Very subtle white background */
-    position: relative; /* Allows absolute positioning of children */
-}
-
-/* Hover state for nav links - gray background on hover */
-.nav-link:hover {
-    background-color: rgb(188, 188, 188); /* Light gray background */
-    color: rgba(0, 0, 0, 0.8); /* Darker text on hover */
-}
-
-/* Active/selected nav link - black background */
-.nav-link.active {
-    background-color: #000000; /* Black background for active item */
-    color: rgb(255, 255, 255); /* White text */
-    font-weight: 500; /* Medium font weight */
-}
-
-/* Active link hover state - stays black */
-.nav-link.active:hover {
-    background-color: #000000; /* Maintains black background on hover */
-}
-
-/* Icon/emoji in nav links (left side) */
-.nav-icon {
-    font-size: 1.1rem; /* Icon size */
-}
-
-/* External link indicator icon (right side) - appears when openInNewTab is true */
-.external-icon {
-    margin-left: auto; /* Pushes icon to the right edge */
-    font-size: 1rem; /* Icon size */
-    opacity: 0.6; /* Semi-transparent */
-    color: rgba(0, 0, 0, 1); /* Black color */
-    flex-shrink: 0; /* Prevents icon from shrinking */
-}
-
-/* External icon color when nav link is active */
-.nav-link.active .external-icon {
-    color: rgba(255, 255, 255, 0.6); /* White/transparent for active links */
+    pointer-events: auto;
 }
 
 /* ============================================
-   SIDEBAR SECTIONS
+   MARKDOWN CONTENT
    ============================================ */
 
-/* Section container - groups related nav items (e.g., "Socials", "Work") */
-.sidebar-section {
-    margin-top: 1.5rem; /* Space above each section */
-}
-
-/* Section header/title (e.g., "PROJECTS", "ONLINE") */
-.section-title {
-    font-size: 0.7rem; /* Small text size */
-    font-weight: 700; /* Semi-bold */
-    text-transform: uppercase; /* All caps */
-    letter-spacing: 1px; /* Slightly spaced letters */
-    color: rgba(0, 0, 0, 0.75); /* Faded gray color */
-    margin-bottom: 0.75rem; /* Space below title */
-    padding: 0 0.5rem; /* Horizontal padding */
-}
-
-/* List container for section items */
-.section-list {
-    list-style: none; /* Removes bullet points */
-    padding: 0; /* No padding */
-    margin: 0; /* No margin */
-    display: flex; /* Flexbox layout */
-    flex-direction: column; /* Vertical stacking */
-    gap: 0.25rem; /* Space between list items */
-}
-
-/* Individual list item in sections */
-.section-list li {
-    margin: 0; /* No margin on list items */
-}
-
-/* ============================================
-   MAIN CONTENT AREA
-   ============================================ */
-
-/* Main content container - right column that fills remaining space */
-.main-content {
-    flex: 1; /* Takes up all remaining horizontal space */
-    background-color: #ffffff; /* White background */
-    padding-top: 10rem; /* Top padding */
-    padding-right: 40rem; /* Right padding */
-    padding-bottom: 2rem; /* Bottom padding */
-    padding-left: 40rem; /* Left padding */
-    overflow-y: auto; /* Enables vertical scrolling if content overflows */
-    line-height: 1.8; /* Line spacing for text readability */
-    transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
-}
-
-/* ============================================
-   MARKDOWN CONTENT STYLES
-   Styles for rendered markdown content from home.md
-   ============================================ */
-
-/* Container for all rendered markdown content */
 #markdown-content {
-    max-width: 100%; /* Prevents content from exceeding container width */
+    max-width: 100%;
 }
 
-/* Level 1 heading (H1) - largest heading */
 #markdown-content h1 {
-    font-size: 2rem; /* Large text size */
-    margin-bottom: 1rem; /* Space below heading */
-    margin-top: 0; /* No top margin */
-    font-weight: 600; /* Semi-bold */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
+    font-weight: 600;
 }
 
-/* Level 2 heading (H2) - second level heading */
 #markdown-content h2 {
-    font-size: 1.5rem; /* Medium-large text size */
-    margin-top: 2rem; /* Extra space above for separation */
-    margin-bottom: 1rem; /* Space below */
-    font-weight: 600; /* Semi-bold */
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
-/* Level 3 heading (H3) - third level heading */
+#markdown-content h2 + p {
+    margin-top: -0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+#markdown-content p + h2 {
+    margin-top: 1rem;
+}
+
 #markdown-content h3 {
-    font-size: 1.25rem; /* Medium text size */
-    margin-top: 1.5rem; /* Space above */
-    margin-bottom: 0.75rem; /* Space below */
-    font-weight: 600; /* Semi-bold */
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
 }
 
-/* Paragraph text */
 #markdown-content p {
-    margin-bottom: 1rem; /* Space between paragraphs */
+    margin-bottom: 1rem;
 }
 
-/* Unordered and ordered lists */
 #markdown-content ul,
 #markdown-content ol {
-    margin-bottom: 1rem; /* Space below lists */
-    padding-left: 2rem; /* Indentation for list items */
+    margin-bottom: 1rem;
+    padding-left: 2rem;
 }
 
-/* List items */
 #markdown-content li {
-    margin-bottom: 0.5rem; /* Space between list items */
+    margin-bottom: 0.5rem;
 }
 
-/* Bold text (**text** or __text__) */
 #markdown-content strong {
-    font-weight: 600; /* Semi-bold weight */
+    font-weight: 600;
 }
 
-/* Italic text (*text* or _text_) */
 #markdown-content em {
-    font-style: italic; /* Italic style */
+    font-style: italic;
 }
 
-/* Inline code (`code`) */
 #markdown-content code {
-    background-color: #f4f4f4; /* Light gray background */
-    padding: 0.2rem 0.4rem; /* Small padding */
-    border-radius: 3px; /* Slightly rounded corners */
-    font-family: 'Courier New', monospace; /* Monospace font */
-    font-size: 0.9em; /* Slightly smaller than normal text */
+    background-color: #f4f4f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
 }
 
-/* Code blocks (```code```) */
 #markdown-content pre {
-    background-color: #f4f4f4; /* Light gray background */
-    padding: 1rem; /* Generous padding */
-    border-radius: 5px; /* Rounded corners */
-    overflow-x: auto; /* Horizontal scroll if code is too wide */
-    margin-bottom: 1rem; /* Space below code block */
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
 }
 
-/* Code inside code blocks - removes background/padding from inline code styles */
 #markdown-content pre code {
-    background-color: transparent; /* No background (uses pre's background) */
-    padding: 0; /* No padding (uses pre's padding) */
-    font-size: 0.9em; /* Slightly smaller font for code blocks */
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.9em;
 }
 
-/* Prism.js syntax highlighting styles */
 #markdown-content pre[class*="language-"] {
-    background-color: #f4f4f4; /* Light gray background */
+    background-color: #f4f4f4;
 }
 
 #markdown-content code[class*="language-"] {
     background-color: transparent;
 }
 
-/* Images in markdown content - constrain to text width */
 #markdown-content img {
-    max-width: 100%; /* Never exceed container width */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Block display for better spacing */
-    margin: 1rem 0; /* Vertical spacing around images */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
 }
 
-/* Links in markdown content */
 #markdown-content a {
-    color: #0066cc; /* Blue link color */
-    text-decoration: none; /* Remove underline by default */
+    color: #0066cc;
+    text-decoration: none;
     transition: color 0.2s ease;
 }
 
 #markdown-content a:hover {
-    color: #0052a3; /* Darker blue on hover */
-    text-decoration: underline; /* Underline on hover */
+    color: #0052a3;
+    text-decoration: underline;
 }
 
-/* Tag posts list styling - ensure links look like links */
-/* Post metadata container */
+/* ============================================
+   POST METADATA
+   ============================================ */
+
 .post-metadata {
     margin-bottom: 1.5rem;
 }
 
-/* Post title in metadata */
 .post-title {
     margin-bottom: 0.5rem;
 }
 
-/* Post date in metadata */
 .post-date {
     color: #666;
     font-size: 0.9rem;
@@ -356,12 +332,10 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Post tags container */
 .post-tags {
     font-style: italic;
 }
 
-/* Tag links in post metadata */
 .post-tags .tag-link {
     color: #0066cc;
     text-decoration: none;
@@ -373,7 +347,6 @@ body {
     text-decoration: underline;
 }
 
-/* Post links in tag-filtered list */
 #tag-posts-list h2 a,
 .post-link {
     color: #0066cc !important;
@@ -389,10 +362,9 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN - DESKTOP BREAKPOINTS
+   RESPONSIVE DESIGN - DESKTOP
    ============================================ */
 
-/* Standard desktop screens (1440px - 1919px) */
 @media (max-width: 1919px) {
     .main-content {
         padding-top: 6rem;
@@ -409,7 +381,6 @@ body {
     }
 }
 
-/* Smaller desktop/laptop screens (1280px - 1439px) */
 @media (max-width: 1439px) {
     .main-content {
         padding-top: 4rem;
@@ -434,7 +405,6 @@ body {
     }
 }
 
-/* Small desktop/laptop screens (1024px - 1279px) */
 @media (max-width: 1279px) {
     .main-content {
         padding-top: 3rem;
@@ -468,7 +438,6 @@ body {
     }
 }
 
-/* Very small desktop screens (below 1024px) */
 @media (max-width: 1023px) {
     .main-content {
         padding-top: 2rem;
@@ -522,17 +491,14 @@ body {
 }
 
 /* ============================================
-   MOBILE/PORTRAIT RESPONSIVE DESIGN
-   Square or portrait aspect ratio (max-aspect-ratio: 1/1)
+   RESPONSIVE DESIGN - MOBILE/PORTRAIT
    ============================================ */
 
 @media (max-aspect-ratio: 1/1) {
-    /* Show hamburger menu */
     .hamburger-menu {
         display: flex;
     }
     
-    /* Sidebar hidden by default, slides in from left when active */
     .sidebar {
         position: fixed;
         top: 0;
@@ -547,12 +513,10 @@ body {
         transform: translateX(0);
     }
     
-    /* Show overlay when sidebar is active */
     .sidebar-overlay {
         display: block;
     }
     
-    /* Main content takes full width on mobile */
     .main-content {
         margin-left: 0;
         padding-top: 4rem;
@@ -561,15 +525,13 @@ body {
         padding-bottom: 2rem;
         width: 100%;
         position: relative;
-        z-index: 1; /* Ensure content is above overlay when sidebar is closed */
+        z-index: 1;
     }
     
-    /* Adjust sidebar header for mobile */
     .sidebar-header {
-        padding-top: 3.5rem; /* Space for hamburger menu */
+        padding-top: 3.5rem;
     }
     
-    /* Adjust font sizes for mobile */
     #markdown-content h1 {
         font-size: 1.5rem;
     }
@@ -582,14 +544,12 @@ body {
         font-size: 1.1rem;
     }
     
-    /* Adjust code blocks for mobile */
     #markdown-content pre {
         padding: 0.75rem;
         font-size: 0.85em;
         overflow-x: auto;
     }
     
-    /* Adjust images for mobile */
     #markdown-content img {
         max-width: 100%;
         margin: 0.75rem 0;

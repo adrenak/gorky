@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { isURLParameter } = require('./utils');
 
 // ============================================================================
@@ -37,42 +38,59 @@ function generateNavItem(label, config, isActive = false) {
 
 /**
  * Generates sidebar navigation HTML from JSON
+ * @param {Object} sidebarData - Sidebar configuration data
+ * @param {string} postsMdPath - Path to posts.md file to check if it exists
  */
-function generateSidebarNav(sidebarData) {
+function generateSidebarNav(sidebarData, postsMdPath) {
     let navHTML = '';
     let isFirstRootItem = true;
     
+    // Extract defaults
+    const defaults = sidebarData._defaults || {};
+    const homeDisplayName = defaults.homeDisplayName || '🏠 Home';
+    const postsDisplayName = defaults.postsDisplayName || '✍️ Posts';
+    
+    // Always generate Home link
+    const homeConfig = {
+        target: '?page=home',
+        openInNewTab: false
+    };
+    navHTML += generateNavItem(homeDisplayName, homeConfig, isFirstRootItem);
+    isFirstRootItem = false;
+    
+    // Generate Posts link only if posts.md exists
+    if (fs.existsSync(postsMdPath)) {
+        const postsConfig = {
+            target: '?page=posts',
+            openInNewTab: false
+        };
+        navHTML += generateNavItem(postsDisplayName, postsConfig, isFirstRootItem);
+        isFirstRootItem = false;
+    }
+    
+    // Process other sections (skip _defaults)
     Object.entries(sidebarData).forEach(([sectionName, items]) => {
-        if (sectionName === '') {
-            // Root navigation items
-            Object.entries(items).forEach(([label, config]) => {
-                const DEFAULT_TARGET = '?page=home';
-                if (!config.target || config.target === '#' || config.target === '') {
-                    config.target = DEFAULT_TARGET;
-                }
-                navHTML += generateNavItem(label, config, isFirstRootItem);
-                isFirstRootItem = false;
-            });
-        } else {
-            // Section with header
-            navHTML += `<div class="sidebar-section">\n`;
-            navHTML += `    <h3 class="section-title">${sectionName}</h3>\n`;
-            navHTML += `    <ul class="section-list">\n`;
-            
-            Object.entries(items).forEach(([label, config]) => {
-                navHTML += `        <li>\n`;
-                // Indent the nav item HTML by 4 spaces for proper nesting
-                const itemHTML = generateNavItem(label, config, false);
-                const indentedHTML = itemHTML.split('\n')
-                    .map(line => line ? `            ${line}` : line)
-                    .join('\n');
-                navHTML += indentedHTML;
-                navHTML += `        </li>\n`;
-            });
-            
-            navHTML += `    </ul>\n`;
-            navHTML += `</div>\n`;
+        if (sectionName === '_defaults') {
+            return; // Skip defaults section
         }
+        
+        // Section with header
+        navHTML += `<div class="sidebar-section">\n`;
+        navHTML += `    <h3 class="section-title">${sectionName}</h3>\n`;
+        navHTML += `    <ul class="section-list">\n`;
+        
+        Object.entries(items).forEach(([label, config]) => {
+            navHTML += `        <li>\n`;
+            const itemHTML = generateNavItem(label, config, false);
+            const indentedHTML = itemHTML.split('\n')
+                .map(line => line ? `            ${line}` : line)
+                .join('\n');
+            navHTML += indentedHTML;
+            navHTML += `        </li>\n`;
+        });
+        
+        navHTML += `    </ul>\n`;
+        navHTML += `</div>\n`;
     });
     
     return navHTML;

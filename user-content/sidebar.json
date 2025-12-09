@@ -1,31 +1,31 @@
 {
+    "_defaults": {
+        "homeDisplayName" : "🏠 Home",
+        "postsDisplayName": "✍️ Blog"
+    },
     "": {
-        "🏠 Home": {
-            "target": "?page=home",
-            "openInNewTab": false
-        },
-        "✍️ Posts": {
-            "target": "?page=posts",
+        "About" : {
+            "target":"?page=about",
             "openInNewTab": false
         }
     },
     "Socials": {
         "Facebook": {
-            "target" : "https://www.facebook.com/vatsalAmbastha",
+            "target" : "https://www.facebook.com",
             "openInNewTab" : true
         },
         "Twitter": {
-            "target" : "x.com/vatsalAmbastha",
+            "target" : "https://x.com",
             "openInNewTab" : true
         }
     },
     "Work": {
         "LinkedIn" : {
-            "target" : "linkedin.com/in/vatsalambastha",
+            "target" : "https://www.linkedin.com",
             "openInNewTab": true
         },
         "Github" : {
-            "target" : "github.com/adrenak",
+            "target" : "https://github.com",
             "openInNewTab": true
         }
     }

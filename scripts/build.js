@@ -33,10 +33,11 @@ function build() {
         const sidebarData = JSON.parse(fs.readFileSync(PATHS.sidebar, 'utf8'));
         
         // Generate sidebar navigation
-        const sidebarNavHTML = generateSidebarNav(sidebarData);
+        const sidebarNavHTML = generateSidebarNav(sidebarData, PATHS.postsMd);
         
         // Collect and generate content
-        const markdownFiles = collectMarkdownFiles(sidebarData, PATHS.posts);
+        const userContentPath = path.join(__dirname, '..', 'user-content');
+        const markdownFiles = collectMarkdownFiles(userContentPath);
         const DEFAULT_CONTENT_FILE = 'user-content/home.md';
         const contentHTML = generateContentSections(markdownFiles, DEFAULT_CONTENT_FILE);
         

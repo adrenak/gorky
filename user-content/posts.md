@@ -2,15 +2,19 @@
 
 ## Tags
 
-[life](?tag=life) • [open-source](?tag=open-source) • [unity](?tag=unity) • [univoice](?tag=univoice)
+[classic](?tag=classic) • [code](?tag=code) • [flutter](?tag=flutter) • [literature](?tag=literature) • [markdown](?tag=markdown) • [reference](?tag=reference) • [tutorial](?tag=tutorial)
 
 ---
 
-## [Oasis Reunion](?post=oasis)
+## [An Excerpt from Great Expectations](?post=great-expectations)
 
-the wait is over
+A memorable passage from Charles Dickens' classic novel
 
-## [How to achieve proximity audio in UniVoice](?post=proximity)
+## [Markdown Cheatsheet](?post=markdown-cheatsheet)
 
-proximity tutorial of your dreams
+A quick reference guide for all markdown syntax
+
+## [Building a Todo List App in Flutter](?post=flutter-todo)
+
+Learn how to create a simple todo list app with Flutter and Dart
 

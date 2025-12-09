@@ -1,23 +1,45 @@
-# GWebX
+# GWeb
 
-A simple static site generator that converts Markdown files into a static HTML website with a two-column layout (sidebar + main content area). Write your content in Markdown, run a build script, and get a fully static HTML file that works without any server.
+**GWeb** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
-## High-Level Overview
+## Why GWeb?
 
-**What is this?**  
-GWebX is a minimal static site generator. You write content in Markdown (`home.md`), and it gets converted into a styled HTML page (`index.html`) that you can open directly in any browser.
+GWeb makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and GWeb handles the rest.
 
-**How does it work?**  
-1. You write content in `home.md` using Markdown syntax
-2. Run the build script (`node build.js`)
-3. The script reads your Markdown, converts it to HTML, and injects it into a template
-4. You get a static `index.html` file with your content rendered
+### Perfect for GitHub Pages
 
-**Why use this?**  
-- No server required - just open `index.html` in your browser
-- Simple workflow - edit Markdown, run build, done
-- Clean separation - content (Markdown) vs. presentation (HTML/CSS)
-- Fast and lightweight - generates static files only
+GWeb is optimized for GitHub Pages deployment. Simply:
+1. Write your content in markdown
+2. Run `npm run build`
+3. Push to GitHub
+4. Enable GitHub Pages
+
+Your site is live!
+
+### Markdown-First Approach
+
+All your content lives in markdown files. Whether it's blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. GWeb automatically:
+- Converts markdown to beautiful HTML
+- Generates navigation from your sidebar configuration
+- Creates a posts listing page
+- Handles tags and filtering
+- Provides syntax highlighting for code blocks
+
+### Flexible Content Management
+
+- **Blog Posts**: Create posts in the `user-content/posts/` folder with automatic date, tags, and slug extraction
+- **Custom Pages**: Add any markdown file and link to it from your sidebar
+- **Dynamic Navigation**: Configure your sidebar through a simple JSON file
+- **Tag System**: Organize posts with tags and filter by them
+
+### Features
+
+- ✅ **Responsive Design**: Works beautifully on desktop, tablet, and mobile
+- ✅ **Syntax Highlighting**: Code blocks automatically highlighted with Prism.js
+- ✅ **Tag Filtering**: Filter posts by tags with a simple URL parameter
+- ✅ **Client-Side Routing**: Fast navigation without page reloads
+- ✅ **SEO Friendly**: Meta tags and canonical URLs included
+- ✅ **Lightweight**: Minimal dependencies, fast load times
 
 ## Quick Start
 
@@ -35,198 +57,150 @@ GWebX is a minimal static site generator. You write content in Markdown (`home.m
 
 ### Usage
 
-1. Edit `home.md` with your content using Markdown syntax
-2. Build the HTML file:
+1. Customize `user-content/sidebar.json` with your links
+2. Edit `user-content/home.md` with your content
+3. Add posts to `user-content/posts/` following the naming convention
+4. Build the site:
    ```bash
    npm run build
    ```
-   Or directly:
-   ```bash
-   node build.js
-   ```
-3. Open `index.html` in your browser - no server needed!
+5. Open `index.html` in your browser or deploy to GitHub Pages
 
 ## Project Structure
 
 ```
-gwebx/
-├── home.md              # Your Markdown content (edit this)
-├── index-template.html  # HTML template with layout structure
-├── index.html           # Generated HTML file (auto-generated, don't edit)
-├── styles.css           # CSS styling for the layout
-├── build.js             # Build script that converts Markdown to HTML
-├── package.json         # Node.js dependencies and scripts
-└── README.md            # This file
+gweb/
+├── user-content/
+│   ├── home.md              # Your home page content
+│   ├── posts/               # Blog posts directory
+│   │   └── DATE--slug--(tags)--Title--preview.md
+│   ├── sidebar.json         # Sidebar navigation configuration
+│   └── posts.md             # Auto-generated posts listing
+├── scripts/
+│   ├── build.js             # Main build script
+│   ├── posts.js             # Post processing utilities
+│   ├── sidebar.js           # Sidebar generation
+│   ├── generation.js        # Content generation
+│   └── utils.js             # Utility functions
+├── index-template.html      # HTML template
+├── index.html               # Generated HTML (auto-generated)
+├── styles.css               # CSS styling
+├── package.json             # Node.js dependencies
+└── README.md                # This file
 ```
 
-### File Descriptions
+## Post Naming Convention
 
-- **`home.md`** - Your source content written in Markdown. This is what you edit.
-- **`index-template.html`** - The HTML template that defines the page structure. Contains a placeholder `{{MARKDOWN_CONTENT}}` where your rendered content will be inserted.
-- **`index.html`** - The final output file. Generated automatically by the build script. Contains your Markdown content converted to HTML and embedded in the template.
-- **`styles.css`** - Stylesheet that defines the two-column layout (sidebar + main content) and all visual styling.
-- **`build.js`** - The build script that orchestrates the conversion process.
-- **`package.json`** - Defines the project dependencies (currently just `marked` for Markdown parsing).
+Posts must follow this format:
 
-## How It Works (In-Depth)
+```
+DATE--slug--(tags)--Title--preview.md
+```
 
-### The Build Process
+Example:
+```
+2025-12-15--my-first-post--(blog,tutorial)--My First Post--This is a preview of my first post.md
+```
 
-When you run `node build.js`, here's what happens step by step:
+GWeb extracts:
+- **Date**: 2025-12-15
+- **Slug**: my-first-post
+- **Tags**: blog, tutorial
+- **Title**: My First Post
+- **Preview**: This is a preview of my first post
 
-1. **Read Markdown File**
-   ```javascript
-   const markdown = fs.readFileSync(markdownPath, 'utf8');
-   ```
-   The script reads `home.md` from the file system as a UTF-8 text file.
+## Sidebar Configuration
 
-2. **Parse Markdown to HTML**
-   ```javascript
-   const htmlContent = marked.parse(markdown);
-   ```
-   The `marked` library converts your Markdown syntax into HTML:
-   - `# Heading` → `<h1>Heading</h1>`
-   - `**bold**` → `<strong>bold</strong>`
-   - `- item` → `<li>item</li>` (wrapped in `<ul>`)
-   - And so on for all Markdown features
+Edit `user-content/sidebar.json` to customize your navigation:
 
-3. **Read HTML Template**
-   ```javascript
-   const template = fs.readFileSync(templatePath, 'utf8');
-   ```
-   The script loads `index-template.html`, which contains the page structure (HTML, head, body, sidebar, main content area).
-
-4. **Inject Content**
-   ```javascript
-   const finalHTML = template.replace('{{MARKDOWN_CONTENT}}', htmlContent);
-   ```
-   The placeholder `{{MARKDOWN_CONTENT}}` in the template is replaced with the converted HTML content.
-
-5. **Write Output**
-   ```javascript
-   fs.writeFileSync(outputPath, finalHTML, 'utf8');
-   ```
-   The final HTML is written to `index.html`, ready to be opened in a browser.
-
-### The Template System
-
-The template (`index-template.html`) uses a simple string replacement system:
-
-- **Placeholder**: `{{MARKDOWN_CONTENT}}` marks where the rendered content should go
-- **Structure**: The template defines the overall page structure (sidebar, main content area, CSS links)
-- **Separation**: Content (Markdown) is completely separate from presentation (HTML/CSS)
-
-This approach is intentionally simple - no complex templating engine, just a straightforward find-and-replace operation.
-
-### The Layout
-
-The page uses a two-column flexbox layout:
-
-- **Left Sidebar** (`.sidebar`): Fixed width (250px), light gray background
-- **Main Content** (`.main-content`): Flexible width, fills remaining space, contains the rendered Markdown
-
-The CSS uses `display: flex` on the container to create this layout. The sidebar is fixed-width, and the main content area expands to fill the available space.
-
-### Markdown Support
-
-The build script uses the [`marked`](https://github.com/markedjs/marked) library, which supports standard Markdown features:
-
-- Headers (`#`, `##`, `###`)
-- **Bold** and *italic* text
-- Lists (ordered and unordered)
-- Links and images
-- Code blocks and inline code
-- Blockquotes
-- And more
-
-See the [Markdown Guide](https://www.markdownguide.org/) for full syntax reference.
+```json
+{
+    "": {
+        "🏠 Home": {
+            "target": "?page=home",
+            "openInNewTab": false
+        },
+        "✍️ Posts": {
+            "target": "?page=posts",
+            "openInNewTab": false
+        }
+    },
+    "Socials": {
+        "Twitter": {
+            "target": "https://x.com",
+            "openInNewTab": true
+        }
+    }
+}
+```
 
 ## Customization
 
-### Changing the Layout
+### Styling
 
-Edit `styles.css` to modify:
-- Sidebar width: Change `width: 250px` in `.sidebar`
-- Colors: Modify `background-color` values
-- Spacing: Adjust `padding` values in `.main-content`
-- Typography: Change `font-family`, `line-height`, etc.
+Edit `styles.css` to customize:
+- Colors and themes
+- Layout and spacing
+- Typography
+- Responsive breakpoints
 
-### Modifying the Template
+### Template
 
-Edit `index-template.html` to:
-- Change the page title
-- Add meta tags
-- Modify the HTML structure
-- Add additional elements (navigation, footer, etc.)
+Edit `index-template.html` to modify:
+- Page structure
+- Meta tags
+- Additional scripts or styles
 
-**Important**: The placeholder `{{MARKDOWN_CONTENT}}` must remain in the template for the build script to work.
+## GitHub Pages Deployment
 
-### Styling Markdown Content
-
-The rendered Markdown content is wrapped in `<div id="markdown-content">`. You can style it in `styles.css`:
-
-```css
-#markdown-content h1 { /* Style for h1 headings */ }
-#markdown-content p { /* Style for paragraphs */ }
-#markdown-content ul { /* Style for lists */ }
-/* etc. */
-```
+1. Build your site: `npm run build`
+2. Commit and push to GitHub
+3. Go to repository Settings → Pages
+4. Select source branch (usually `main` or `master`)
+5. Your site will be available at `https://yourusername.github.io/gweb`
 
 ## Dependencies
 
-- **marked** (^9.1.6) - A fast, extensible Markdown parser for JavaScript
-
-Install with:
-```bash
-npm install
-```
+- **marked** (^9.1.6) - Markdown parser
+- **html-minifier-terser** (dev) - HTML minification
 
 ## Workflow
 
-### Typical Workflow
+1. **Edit Content**: Write or edit markdown files in `user-content/`
+2. **Build**: Run `npm run build`
+3. **Preview**: Open `index.html` locally or push to GitHub Pages
+4. **Repeat**: Continue editing and building as needed
 
-1. **Edit Content**: Open `home.md` in your text editor
-2. **Write Markdown**: Add or modify content using Markdown syntax
-3. **Build**: Run `npm run build` or `node build.js`
-4. **Preview**: Open `index.html` in your browser to see the result
-5. **Repeat**: Go back to step 1 for any changes
+## Features in Detail
 
-### Tips
+### Tag System
 
-- Keep `index.html` in `.gitignore` if using version control (it's generated)
-- Commit `home.md`, `index-template.html`, `styles.css`, and `build.js` to version control
-- You can add more Markdown files and extend `build.js` to generate multiple pages
-- The build is fast - typically completes in milliseconds
+Posts can have multiple tags. Filter posts by tag using URL parameters:
+- `?tag=blog` - Shows all posts tagged "blog"
+- `?tag=tutorial` - Shows all posts tagged "tutorial"
+
+### Custom Pages
+
+Add any markdown file to `user-content/` and link to it from your sidebar:
+- Create `user-content/about.md`
+- Add link in `sidebar.json`: `"target": "?page=about"`
+
+### Responsive Design
+
+GWeb automatically adapts to different screen sizes:
+- Desktop: Two-column layout with sidebar
+- Mobile: Hamburger menu with slide-out sidebar
 
 ## Troubleshooting
 
-### Build fails with "Cannot find module 'marked'"
-**Solution**: Run `npm install` to install dependencies.
+### Build fails
+**Solution**: Make sure all dependencies are installed with `npm install`
 
-### Content doesn't appear in the browser
-**Solution**: Make sure you ran the build script after editing `home.md`. The `index.html` file needs to be regenerated.
+### Posts not appearing
+**Solution**: Check that post filenames follow the exact naming convention
 
-### Markdown syntax not rendering correctly
-**Solution**: Check that you're using valid Markdown syntax. Refer to the [Markdown Guide](https://www.markdownguide.org/) for reference.
-
-### Layout looks broken
-**Solution**: Ensure `styles.css` is in the same directory as `index.html` and the path in the template is correct.
-
-## Extending the Project
-
-### Adding Multiple Pages
-
-You could extend `build.js` to:
-- Read multiple Markdown files
-- Generate multiple HTML files (e.g., `about.html`, `contact.html`)
-- Create a navigation system
-
-### Adding More Features
-
-- **Syntax highlighting**: Add a library like Prism.js or Highlight.js for code blocks
-- **Table of contents**: Parse headings and generate a TOC
-- **Search**: Add client-side search functionality
-- **Dark mode**: Add a theme switcher
+### Sidebar not updating
+**Solution**: Ensure `sidebar.json` is valid JSON and run `npm run build` again
 
 ## License
 
@@ -239,4 +213,3 @@ Feel free to fork, modify, and use this project for your own needs. If you make 
 ---
 
 **Happy writing!** 📝
-

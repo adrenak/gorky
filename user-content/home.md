@@ -1,19 +1,67 @@
-<img src="user-content/images/sf.jpg" alt="Description" style="max-width: 50%;">
+# GWeb
 
-Hi, I'm Vatsal 👋
+**GWeb** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
-I make games, apps, libraries, art and more with the Unity engine.
+## Why GWeb?
 
-* I work at [ManageXR](https://www.managexr.com) where I develop our Unity VR application and SDKs
-* See my professional and education background on [LinkedIn](https://www.linkedin.com/in/vatsalambastha/?ref=vatsalambastha.com)
-* My open source work is on [Github](https://www.github.com/adrenak?ref=vatsalambastha.com)
-* I also have a not-so-active [Youtube channel](https://www.youtube.com/@VatsalAmbastha) where I sometimes upload dev logs and UniVoice tutorials.
-* To see some visuals of what I make, check out my [Behance profile](https://www.behance.net/adrenak)
-* I publish short games on [adrenak.itch.io](https://adrenak.itch.io/?ref=vatsalambastha.com)
-* Sometimes I sketch and post them on Instagram [@brbsketching](https://www.instagram.com/brbsketching?ref=vatsalambastha.com)
+GWeb makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and GWeb handles the rest.
 
-Email me at ambastha.vatsal@gmail.com
+### Perfect for GitHub Pages
 
-Or, message me on Discord. My username is `adrenak`
+GWeb is optimized for GitHub Pages deployment. Simply:
+1. Write your content in markdown
+2. Run `npm run build`
+3. Push to GitHub
+4. Enable GitHub Pages
 
-Or, join my Discord server
+Your site is live!
+
+### Markdown-First Approach
+
+All your content lives in markdown files. Whether it's blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. GWeb automatically:
+- Converts markdown to beautiful HTML
+- Generates navigation from your sidebar configuration
+- Creates a posts listing page
+- Handles tags and filtering
+- Provides syntax highlighting for code blocks
+
+### Flexible Content Management
+
+- **Blog Posts**: Create posts in the `user-content/posts/` folder with automatic date, tags, and slug extraction
+- **Custom Pages**: Add any markdown file and link to it from your sidebar
+- **Dynamic Navigation**: Configure your sidebar through a simple JSON file
+- **Tag System**: Organize posts with tags and filter by them
+
+### Features
+
+- ✅ **Responsive Design**: Works beautifully on desktop, tablet, and mobile
+- ✅ **Syntax Highlighting**: Code blocks automatically highlighted with Prism.js
+- ✅ **Tag Filtering**: Filter posts by tags with a simple URL parameter
+- ✅ **Client-Side Routing**: Fast navigation without page reloads
+- ✅ **SEO Friendly**: Meta tags and canonical URLs included
+- ✅ **Lightweight**: Minimal dependencies, fast load times
+
+## Getting Started
+
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Customize `user-content/sidebar.json` with your links
+4. Edit `user-content/home.md` with your content
+5. Add posts to `user-content/posts/` following the naming convention: `DATE--slug--(tags)--Title--preview.md`
+6. Build: `npm run build`
+7. Deploy to GitHub Pages
+
+## Example Post Format
+
+```
+2025-12-15--my-first-post--(blog,tutorial)--My First Post--This is a preview of my first post.md
+```
+
+GWeb extracts:
+- **Date**: 2025-12-15
+- **Slug**: my-first-post
+- **Tags**: blog, tutorial
+- **Title**: My First Post
+- **Preview**: This is a preview of my first post
+
+Start writing in markdown and let GWeb handle the rest!
