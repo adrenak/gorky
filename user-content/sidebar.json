@@ -1,7 +1,16 @@
 {
     "_defaults": {
         "homeDisplayName" : "🏠 Home",
-        "postsDisplayName": "✍️ Blog"
+        "postsDisplayName": "✍️ Blog",
+        "footer": [
+            {
+                "text": "2025 © Vatsal Ambastha"
+            },
+            {
+                "text": "Clone this repo",
+                "target": "https://www.github.com"
+            }
+        ]
     },
     "": {
         "About" : {

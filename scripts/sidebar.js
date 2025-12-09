@@ -37,12 +37,13 @@ function generateNavItem(label, config, isActive = false) {
 }
 
 /**
- * Generates sidebar navigation HTML from JSON
+ * Generates main navigation (Home and Posts) HTML
  * @param {Object} sidebarData - Sidebar configuration data
  * @param {string} postsMdPath - Path to posts.md file to check if it exists
+ * @returns {string} Main nav HTML string
  */
-function generateSidebarNav(sidebarData, postsMdPath) {
-    let navHTML = '';
+function generateMainNav(sidebarData, postsMdPath) {
+    let mainNavHTML = '';
     let isFirstRootItem = true;
     
     // Extract defaults
@@ -55,7 +56,7 @@ function generateSidebarNav(sidebarData, postsMdPath) {
         target: '?page=home',
         openInNewTab: false
     };
-    navHTML += generateNavItem(homeDisplayName, homeConfig, isFirstRootItem);
+    mainNavHTML += generateNavItem(homeDisplayName, homeConfig, isFirstRootItem);
     isFirstRootItem = false;
     
     // Generate Posts link only if posts.md exists
@@ -64,9 +65,20 @@ function generateSidebarNav(sidebarData, postsMdPath) {
             target: '?page=posts',
             openInNewTab: false
         };
-        navHTML += generateNavItem(postsDisplayName, postsConfig, isFirstRootItem);
+        mainNavHTML += generateNavItem(postsDisplayName, postsConfig, isFirstRootItem);
         isFirstRootItem = false;
     }
+    
+    return mainNavHTML;
+}
+
+/**
+ * Generates sidebar navigation HTML from JSON (scrollable sections)
+ * @param {Object} sidebarData - Sidebar configuration data
+ * @returns {string} Navigation HTML string
+ */
+function generateSidebarNav(sidebarData) {
+    let navHTML = '';
     
     // Process other sections (skip _defaults)
     Object.entries(sidebarData).forEach(([sectionName, items]) => {
@@ -96,8 +108,45 @@ function generateSidebarNav(sidebarData, postsMdPath) {
     return navHTML;
 }
 
+/**
+ * Generates sidebar footer HTML from JSON
+ * @param {Object} sidebarData - Sidebar configuration data
+ * @returns {string} Footer HTML string
+ */
+function generateSidebarFooter(sidebarData) {
+    const defaults = sidebarData._defaults || {};
+    const footer = defaults.footer;
+    
+    if (!footer || !Array.isArray(footer) || footer.length === 0) {
+        return '';
+    }
+    
+    let footerHTML = `<div class="sidebar-footer">\n`;
+    footer.forEach((item) => {
+        if (item.target) {
+            // Footer item with link
+            const isURLParam = isURLParameter(item.target);
+            const isInternal = isURLParam && !item.openInNewTab;
+            const TARGET_BLANK = ' target="_blank" rel="noopener noreferrer"';
+            const targetAttr = item.openInNewTab ? TARGET_BLANK : '';
+            const dataURLAttr = isInternal ? ` data-url="${item.target}"` : '';
+            const hrefValue = isInternal ? '#' : item.target;
+            
+            footerHTML += `    <a href="${hrefValue}" class="footer-link"${targetAttr}${dataURLAttr}>${item.text}</a>\n`;
+        } else {
+            // Footer item as plain text
+            footerHTML += `    <span class="footer-text">${item.text}</span>\n`;
+        }
+    });
+    footerHTML += `</div>\n`;
+    
+    return footerHTML;
+}
+
 module.exports = {
     generateNavItem,
+    generateMainNav,
     generateSidebarNav,
+    generateSidebarFooter,
 };
 

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { generatePostsMd, checkDuplicateSlugs } = require('./posts');
-const { generateSidebarNav } = require('./sidebar');
+const { generateMainNav, generateSidebarNav, generateSidebarFooter } = require('./sidebar');
 const { collectMarkdownFiles, generateContentSections } = require('./generation');
 
 // ============================================================================
@@ -32,8 +32,10 @@ function build() {
         // Read sidebar JSON
         const sidebarData = JSON.parse(fs.readFileSync(PATHS.sidebar, 'utf8'));
         
-        // Generate sidebar navigation
-        const sidebarNavHTML = generateSidebarNav(sidebarData, PATHS.postsMd);
+        // Generate sidebar navigation and footer
+        const mainNavHTML = generateMainNav(sidebarData, PATHS.postsMd);
+        const sidebarNavHTML = generateSidebarNav(sidebarData);
+        const sidebarFooterHTML = generateSidebarFooter(sidebarData);
         
         // Collect and generate content
         const userContentPath = path.join(__dirname, '..', 'user-content');
@@ -44,7 +46,9 @@ function build() {
         // Read template and replace placeholders
         let template = fs.readFileSync(PATHS.template, 'utf8');
         template = template
+            .replace('{{MAIN_NAV}}', mainNavHTML)
             .replace('{{SIDEBAR_NAV}}', sidebarNavHTML)
+            .replace('{{SIDEBAR_FOOTER}}', sidebarFooterHTML)
             .replace('{{MARKDOWN_CONTENT}}', contentHTML);
         
         // Write output
