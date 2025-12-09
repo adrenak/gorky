@@ -125,30 +125,44 @@ function parseDateForSorting(dateStr) {
  * @param {string} postsMdPath - The path where posts.md should be written
  */
 function generatePostsMd(postsPath, postsMdPath) {
+    // Helper to remove posts.md when no posts are present
+    const deletePostsMdIfExists = () => {
+        if (fs.existsSync(postsMdPath)) {
+            fs.unlinkSync(postsMdPath);
+            console.log('ℹ️ Removed posts.md (no posts found)');
+        }
+    };
+
+    // Exit early if posts folder is missing
     if (!fs.existsSync(postsPath)) {
+        deletePostsMdIfExists();
         return;
     }
-    
-    const files = fs.readdirSync(postsPath);
+
+    // Only consider markdown files
+    const files = fs.readdirSync(postsPath).filter(file => file.endsWith('.md'));
+    if (files.length === 0) {
+        deletePostsMdIfExists();
+        return;
+    }
+
     const posts = [];
     const allTagsSet = new Set();
-    
+
     files.forEach(file => {
-        if (!file.endsWith('.md')) return;
-        
         const validation = validatePostFilename(file);
         if (!validation.valid) return;
-        
+
         const parsed = parsePostFilename(file);
         if (!parsed || !parsed.title || !parsed.slug) return;
-        
+
         // Collect tags
         if (parsed.tags) {
             parsed.tags.split(',').map(t => t.trim()).forEach(tag => {
                 if (tag) allTagsSet.add(tag);
             });
         }
-        
+
         posts.push({
             title: parsed.title,
             slug: parsed.slug,
@@ -156,25 +170,31 @@ function generatePostsMd(postsPath, postsMdPath) {
             preview: parsed.preview || '',
         });
     });
-    
+
+    // If no valid posts found, remove posts.md and exit
+    if (posts.length === 0) {
+        deletePostsMdIfExists();
+        return;
+    }
+
     // Sort posts by date (newest first)
     posts.sort((a, b) => {
         const dateA = parseDateForSorting(a.dateString);
         const dateB = parseDateForSorting(b.dateString);
         return dateB - dateA;
     });
-    
+
     // Generate markdown content
     const distinctTags = Array.from(allTagsSet).sort();
     let postsMd = '# Posts\n\n';
-    
+
     // Add tags section
     if (distinctTags.length > 0) {
         postsMd += '## Tags\n\n';
         postsMd += distinctTags.map(tag => `[${tag}](?tag=${encodeURIComponent(tag)})`).join(' • ');
         postsMd += '\n\n---\n\n';
     }
-    
+
     // Add posts list
     posts.forEach(post => {
         postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
@@ -182,7 +202,7 @@ function generatePostsMd(postsPath, postsMdPath) {
             postsMd += `${post.preview}\n\n`;
         }
     });
-    
+
     // Write to posts.md
     fs.writeFileSync(postsMdPath, postsMd, 'utf8');
     console.log(`✓ Generated posts.md with ${posts.length} post(s)`);

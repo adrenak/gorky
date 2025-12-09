@@ -1,0 +1,7 @@
+We went to Sydney to watch Oasis
+
+## Oasis Reunion Tour
+
+After years of anticipation, Oasis finally announced their reunion tour, and we were lucky enough to catch their performance in Sydney. The band's reunion was one of the most talked-about events in music history, bringing together Liam and Noel Gallagher on stage for the first time in over a decade.
+
+The concert was absolutely electrifying. The crowd went wild as they opened with classic hits like "Wonderwall" and "Champagne Supernova". There's something magical about seeing a band that defined an era come back together, and the energy in that venue was unforgettable.

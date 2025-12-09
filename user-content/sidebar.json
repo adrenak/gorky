@@ -1,7 +1,7 @@
 {
     "_defaults": {
-        "homeDisplayName" : "🏠 Home",
-        "postsDisplayName": "✍️ Blog",
+        "homeDisplayName" : "🐥 Home",
+        "postsDisplayName": "🪶 Blog",
         "footer": [
             {
                 "text": "2025 © Vatsal Ambastha"
@@ -15,6 +15,10 @@
     "": {
         "About" : {
             "target":"?page=about",
+            "openInNewTab": false
+        },
+        "Contact" : {
+            "target": "?page=contact",
             "openInNewTab": false
         }
     },

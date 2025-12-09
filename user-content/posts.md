@@ -2,7 +2,7 @@
 
 ## Tags
 
-[classic](?tag=classic) • [code](?tag=code) • [flutter](?tag=flutter) • [literature](?tag=literature) • [markdown](?tag=markdown) • [reference](?tag=reference) • [tutorial](?tag=tutorial)
+[classic](?tag=classic) • [code](?tag=code) • [flutter](?tag=flutter) • [life](?tag=life) • [literature](?tag=literature) • [markdown](?tag=markdown) • [reference](?tag=reference) • [travel](?tag=travel) • [tutorial](?tag=tutorial)
 
 ---
 
@@ -13,6 +13,10 @@ A memorable passage from Charles Dickens' classic novel
 ## [Markdown Cheatsheet](?post=markdown-cheatsheet)
 
 A quick reference guide for all markdown syntax
+
+## [Our Australia Trip](?post=aus-trip)
+
+A one of a kind concert and a week to remember
 
 ## [Building a Todo List App in Flutter](?post=flutter-todo)
 
