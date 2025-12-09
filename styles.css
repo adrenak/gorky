@@ -634,13 +634,16 @@ body {
     }
     
     .post-entry {
-        flex-direction: column;
+        flex-direction: row;
         gap: 1rem;
     }
     
     .post-thumbnail {
-        width: 100%;
-        height: auto;
-        max-height: 200px;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        flex-shrink: 0;
     }
 }
