@@ -27,9 +27,9 @@ body {
     flex: 1;
     background-color: #ffffff;
     padding-top: 5rem;
-    padding-right: 40rem;
+    padding-right: 20%;
     padding-bottom: 5rem;
-    padding-left: 40rem;
+    padding-left: 20%;
     overflow-y: auto;
     line-height: 1.8;
     transition: margin-left 0.3s ease;
@@ -440,54 +440,53 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN - DESKTOP
+   RESPONSIVE DESIGN - ASPECT RATIO BASED
    ============================================ */
 
-@media (max-width: 1919px) {
+/* Ultra-wide screens: ratio > 16/9 */
+@media (min-aspect-ratio: 16/9) {
     .main-content {
         padding-top: 6rem;
-        padding-right: 20rem;
-        padding-left: 20rem;
+        padding-right: 25%;
+        padding-left: 25%;
     }
     
     #markdown-content h1 {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
     
     #markdown-content h2 {
-        font-size: 1.35rem;
+        font-size: 1.5rem;
     }
 }
 
-@media (max-width: 1439px) {
+/* Standard widescreen: 4/3 <= ratio <= 16/9 */
+@media (min-aspect-ratio: 4/3) and (max-aspect-ratio: 16/9) {
     .main-content {
-        padding-top: 4rem;
-        padding-right: 12rem;
-        padding-left: 12rem;
+        padding-top: 5rem;
+        padding-right: 20%;
+        padding-left: 20%;
     }
     
     .sidebar {
-        width: 220px;
+        width: 250px;
     }
     
     #markdown-content h1 {
-        font-size: 1.6rem;
+        font-size: 2rem;
     }
     
     #markdown-content h2 {
-        font-size: 1.25rem;
-    }
-    
-    #markdown-content h3 {
-        font-size: 1.15rem;
+        font-size: 1.5rem;
     }
 }
 
-@media (max-width: 1279px) {
+/* Landscape narrow: 1 <= ratio < 4/3 */
+@media (min-aspect-ratio: 1) and (max-aspect-ratio: 4/3) {
     .main-content {
         padding-top: 3rem;
-        padding-right: 6rem;
-        padding-left: 6rem;
+        padding-right: 10%;
+        padding-left: 10%;
     }
     
     .sidebar {
@@ -516,63 +515,8 @@ body {
     }
 }
 
-@media (max-width: 1023px) {
-    .main-content {
-        padding-top: 2rem;
-        padding-right: 3rem;
-        padding-left: 3rem;
-    }
-    
-    .sidebar {
-        width: 180px;
-        padding: 1.5rem 0;
-    }
-    
-    .sidebar-header {
-        padding: 0 1rem 1rem 1rem;
-    }
-    
-    .sidebar-header h1 {
-        font-size: 1rem;
-    }
-    
-    .sidebar-nav {
-        padding: 0 0.75rem;
-    }
-    
-    .nav-link {
-        font-size: 0.8rem;
-        padding: 0.35rem 0.35rem;
-    }
-    
-    .section-title {
-        font-size: 0.65rem;
-        padding: 0 0.75rem;
-    }
-    
-    #markdown-content h1 {
-        font-size: 1.4rem;
-    }
-    
-    #markdown-content h2 {
-        font-size: 1.15rem;
-    }
-    
-    #markdown-content h3 {
-        font-size: 1.05rem;
-    }
-    
-    #markdown-content pre {
-        padding: 0.75rem;
-        font-size: 0.85em;
-    }
-}
-
-/* ============================================
-   RESPONSIVE DESIGN - MOBILE/PORTRAIT
-   ============================================ */
-
-@media (max-aspect-ratio: 1/1) {
+/* Portrait wide: 3/4 <= ratio < 1 */
+@media (min-aspect-ratio: 3/4) and (max-aspect-ratio: 1) {
     .hamburger-menu {
         display: flex;
     }
@@ -598,8 +542,8 @@ body {
     .main-content {
         margin-left: 0;
         padding-top: 4rem;
-        padding-right: 1.5rem;
-        padding-left: 1.5rem;
+        padding-right: 5%;
+        padding-left: 5%;
         padding-bottom: 2rem;
         width: 100%;
         position: relative;
@@ -641,6 +585,103 @@ body {
     .post-thumbnail {
         width: 120px;
         height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        flex-shrink: 0;
+    }
+}
+
+/* Portrait narrow: ratio < 3/4 */
+@media (max-aspect-ratio: 3/4) {
+    .hamburger-menu {
+        display: flex;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        width: 200px;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .sidebar-overlay {
+        display: block;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding-top: 4rem;
+        padding-right: 4%;
+        padding-left: 4%;
+        padding-bottom: 2rem;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .sidebar-header {
+        padding-top: 3.5rem;
+        padding: 0 1rem 1rem 1rem;
+    }
+    
+    .sidebar-header h1 {
+        font-size: 1rem;
+    }
+    
+    .sidebar-nav {
+        padding: 0 0.75rem;
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.35rem;
+    }
+    
+    .section-title {
+        font-size: 0.65rem;
+        padding: 0 0.75rem;
+    }
+    
+    #markdown-content h1 {
+        font-size: 1.4rem;
+    }
+    
+    #markdown-content h2 {
+        font-size: 1.15rem;
+    }
+    
+    #markdown-content h3 {
+        font-size: 1.05rem;
+    }
+    
+    #markdown-content pre {
+        padding: 0.75rem;
+        font-size: 0.85em;
+        overflow-x: auto;
+    }
+    
+    #markdown-content img {
+        max-width: 100%;
+        margin: 0.75rem 0;
+    }
+    
+    .post-entry {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .post-thumbnail {
+        width: 100px;
+        height: 100px;
         object-fit: cover;
         border-radius: 8px;
         border: 1px solid #e0e0e0;
