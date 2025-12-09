@@ -447,8 +447,13 @@ body {
 @media (min-aspect-ratio: 16/9) {
     .main-content {
         padding-top: 6rem;
-        padding-right: 25%;
-        padding-left: 25%;
+        padding-right: 20%;
+        padding-left: 20%;
+    }
+    
+    #markdown-content {
+        max-width: 1152px;
+        margin: 0 auto;
     }
     
     #markdown-content h1 {
