@@ -352,9 +352,11 @@
                     const slug = post.getAttribute('data-slug');
                     const title = post.getAttribute('data-title');
                     const date = post.getAttribute('data-date');
+                    const preview = post.getAttribute('data-preview');
+                    const thumbnail = post.getAttribute('data-thumbnail');
                     
                     if (slug && title) {
-                        matchingPosts.push({ slug, title, date });
+                        matchingPosts.push({ slug, title, date, preview, thumbnail });
                     }
                 }
             });
@@ -384,23 +386,51 @@
                 return parseFormattedDate(b.date) - parseFormattedDate(a.date);
             });
             
-            // Add post links
-            matchingPosts.forEach(({ slug, title }) => {
-                const postLink = document.createElement('h2');
-                const link = document.createElement('a');
-                link.href = `?post=${slug}`;
-                link.textContent = title;
-                link.className = 'post-link';
+            // Add post entries (matching posts.md format)
+            matchingPosts.forEach(({ slug, title, preview, thumbnail }) => {
+                // Create post entry container
+                const postEntry = document.createElement('div');
+                postEntry.className = 'post-entry';
                 
-                link.addEventListener('click', function(e) {
+                // Add thumbnail if available
+                if (thumbnail) {
+                    const img = document.createElement('img');
+                    img.src = thumbnail;
+                    img.alt = title;
+                    img.className = 'post-thumbnail';
+                    postEntry.appendChild(img);
+                }
+                
+                // Create content container
+                const postContent = document.createElement('div');
+                postContent.className = 'post-content';
+                
+                // Add title
+                const titleHeading = document.createElement('h2');
+                const titleLink = document.createElement('a');
+                titleLink.href = `?post=${slug}`;
+                titleLink.textContent = title;
+                titleLink.className = 'post-link';
+                
+                titleLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     showContentBySlug(slug);
                     window.history.pushState({}, '', `?post=${slug}`);
                     updateCanonicalURL();
                 });
                 
-                postLink.appendChild(link);
-                tagListContainer.appendChild(postLink);
+                titleHeading.appendChild(titleLink);
+                postContent.appendChild(titleHeading);
+                
+                // Add preview if available
+                if (preview) {
+                    const previewPara = document.createElement('p');
+                    previewPara.textContent = preview;
+                    postContent.appendChild(previewPara);
+                }
+                
+                postEntry.appendChild(postContent);
+                tagListContainer.appendChild(postEntry);
             });
             
             clearActiveNavLinks();

@@ -102,6 +102,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         date: formatDate(parsed.date),
         tags: parsed.tags,
         title: parsed.title,
+        preview: parsed.preview || null,
     };
 }
 
@@ -312,6 +313,13 @@ function generatePostAttributes(metadata) {
     if (metadata.title) {
         const escapedTitle = metadata.title.replace(/"/g, '&quot;');
         attrs.push(`data-title="${escapedTitle}"`);
+    }
+    if (metadata.preview) {
+        const escapedPreview = metadata.preview.replace(/"/g, '&quot;');
+        attrs.push(`data-preview="${escapedPreview}"`);
+    }
+    if (metadata.thumbnail) {
+        attrs.push(`data-thumbnail="${metadata.thumbnail}"`);
     }
     return attrs.join(' ');
 }
