@@ -457,7 +457,10 @@
             }
             
             if (!contentShown) {
+                // Show default page (home) and set Home nav link as active
                 showContentByFile(DEFAULT_PAGE);
+                clearActiveNavLinks();
+                setActiveNavLink('?page=home');
             }
             
             updateCanonicalURL();
