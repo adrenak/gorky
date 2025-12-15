@@ -66,6 +66,7 @@ title: My First Post
 date: 2025-12-15
 tags: blog,tutorial
 preview: This is a preview of my first post
+keywords: blog, tutorial, web development, markdown
 ---
 
 # My First Post

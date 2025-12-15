@@ -51,7 +51,7 @@ function validatePostFilename(filename) {
  */
 function extractPostMetadata(filePath, postsFolderPrefix) {
     if (!isPostFile(filePath, postsFolderPrefix)) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null, keywords: null };
     }
     
     // Parse frontmatter - all metadata comes from here
@@ -59,17 +59,27 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     const frontmatter = parseFrontmatter(fullPath);
     
     if (!frontmatter) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null, keywords: null };
     }
     
     // Slug is required in frontmatter
     if (!frontmatter.data.slug) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null, keywords: null };
     }
     
     // Get metadata from frontmatter
     const tagsString = tagsToString(frontmatter.data.tags);
         const thumbnail = processThumbnailPath(frontmatter.data.thumbnail, 'content/posts/');
+    
+    // Extract keywords from frontmatter (can be string or array)
+    let keywordsString = null;
+    if (frontmatter.data.keywords) {
+        if (Array.isArray(frontmatter.data.keywords)) {
+            keywordsString = frontmatter.data.keywords.join(',');
+        } else if (typeof frontmatter.data.keywords === 'string') {
+            keywordsString = frontmatter.data.keywords;
+        }
+    }
     
     return {
         slug: frontmatter.data.slug,
@@ -78,6 +88,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         title: frontmatter.data.title || null,
         preview: frontmatter.data.preview || null,
         thumbnail: thumbnail,
+        keywords: keywordsString,
     };
 }
 
@@ -300,7 +311,7 @@ function checkDuplicateSlugs(postsPath) {
 
 /**
  * Generates HTML attributes for post metadata
- * @param {Object} metadata - Object with slug, date, tags, title
+ * @param {Object} metadata - Object with slug, date, tags, title, preview, thumbnail, keywords
  * @returns {string} HTML attributes string
  */
 function generatePostAttributes(metadata) {
@@ -316,6 +327,9 @@ function generatePostAttributes(metadata) {
     }
     if (metadata.thumbnail) {
         attrs.push(`data-thumbnail="${metadata.thumbnail}"`);
+    }
+    if (metadata.keywords) {
+        attrs.push(`data-keywords="${escapeHtmlAttribute(metadata.keywords)}"`);
     }
     return attrs.join(' ');
 }

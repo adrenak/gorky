@@ -226,6 +226,80 @@
         }
         
         /**
+         * Updates meta tags (title, description, keywords) based on current content
+         */
+        function updateMetaTags() {
+            const tagParam = getURLParameter('tag');
+            const postSlug = getURLParameter('post');
+            
+            let title = 'gorky';
+            let description = 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.';
+            let keywords = 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog';
+            
+            // Get meta tags from current visible content section
+            const visibleSection = document.querySelector('.content-section[style*="block"]') || 
+                                  document.querySelector('.content-section:not([style*="none"])');
+            
+            if (visibleSection) {
+                const sectionTitle = visibleSection.getAttribute('data-title');
+                const sectionPreview = visibleSection.getAttribute('data-preview');
+                const sectionKeywords = visibleSection.getAttribute('data-keywords');
+                
+                if (sectionTitle) {
+                    title = sectionTitle;
+                }
+                
+                if (sectionPreview) {
+                    description = sectionPreview;
+                }
+                
+                if (sectionKeywords) {
+                    keywords = sectionKeywords;
+                } else if (tagParam) {
+                    // For tag pages, use the tag as keyword
+                    keywords = tagParam;
+                }
+            } else if (tagParam) {
+                // Tag filtering page
+                title = `Posts tagged ${tagParam} - gorky`;
+                keywords = tagParam;
+            } else if (postSlug) {
+                // Fallback: try to find post by slug
+                const postSection = document.querySelector(`.content-section[data-slug="${postSlug}"]`);
+                if (postSection) {
+                    const postTitle = postSection.getAttribute('data-title');
+                    const postPreview = postSection.getAttribute('data-preview');
+                    const postKeywords = postSection.getAttribute('data-keywords');
+                    
+                    if (postTitle) title = postTitle;
+                    if (postPreview) description = postPreview;
+                    if (postKeywords) keywords = postKeywords;
+                }
+            }
+            
+            // Update title
+            document.title = title;
+            
+            // Update description meta tag
+            let descMeta = document.querySelector('meta[name="description"]');
+            if (!descMeta) {
+                descMeta = document.createElement('meta');
+                descMeta.setAttribute('name', 'description');
+                document.head.appendChild(descMeta);
+            }
+            descMeta.setAttribute('content', description);
+            
+            // Update keywords meta tag
+            let keywordsMeta = document.querySelector('meta[name="keywords"]');
+            if (!keywordsMeta) {
+                keywordsMeta = document.createElement('meta');
+                keywordsMeta.setAttribute('name', 'keywords');
+                document.head.appendChild(keywordsMeta);
+            }
+            keywordsMeta.setAttribute('content', keywords);
+        }
+        
+        /**
          * Shows post metadata (title, date, tags) for a content section
          * @param {Element} contentSection - Content section element
          */
@@ -299,6 +373,7 @@
             showPostMetadata(contentSection);
             highlightSyntax(contentSection);
             clearActiveNavLinks();
+            updateMetaTags();
             
             return true;
         }
@@ -320,6 +395,7 @@
             contentSection.style.display = 'block';
             highlightSyntax(contentSection);
             clearActiveNavLinks();
+            updateMetaTags();
             
             const currentPage = getURLParameter('page');
             if (currentPage) {
@@ -422,6 +498,7 @@
                     showContentBySlug(slug);
                     window.history.pushState({}, '', `?post=${slug}`);
                     updateCanonicalURL();
+                    updateMetaTags();
                 });
                 
                 titleHeading.appendChild(titleLink);
@@ -439,6 +516,7 @@
             });
             
             clearActiveNavLinks();
+            updateMetaTags();
             return true;
         }
         
@@ -466,6 +544,7 @@
                 showContentByFile(DEFAULT_PAGE);
                 clearActiveNavLinks();
                 setActiveNavLink('?page=home');
+                updateMetaTags();
             }
             
             updateCanonicalURL();
