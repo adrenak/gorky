@@ -7,9 +7,7 @@ const { formatDate } = require('./utils');
 // CONSTANTS
 // ============================================================================
 
-const POST_FILENAME_PARTS = 2; // DATE--slug.md
-const POST_FILENAME_SEPARATOR = '--';
-const REQUIRED_DASHES = 1; // Number of '--' separators in post filename
+// No filename format requirements - all metadata comes from frontmatter
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -36,23 +34,7 @@ function isPostFile(filePath, postsFolderPrefix) {
 // POST FILENAME AND FRONTMATTER PARSING
 // ============================================================================
 
-/**
- * Parses a post filename and returns date and slug
- * Format: DATE--slug.md
- * @param {string} filename - The post filename
- * @returns {Object|null} Object with date and slug, or null if invalid
- */
-function parsePostFilename(filename) {
-    const withoutExt = filename.replace(/\.md$/, '');
-    const parts = withoutExt.split(POST_FILENAME_SEPARATOR);
-    
-    if (parts.length !== POST_FILENAME_PARTS) {
-        return null;
-    }
-    
-    const [date, slug] = parts;
-    return { date, slug };
-}
+// parsePostFilename is no longer needed - slug comes from frontmatter
 
 /**
  * Parses frontmatter from a markdown file
@@ -83,36 +65,11 @@ function parsePostFrontmatter(filePath) {
  * @returns {Object} { valid: boolean, error?: string }
  */
 function validatePostFilename(filename) {
+    // Only requirement is that it's a markdown file
     if (!filename.endsWith('.md')) {
         return {
             valid: false,
             error: `Post file "${filename}" must have .md extension`
-        };
-    }
-    
-    const matches = filename.match(/--/g);
-    const dashCount = matches ? matches.length : 0;
-    
-    if (dashCount !== REQUIRED_DASHES) {
-        return {
-            valid: false,
-            error: `Post file "${filename}" must have exactly ${REQUIRED_DASHES} '--' separator. Found ${dashCount}. Expected format: DATE--slug.md`
-        };
-    }
-    
-    const parsed = parsePostFilename(filename);
-    if (!parsed || !parsed.date || !parsed.slug) {
-        return {
-            valid: false,
-            error: `Post file "${filename}" does not match format DATE--slug.md`
-        };
-    }
-    
-    // Validate date format (YYYY-MM-DD or YYYY-M-D)
-    if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(parsed.date)) {
-        return {
-            valid: false,
-            error: `Post file "${filename}" has invalid date format. Expected YYYY-MM-DD or YYYY-M-D`
         };
     }
     
@@ -130,14 +87,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
     }
     
-    const filename = path.basename(filePath);
-    const filenameParsed = parsePostFilename(filename);
-    
-    if (!filenameParsed) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
-    }
-    
-    // Parse frontmatter
+    // Parse frontmatter - all metadata comes from here
     const fullPath = path.join(__dirname, '..', filePath);
     const frontmatter = parsePostFrontmatter(fullPath);
     
@@ -145,7 +95,12 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
     }
     
-    // Get metadata from frontmatter, fallback to filename for date/slug
+    // Slug is required in frontmatter
+    if (!frontmatter.data.slug) {
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
+    }
+    
+    // Get metadata from frontmatter
     const tags = frontmatter.data.tags;
     const tagsString = Array.isArray(tags) ? tags.join(',') : (typeof tags === 'string' ? tags : null);
     
@@ -163,8 +118,8 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     }
     
     return {
-        slug: filenameParsed.slug,
-        date: formatDate(frontmatter.data.date || filenameParsed.date),
+        slug: frontmatter.data.slug,
+        date: formatDate(frontmatter.data.date),
         tags: tagsString,
         title: frontmatter.data.title || null,
         preview: frontmatter.data.preview || null,
@@ -241,14 +196,17 @@ function generatePostsMd(postsPath, postsMdPath) {
             return;
         }
 
-        const filenameParsed = parsePostFilename(file);
-        if (!filenameParsed || !filenameParsed.slug) return;
-
         // Parse frontmatter
         const filePath = path.join(postsPath, file);
         const frontmatter = parsePostFrontmatter(filePath);
-        if (!frontmatter || !frontmatter.data.title) {
-            console.warn(`⚠️  Skipping post file without frontmatter title: ${file}`);
+        if (!frontmatter) {
+            console.warn(`⚠️  Skipping post file without valid frontmatter: ${file}`);
+            return;
+        }
+
+        // Require slug and title in frontmatter
+        if (!frontmatter.data.slug || !frontmatter.data.title) {
+            console.warn(`⚠️  Skipping post file without required frontmatter (slug and title): ${file}`);
             return;
         }
 
@@ -275,8 +233,13 @@ function generatePostsMd(postsPath, postsMdPath) {
             }
         }
 
-        // Use date from frontmatter or filename, ensure it's a string
-        let dateString = frontmatter.data.date || filenameParsed.date;
+        // Use date from frontmatter, ensure it's a string
+        let dateString = frontmatter.data.date;
+        
+        if (!dateString) {
+            console.warn(`⚠️  Skipping post file without date in frontmatter: ${file}`);
+            return;
+        }
         
         // Convert Date object to string if needed
         if (dateString instanceof Date) {
@@ -290,7 +253,7 @@ function generatePostsMd(postsPath, postsMdPath) {
 
         posts.push({
             title: frontmatter.data.title,
-            slug: filenameParsed.slug,
+            slug: frontmatter.data.slug,
             dateString: dateString,
             preview: frontmatter.data.preview || '',
             thumbnail: thumbnailPath,
@@ -373,22 +336,29 @@ function checkDuplicateSlugs(postsPath) {
             return;
         }
         
-        const parsed = parsePostFilename(file);
-        if (parsed && parsed.slug) {
-            if (!slugMap.has(parsed.slug)) {
-                slugMap.set(parsed.slug, []);
-            }
-            slugMap.get(parsed.slug).push(file);
+        // Read slug from frontmatter
+        const filePath = path.join(postsPath, file);
+        const frontmatter = parsePostFrontmatter(filePath);
+        
+        if (!frontmatter || !frontmatter.data.slug) {
+            invalidFiles.push(`Post file "${file}" is missing required "slug" field in frontmatter`);
+            return;
         }
+        
+        const slug = frontmatter.data.slug;
+        if (!slugMap.has(slug)) {
+            slugMap.set(slug, []);
+        }
+        slugMap.get(slug).push(file);
     });
     
-    // Report invalid filenames
+    // Report invalid files
     if (invalidFiles.length > 0) {
-        console.error('❌ Error: Invalid post filename format!');
+        console.error('❌ Error: Invalid post files!');
         invalidFiles.forEach(error => {
             console.error(`   ${error}`);
         });
-        throw new Error(`Found ${invalidFiles.length} post file(s) with invalid format.`);
+        throw new Error(`Found ${invalidFiles.length} post file(s) with invalid format or missing required fields.`);
     }
     
     // Check for duplicates
@@ -448,7 +418,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-    parsePostFilename,
     parsePostFrontmatter,
     validatePostFilename,
     extractPostMetadata,

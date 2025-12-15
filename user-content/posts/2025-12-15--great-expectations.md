@@ -1,4 +1,5 @@
 ---
+slug: great-expectations
 title: An Excerpt from Great Expectations
 date: 2025-12-15
 tags: literature,classic

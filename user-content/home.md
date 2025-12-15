@@ -47,17 +47,18 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 2. Install dependencies: `npm install`
 3. Customize `user-content/sidebar.json` with your links
 4. Edit `user-content/home.md` with your content
-5. Add posts to `user-content/posts/` following the format: `DATE--slug.md` with YAML frontmatter
+5. Add posts to `user-content/posts/` with YAML frontmatter (you can name files anything you want!)
 6. Build: `npm run build`
 7. Deploy to GitHub Pages
 
 ## Example Post Format
 
-**Filename:** `2025-12-15--my-first-post.md`
+**Filename:** `my-first-post.md` (or any name you prefer!)
 
 **Content:**
 ```markdown
 ---
+slug: my-first-post
 title: My First Post
 date: 2025-12-15
 tags: blog,tutorial

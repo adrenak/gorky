@@ -1,4 +1,5 @@
 ---
+slug: markdown-cheatsheet
 title: Markdown Cheatsheet
 date: 2025-12-10
 tags: reference,markdown,classic

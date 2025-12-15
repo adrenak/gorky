@@ -73,7 +73,7 @@ gorky/
 ├── user-content/
 │   ├── home.md              # Your home page content
 │   ├── posts/               # Blog posts directory
-│   │   └── DATE--slug.md    # Posts with YAML frontmatter
+│   │   └── *.md             # Posts with YAML frontmatter (any filename)
 │   ├── sidebar.json         # Sidebar navigation configuration
 │   └── posts.md             # Auto-generated posts listing
 ├── scripts/
@@ -89,33 +89,22 @@ gorky/
 └── README.md                # This file
 ```
 
-## Post Naming Convention
+## Post Format
 
-Posts must follow this filename format:
-
-```
-DATE--slug.md
-```
-
-Example:
-```
-2025-12-15--my-first-post.md
-```
-
-The filename provides:
-- **Date**: 2025-12-15 (for sorting)
-- **Slug**: my-first-post (for URLs)
+Post files can have **any filename** you want - there are no naming requirements! All metadata is defined in YAML frontmatter at the top of each markdown file.
 
 ### Frontmatter
 
-Post metadata (title, tags, preview, etc.) is defined in YAML frontmatter at the top of each markdown file:
+Post metadata is defined in YAML frontmatter at the top of each markdown file:
 
 ```markdown
 ---
+slug: my-first-post
 title: My First Post
 date: 2025-12-15
 tags: blog,tutorial
 preview: This is a preview of my first post
+thumbnail: my-image.jpg
 ---
 
 # My First Post
@@ -124,15 +113,25 @@ Your content here...
 ```
 
 **Required fields:**
+- `slug` - Unique identifier for the post (used in URLs like `?post=my-first-post`)
 - `title` - The post title
+- `date` - Publication date (format: YYYY-MM-DD or YYYY-M-D)
 
 **Optional fields:**
-- `date` - Override the date from filename (format: YYYY-MM-DD or YYYY-M-D)
 - `tags` - Comma-separated tags (e.g., `blog,tutorial`) or array format (e.g., `[blog, tutorial]`)
 - `preview` - Preview text shown in the posts listing
+- `thumbnail` - Thumbnail image filename (or path relative to posts directory)
 - Any other custom fields you want to add
 
-**Note:** The `date` field in frontmatter overrides the date in the filename. If omitted, the filename date is used.
+### Example Files
+
+You can name your post files anything you want:
+- `my-first-post.md`
+- `2025-12-15-blog-post.md`
+- `important-article.md`
+- `post-1.md`
+
+The only requirement is that each post has a unique `slug` in its frontmatter.
 
 ## Sidebar Configuration
 
