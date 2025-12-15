@@ -2,6 +2,8 @@
 
 **gorky** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
+The layout and design is inspired from [garry.net](https://garry.net)  
+
 ## Why gorky?
 
 gorky makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and gorky handles the rest.
@@ -27,7 +29,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 ### Flexible Content Management
 
-- **Blog Posts**: Create posts in the `user-content/posts/` folder with YAML frontmatter for metadata
+- **Blog Posts**: Create posts in the `content/posts/` folder with YAML frontmatter for metadata
 - **Custom Pages**: Add any markdown file and link to it from your sidebar
 - **Dynamic Navigation**: Configure your sidebar through a simple JSON file
 - **Tag System**: Organize posts with tags and filter by them
@@ -45,9 +47,9 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 1. Clone this repository
 2. Install dependencies: `npm install`
-3. Customize `user-content/sidebar.json` with your links
-4. Edit `user-content/home.md` with your content
-5. Add posts to `user-content/posts/` with YAML frontmatter (you can name files anything you want!)
+3. Customize `content/sidebar.json` with your links
+4. Edit `content/home.md` with your content
+5. Add posts to `content/posts/` with YAML frontmatter (you can name files anything you want!)
 6. Build: `npm run build`
 7. Deploy to GitHub Pages
 

@@ -46,7 +46,7 @@ function validatePostFilename(filename) {
 /**
  * Extracts post metadata from a file path
  * @param {string} filePath - The file path
- * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'user-content/posts/')
+ * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'content/posts/')
  * @returns {Object} Object with slug, date, tags, title, preview (or null for non-post files)
  */
 function extractPostMetadata(filePath, postsFolderPrefix) {
@@ -69,7 +69,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     
     // Get metadata from frontmatter
     const tagsString = tagsToString(frontmatter.data.tags);
-    const thumbnail = processThumbnailPath(frontmatter.data.thumbnail, 'user-content/posts/');
+        const thumbnail = processThumbnailPath(frontmatter.data.thumbnail, 'content/posts/');
     
     return {
         slug: frontmatter.data.slug,
@@ -144,7 +144,7 @@ function generatePostsMd(postsPath, postsMdPath) {
         });
 
         // Get thumbnail from frontmatter
-        const thumbnailPath = processThumbnailPath(frontmatter.data.thumbnail, 'user-content/posts/');
+        const thumbnailPath = processThumbnailPath(frontmatter.data.thumbnail, 'content/posts/');
 
         // Use date from frontmatter, ensure it's a string
         const dateString = dateToString(frontmatter.data.date);
@@ -312,8 +312,8 @@ function generatePostAttributes(metadata) {
 
 if (require.main === module) {
     const PATHS = {
-        posts: path.join(__dirname, '..', 'user-content', 'posts'),
-        postsMd: path.join(__dirname, '..', 'user-content', 'posts.md'),
+        posts: path.join(__dirname, '..', 'content', 'posts'),
+        postsMd: path.join(__dirname, '..', 'content', 'posts.md'),
     };
     generatePostsMd(PATHS.posts, PATHS.postsMd);
 }

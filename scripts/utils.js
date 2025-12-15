@@ -126,7 +126,7 @@ function normalizePath(filePath) {
 /**
  * Checks if a path is a post file
  * @param {string} filePath - The file path to check
- * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'user-content/posts/')
+ * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'content/posts/')
  * @returns {boolean} True if the path is a post file
  */
 function isPostFile(filePath, postsFolderPrefix) {

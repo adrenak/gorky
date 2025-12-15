@@ -58,7 +58,7 @@
         // ============================================================================
         
         const BASE_URL = 'https://yourusername.github.io/gorky';
-        const DEFAULT_PAGE = 'user-content/home.md';
+        const DEFAULT_PAGE = 'content/home.md';
         const CONTENT_ID_PREFIX = 'content-';
         const TAG_LIST_ID = 'tag-posts-list';
         
@@ -78,8 +78,8 @@
         
         /**
          * Generates a content section ID from a file path
-         * @param {string} filePath - File path (e.g., 'user-content/home.md')
-         * @returns {string} Content ID (e.g., 'content-user-content-home-md')
+         * @param {string} filePath - File path (e.g., 'content/home.md')
+         * @returns {string} Content ID (e.g., 'content-content-home-md')
          */
         function getContentId(filePath) {
             return CONTENT_ID_PREFIX + filePath.replace(/\./g, '-');
@@ -305,7 +305,7 @@
         
         /**
          * Shows content section by file path
-         * @param {string} filePath - File path (e.g., 'user-content/home.md')
+         * @param {string} filePath - File path (e.g., 'content/home.md')
          * @returns {boolean} True if content was found and shown
          */
         function showContentByFile(filePath) {
@@ -457,7 +457,7 @@
             } else if (postSlug && showContentBySlug(postSlug)) {
                 contentShown = true;
             } else if (pageParam) {
-                const targetFile = `user-content/${pageParam}.md`;
+                const targetFile = `content/${pageParam}.md`;
                 contentShown = showContentByFile(targetFile);
             }
             

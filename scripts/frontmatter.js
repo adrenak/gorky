@@ -72,7 +72,7 @@ function tagsToString(tags) {
  * @param {string} defaultPath - Default path prefix if thumbnail is just a filename
  * @returns {string|null} Full thumbnail path or null
  */
-function processThumbnailPath(thumbnail, defaultPath = 'user-content/posts/') {
+function processThumbnailPath(thumbnail, defaultPath = 'content/posts/') {
     if (!thumbnail) return null;
     
     if (thumbnail.includes('/')) {

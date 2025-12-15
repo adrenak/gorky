@@ -26,12 +26,12 @@ const { collectMarkdownFiles, generateContentSections } = require('./generation'
 // ============================================================================
 
 const PATHS = {
-    sidebar: path.join(__dirname, '..', 'user-content', 'sidebar.json'),
+    sidebar: path.join(__dirname, '..', 'content', 'sidebar.json'),
     template: path.join(__dirname, '..', 'index-template.html'),
     output: path.join(__dirname, '..', 'index.html'),
-    posts: path.join(__dirname, '..', 'user-content', 'posts'),
-    postsMd: path.join(__dirname, '..', 'user-content', 'posts.md'),
-    homeMd: path.join(__dirname, '..', 'user-content', 'home.md'),
+    posts: path.join(__dirname, '..', 'content', 'posts'),
+    postsMd: path.join(__dirname, '..', 'content', 'posts.md'),
+    homeMd: path.join(__dirname, '..', 'content', 'home.md'),
 };
 
 // ============================================================================
@@ -55,9 +55,9 @@ function build() {
         const sidebarFooterHTML = generateSidebarFooter(sidebarData);
         
         // Collect and generate content
-        const userContentPath = path.join(__dirname, '..', 'user-content');
+        const userContentPath = path.join(__dirname, '..', 'content');
         const markdownFiles = collectMarkdownFiles(userContentPath);
-        const DEFAULT_CONTENT_FILE = 'user-content/home.md';
+        const DEFAULT_CONTENT_FILE = 'content/home.md';
         const contentHTML = generateContentSections(markdownFiles, DEFAULT_CONTENT_FILE);
         
         // Read template and replace placeholders

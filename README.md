@@ -27,7 +27,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 ### Flexible Content Management
 
-- **Blog Posts**: Create posts in the `user-content/posts/` folder with automatic date, tags, and slug extraction
+- **Blog Posts**: Create posts in the `content/posts/` folder with automatic date, tags, and slug extraction
 - **Custom Pages**: Add any markdown file and link to it from your sidebar
 - **Dynamic Navigation**: Configure your sidebar through a simple JSON file
 - **Tag System**: Organize posts with tags and filter by them
@@ -57,9 +57,9 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 ### Usage
 
-1. Customize `user-content/sidebar.json` with your links
-2. Edit `user-content/home.md` with your content
-3. Add posts to `user-content/posts/` following the naming convention
+1. Customize `content/sidebar.json` with your links
+2. Edit `content/home.md` with your content
+3. Add posts to `content/posts/` following the naming convention
 4. Build the site:
    ```bash
    npm run build
@@ -70,7 +70,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 ```
 gorky/
-├── user-content/
+├── content/
 │   ├── home.md              # Your home page content
 │   ├── posts/               # Blog posts directory
 │   │   └── *.md             # Posts with YAML frontmatter (any filename)
@@ -135,7 +135,7 @@ The only requirement is that each post has a unique `slug` in its frontmatter.
 
 ## Sidebar Configuration
 
-Edit `user-content/sidebar.json` to customize your navigation:
+Edit `content/sidebar.json` to customize your navigation:
 
 ```json
 {
@@ -190,7 +190,7 @@ Edit `index-template.html` to modify:
 
 ## Workflow
 
-1. **Edit Content**: Write or edit markdown files in `user-content/`
+1. **Edit Content**: Write or edit markdown files in `content/`
 2. **Build**: Run `npm run build`
 3. **Preview**: Open `index.html` locally or push to GitHub Pages
 4. **Repeat**: Continue editing and building as needed
@@ -205,8 +205,8 @@ Posts can have multiple tags. Filter posts by tag using URL parameters:
 
 ### Custom Pages
 
-Add any markdown file to `user-content/` and link to it from your sidebar:
-- Create `user-content/about.md`
+Add any markdown file to `content/` and link to it from your sidebar:
+- Create `content/about.md`
 - Add link in `sidebar.json`: `"target": "?page=about"`
 
 ### Responsive Design

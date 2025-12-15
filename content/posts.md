@@ -15,7 +15,7 @@ A memorable passage from Charles Dickens' classic novel
 A quick reference guide for all markdown syntax
 
 <div class="post-entry">
-<img src="user-content/images/aus-trip.jpg" alt="Our Australia Trip" class="post-thumbnail" />
+<img src="content/images/aus-trip.jpg" alt="Our Australia Trip" class="post-thumbnail" />
 <div class="post-content">
 <h2><a href="?post=aus-trip">Our Australia Trip</a></h2>
 <p>A one of a kind concert and a week to remember</p>

@@ -4,7 +4,7 @@
 // This file handles markdown file collection and HTML content generation:
 //
 // File Collection:
-//   - collectMarkdownFiles: Recursively collects all markdown files from user-content
+//   - collectMarkdownFiles: Recursively collects all markdown files from content
 //
 // Content Generation:
 //   - generateContentSections: Generates HTML sections for all markdown files
@@ -23,15 +23,15 @@ const { extractPostMetadata, generatePostAttributes } = require('./posts');
 // CONSTANTS
 // ============================================================================
 
-const POSTS_FOLDER_PREFIX = 'user-content/posts/';
+const POSTS_FOLDER_PREFIX = 'content/posts/';
 
 // ============================================================================
 // MARKDOWN FILE COLLECTION
 // ============================================================================
 
 /**
- * Recursively collects all markdown files from user-content directory
- * @param {string} userContentPath - Path to the user-content directory
+ * Recursively collects all markdown files from content directory
+ * @param {string} userContentPath - Path to the content directory
  * @returns {Map} Map of markdown file paths
  */
 function collectMarkdownFiles(userContentPath) {
@@ -58,7 +58,7 @@ function collectMarkdownFiles(userContentPath) {
             } else if (file.endsWith('.md')) {
                 // Add markdown file with normalized path
                 const relativePath = basePath ? `${basePath}/${file}` : file;
-                const normalizedPath = `user-content/${relativePath}`;
+                const normalizedPath = `content/${relativePath}`;
                 markdownFiles.set(normalizedPath, normalizedPath);
             }
         });
@@ -76,10 +76,10 @@ function collectMarkdownFiles(userContentPath) {
 /**
  * Generates content sections for all markdown files
  * @param {Map} markdownFiles - Map of markdown file paths
- * @param {string} defaultFile - Default file to display (default: 'user-content/home.md')
+ * @param {string} defaultFile - Default file to display (default: 'content/home.md')
  * @returns {string} HTML string containing all content sections
  */
-function generateContentSections(markdownFiles, defaultFile = 'user-content/home.md') {
+function generateContentSections(markdownFiles, defaultFile = 'content/home.md') {
     let contentHTML = '';
     
     markdownFiles.forEach((filePath) => {
