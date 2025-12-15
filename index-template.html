@@ -242,15 +242,15 @@
             
             if (visibleSection) {
                 const sectionTitle = visibleSection.getAttribute('data-title');
-                const sectionPreview = visibleSection.getAttribute('data-preview');
+                const sectionDescription = visibleSection.getAttribute('data-description');
                 const sectionKeywords = visibleSection.getAttribute('data-keywords');
                 
                 if (sectionTitle) {
                     title = sectionTitle;
                 }
                 
-                if (sectionPreview) {
-                    description = sectionPreview;
+                if (sectionDescription) {
+                    description = sectionDescription;
                 }
                 
                 if (sectionKeywords) {
@@ -268,11 +268,11 @@
                 const postSection = document.querySelector(`.content-section[data-slug="${postSlug}"]`);
                 if (postSection) {
                     const postTitle = postSection.getAttribute('data-title');
-                    const postPreview = postSection.getAttribute('data-preview');
+                    const postDescription = postSection.getAttribute('data-description');
                     const postKeywords = postSection.getAttribute('data-keywords');
                     
                     if (postTitle) title = postTitle;
-                    if (postPreview) description = postPreview;
+                    if (postDescription) description = postDescription;
                     if (postKeywords) keywords = postKeywords;
                 }
             }
@@ -433,11 +433,11 @@
                     const slug = post.getAttribute('data-slug');
                     const title = post.getAttribute('data-title');
                     const date = post.getAttribute('data-date');
-                    const preview = post.getAttribute('data-preview');
+                    const description = post.getAttribute('data-description');
                     const thumbnail = post.getAttribute('data-thumbnail');
                     
                     if (slug && title) {
-                        matchingPosts.push({ slug, title, date, preview, thumbnail });
+                        matchingPosts.push({ slug, title, date, description, thumbnail });
                     }
                 }
             });
@@ -468,7 +468,7 @@
             });
             
             // Add post entries (matching posts.md format)
-            matchingPosts.forEach(({ slug, title, preview, thumbnail }) => {
+            matchingPosts.forEach(({ slug, title, description, thumbnail }) => {
                 // Create post entry container
                 const postEntry = document.createElement('div');
                 postEntry.className = 'post-entry';
@@ -504,11 +504,11 @@
                 titleHeading.appendChild(titleLink);
                 postContent.appendChild(titleHeading);
                 
-                // Add preview if available
-                if (preview) {
-                    const previewPara = document.createElement('p');
-                    previewPara.textContent = preview;
-                    postContent.appendChild(previewPara);
+                // Add description if available
+                if (description) {
+                    const descriptionPara = document.createElement('p');
+                    descriptionPara.textContent = description;
+                    postContent.appendChild(descriptionPara);
                 }
                 
                 postEntry.appendChild(postContent);

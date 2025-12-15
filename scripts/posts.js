@@ -47,11 +47,11 @@ function validatePostFilename(filename) {
  * Extracts post metadata from a file path
  * @param {string} filePath - The file path
  * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'content/posts/')
- * @returns {Object} Object with slug, date, tags, title, preview (or null for non-post files)
+ * @returns {Object} Object with slug, date, tags, title, description (or null for non-post files)
  */
 function extractPostMetadata(filePath, postsFolderPrefix) {
     if (!isPostFile(filePath, postsFolderPrefix)) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null, keywords: null };
+        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null };
     }
     
     // Parse frontmatter - all metadata comes from here
@@ -59,12 +59,12 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     const frontmatter = parseFrontmatter(fullPath);
     
     if (!frontmatter) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null, keywords: null };
+        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null };
     }
     
     // Slug is required in frontmatter
     if (!frontmatter.data.slug) {
-        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null, keywords: null };
+        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null };
     }
     
     // Get metadata from frontmatter
@@ -86,7 +86,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         date: formatDate(frontmatter.data.date),
         tags: tagsString,
         title: frontmatter.data.title || null,
-        preview: frontmatter.data.preview || null,
+        description: frontmatter.data.description || null,
         thumbnail: thumbnail,
         keywords: keywordsString,
     };
@@ -171,7 +171,7 @@ function generatePostsMd(postsPath, postsMdPath) {
             title: frontmatter.data.title,
             slug: frontmatter.data.slug,
             dateString: dateString,
-            preview: frontmatter.data.preview || '',
+            description: frontmatter.data.description || '',
             thumbnail: thumbnailPath,
         });
     });
@@ -217,20 +217,20 @@ function generatePostsMd(postsPath, postsMdPath) {
         // For posts with thumbnails, generate HTML directly to avoid markdown parsing issues
         if (post.thumbnail) {
             const escapedTitle = escapeHtmlAttribute(post.title);
-            const escapedPreview = escapeHtmlAttribute(post.preview || '');
+            const escapedDescription = escapeHtmlAttribute(post.description || '');
             postsMd += `<div class="post-entry">\n`;
             postsMd += `<img src="${post.thumbnail}" alt="${escapedTitle}" class="post-thumbnail" />\n`;
             postsMd += `<div class="post-content">\n`;
             postsMd += `<h2><a href="?post=${post.slug}">${post.title}</a></h2>\n`;
-            if (post.preview) {
-                postsMd += `<p>${post.preview}</p>\n`;
+            if (post.description) {
+                postsMd += `<p>${post.description}</p>\n`;
             }
             postsMd += `</div>\n</div>\n\n`;
         } else {
             // For posts without thumbnails, use markdown
             postsMd += `## [${post.title}](?post=${post.slug})\n\n`;
-            if (post.preview) {
-                postsMd += `${post.preview}\n\n`;
+            if (post.description) {
+                postsMd += `${post.description}\n\n`;
             }
         }
     });
@@ -311,7 +311,7 @@ function checkDuplicateSlugs(postsPath) {
 
 /**
  * Generates HTML attributes for post metadata
- * @param {Object} metadata - Object with slug, date, tags, title, preview, thumbnail, keywords
+ * @param {Object} metadata - Object with slug, date, tags, title, description, thumbnail, keywords
  * @returns {string} HTML attributes string
  */
 function generatePostAttributes(metadata) {
@@ -322,8 +322,8 @@ function generatePostAttributes(metadata) {
     if (metadata.title) {
         attrs.push(`data-title="${escapeHtmlAttribute(metadata.title)}"`);
     }
-    if (metadata.preview) {
-        attrs.push(`data-preview="${escapeHtmlAttribute(metadata.preview)}"`);
+    if (metadata.description) {
+        attrs.push(`data-description="${escapeHtmlAttribute(metadata.description)}"`);
     }
     if (metadata.thumbnail) {
         attrs.push(`data-thumbnail="${metadata.thumbnail}"`);

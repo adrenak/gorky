@@ -103,7 +103,7 @@ slug: my-first-post
 title: My First Post
 date: 2025-12-15
 tags: blog,tutorial
-preview: This is a preview of my first post
+description: This is a preview of my first post
 thumbnail: my-image.jpg
 ---
 
@@ -119,7 +119,7 @@ Your content here...
 
 **Optional fields:**
 - `tags` - Comma-separated tags (e.g., `blog,tutorial`) or array format (e.g., `[blog, tutorial]`)
-- `preview` - Preview text shown in the posts listing (also used as meta description for SEO)
+- `description` - Description text shown in the posts listing (also used as meta description for SEO)
 - `thumbnail` - Thumbnail image filename (or path relative to posts directory)
 - `keywords` - Comma-separated keywords for SEO meta tags (e.g., `keyword1, keyword2`) or array format (e.g., `[keyword1, keyword2]`)
 - Any other custom fields you want to add

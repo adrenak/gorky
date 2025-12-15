@@ -3,7 +3,7 @@ slug: markdown-cheatsheet
 title: Markdown Cheatsheet
 date: 2025-12-10
 tags: reference,markdown,classic
-preview: A quick reference guide for all markdown syntax
+description: A quick reference guide for all markdown syntax
 ---
 
 A comprehensive reference guide for Markdown syntax. Bookmark this page for quick access to all Markdown formatting options.
