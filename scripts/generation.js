@@ -82,20 +82,7 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
             const displayStyle = isDefault ? 'block' : 'none';
             const metadata = extractPostMetadata(filePath, POSTS_FOLDER_PREFIX);
             
-            // Check for thumbnail if this is a post file
-            if (metadata.slug) {
-                const postDir = path.dirname(fullPath);
-                const filename = path.basename(filePath, '.md');
-                const imageExtensions = ['.png', '.jpg', '.jpeg'];
-                
-                for (const ext of imageExtensions) {
-                    const imagePath = path.join(postDir, filename + ext);
-                    if (fs.existsSync(imagePath)) {
-                        metadata.thumbnail = filePath.replace(/\.md$/, ext);
-                        break;
-                    }
-                }
-            }
+            // Thumbnail is now handled in extractPostMetadata via frontmatter
             
             const attributes = generatePostAttributes(metadata);
             const contentId = `content-${filePath.replace(/\./g, '-')}`;

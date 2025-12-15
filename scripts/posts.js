@@ -127,14 +127,14 @@ function validatePostFilename(filename) {
  */
 function extractPostMetadata(filePath, postsFolderPrefix) {
     if (!isPostFile(filePath, postsFolderPrefix)) {
-        return { slug: null, date: null, tags: null, title: null, preview: null };
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
     }
     
     const filename = path.basename(filePath);
     const filenameParsed = parsePostFilename(filename);
     
     if (!filenameParsed) {
-        return { slug: null, date: null, tags: null, title: null, preview: null };
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
     }
     
     // Parse frontmatter
@@ -142,12 +142,25 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     const frontmatter = parsePostFrontmatter(fullPath);
     
     if (!frontmatter) {
-        return { slug: null, date: null, tags: null, title: null, preview: null };
+        return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
     }
     
     // Get metadata from frontmatter, fallback to filename for date/slug
     const tags = frontmatter.data.tags;
     const tagsString = Array.isArray(tags) ? tags.join(',') : (typeof tags === 'string' ? tags : null);
+    
+    // Get thumbnail from frontmatter
+    let thumbnail = null;
+    if (frontmatter.data.thumbnail) {
+        const thumbnailValue = frontmatter.data.thumbnail;
+        if (thumbnailValue.includes('/')) {
+            // Full path provided
+            thumbnail = thumbnailValue;
+        } else {
+            // Just filename, assume it's in the posts directory
+            thumbnail = `user-content/posts/${thumbnailValue}`;
+        }
+    }
     
     return {
         slug: filenameParsed.slug,
@@ -155,6 +168,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         tags: tagsString,
         title: frontmatter.data.title || null,
         preview: frontmatter.data.preview || null,
+        thumbnail: thumbnail,
     };
 }
 
@@ -247,16 +261,17 @@ function generatePostsMd(postsPath, postsMdPath) {
             });
         }
 
-        // Check for matching thumbnail image
-        const baseFilename = file.replace(/\.md$/, '');
-        const imageExtensions = ['.png', '.jpg', '.jpeg'];
+        // Get thumbnail from frontmatter
         let thumbnailPath = null;
-        
-        for (const ext of imageExtensions) {
-            const imageFilename = baseFilename + ext;
-            if (allFiles.includes(imageFilename)) {
-                thumbnailPath = `user-content/posts/${imageFilename}`;
-                break;
+        if (frontmatter.data.thumbnail) {
+            // If thumbnail is just a filename, prepend the posts directory path
+            const thumbnail = frontmatter.data.thumbnail;
+            if (thumbnail.includes('/')) {
+                // Full path provided
+                thumbnailPath = thumbnail;
+            } else {
+                // Just filename, assume it's in the posts directory
+                thumbnailPath = `user-content/posts/${thumbnail}`;
             }
         }
 
