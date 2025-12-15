@@ -19,6 +19,12 @@ const { marked } = require('marked');
 const { parseFrontmatter } = require('./frontmatter');
 const { extractPostMetadata, generatePostAttributes } = require('./posts');
 
+// Configure marked to properly handle code blocks
+marked.setOptions({
+    breaks: false,
+    gfm: true,
+});
+
 // ============================================================================
 // CONSTANTS
 // ============================================================================

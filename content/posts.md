@@ -2,7 +2,7 @@
 
 ## Tags
 
-[classic](?tag=classic) • [code](?tag=code) • [flutter](?tag=flutter) • [life](?tag=life) • [literature](?tag=literature) • [markdown](?tag=markdown) • [reference](?tag=reference) • [travel](?tag=travel) • [tutorial](?tag=tutorial)
+[classic (4)](?tag=classic) • [code (1)](?tag=code) • [flutter (1)](?tag=flutter) • [life (1)](?tag=life) • [literature (1)](?tag=literature) • [markdown (1)](?tag=markdown) • [reference (1)](?tag=reference) • [travel (1)](?tag=travel) • [tutorial (2)](?tag=tutorial)
 
 ---
 

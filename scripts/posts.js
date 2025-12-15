@@ -111,7 +111,7 @@ function generatePostsMd(postsPath, postsMdPath) {
     }
 
     const posts = [];
-    const allTagsSet = new Set();
+    const tagCounts = new Map(); // tag -> count
 
     mdFiles.forEach(file => {
         const validation = validatePostFilename(file);
@@ -137,10 +137,12 @@ function generatePostsMd(postsPath, postsMdPath) {
             return;
         }
 
-        // Extract tags from frontmatter
+        // Extract tags from frontmatter and count them
         const tagsArray = extractTags(frontmatter.data.tags);
         tagsArray.forEach(tag => {
-            if (tag) allTagsSet.add(tag);
+            if (tag) {
+                tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+            }
         });
 
         // Get thumbnail from frontmatter
@@ -177,13 +179,17 @@ function generatePostsMd(postsPath, postsMdPath) {
     });
 
     // Generate markdown content
-    const distinctTags = Array.from(allTagsSet).sort();
+    const distinctTags = Array.from(tagCounts.keys()).sort();
     let postsMd = '# Posts\n\n';
 
-    // Add tags section
+    // Add tags section with counts
     if (distinctTags.length > 0) {
         postsMd += '## Tags\n\n';
-        postsMd += distinctTags.map(tag => `[${tag}](?tag=${encodeURIComponent(tag)})`).join(' • ');
+        postsMd += distinctTags.map(tag => {
+            const count = tagCounts.get(tag);
+            const displayTag = count > 0 ? `${tag} (${count})` : tag;
+            return `[${displayTag}](?tag=${encodeURIComponent(tag)})`;
+        }).join(' • ');
         postsMd += '\n\n---\n\n';
     }
 

@@ -58,7 +58,8 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 **Filename:** `my-first-post.md` (or any name you prefer!)
 
 **Content:**
-```markdown
+
+```
 ---
 slug: my-first-post
 title: My First Post
