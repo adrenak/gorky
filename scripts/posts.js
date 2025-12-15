@@ -4,12 +4,6 @@ const matter = require('gray-matter');
 const { formatDate } = require('./utils');
 
 // ============================================================================
-// CONSTANTS
-// ============================================================================
-
-// No filename format requirements - all metadata comes from frontmatter
-
-// ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
@@ -33,8 +27,6 @@ function isPostFile(filePath, postsFolderPrefix) {
 // ============================================================================
 // POST FILENAME AND FRONTMATTER PARSING
 // ============================================================================
-
-// parsePostFilename is no longer needed - slug comes from frontmatter
 
 /**
  * Parses frontmatter from a markdown file
