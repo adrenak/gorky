@@ -179,7 +179,15 @@ function generatePostsMd(postsPath, postsMdPath) {
     });
 
     // Generate markdown content
-    const distinctTags = Array.from(tagCounts.keys()).sort();
+    // Sort tags by count (descending), then alphabetically for ties
+    const distinctTags = Array.from(tagCounts.keys()).sort((a, b) => {
+        const countA = tagCounts.get(a);
+        const countB = tagCounts.get(b);
+        if (countB !== countA) {
+            return countB - countA; // Descending order by count
+        }
+        return a.localeCompare(b); // Alphabetical for ties
+    });
     let postsMd = '# Posts\n\n';
 
     // Add tags section with counts
