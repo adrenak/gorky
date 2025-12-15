@@ -1,5 +1,14 @@
 // ============================================================================
-// FRONTMATTER UTILITIES
+// FRONTMATTER.JS
+//
+// This file handles parsing and processing of YAML frontmatter from markdown files:
+//
+//   - parseFrontmatter: Parses frontmatter from a markdown file
+//   - extractTags: Extracts tags from frontmatter (handles array/string formats)
+//   - tagsToString: Converts tags to comma-separated string
+//   - processThumbnailPath: Processes thumbnail paths from frontmatter
+//
+// Used by: posts.js, generation.js
 // ============================================================================
 
 const fs = require('fs');

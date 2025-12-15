@@ -1,3 +1,18 @@
+// ============================================================================
+// GENERATION.JS
+//
+// This file handles markdown file collection and HTML content generation:
+//
+// File Collection:
+//   - collectMarkdownFiles: Recursively collects all markdown files from user-content
+//
+// Content Generation:
+//   - generateContentSections: Generates HTML sections for all markdown files
+//     (converts markdown to HTML, handles frontmatter, adds metadata attributes)
+//
+// Used by: build.js
+// ============================================================================
+
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');

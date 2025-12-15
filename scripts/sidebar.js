@@ -1,3 +1,16 @@
+// ============================================================================
+// SIDEBAR.JS
+//
+// This file generates HTML for the sidebar navigation:
+//
+//   - generateNavItem: Generates HTML for a single navigation item
+//   - generateMainNav: Generates main navigation (Home and Posts links)
+//   - generateSidebarNav: Generates sidebar navigation sections from JSON
+//   - generateSidebarFooter: Generates sidebar footer from JSON
+//
+// Used by: build.js
+// ============================================================================
+
 const fs = require('fs');
 const { isURLParameter } = require('./utils');
 

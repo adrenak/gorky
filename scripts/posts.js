@@ -1,8 +1,26 @@
+// ============================================================================
+// POSTS.JS
+//
+// This file handles all post-related operations:
+//
+// Validation:
+//   - validatePostFilename: Validates post filenames
+//   - checkDuplicateSlugs: Checks for duplicate slugs across posts
+//
+// Metadata Extraction:
+//   - extractPostMetadata: Extracts metadata from post files (slug, date, tags, etc.)
+//
+// Generation:
+//   - generatePostsMd: Generates the posts.md listing file from all posts
+//   - generatePostAttributes: Generates HTML data attributes for posts
+//
+// Used by: build.js, generation.js
+// ============================================================================
+
 const fs = require('fs');
 const path = require('path');
-const { formatDate, parseDateForSorting, dateToString, isPostFile } = require('./utils');
-const { parseFrontmatter, tagsToString, processThumbnailPath } = require('./frontmatter');
-const { escapeHtmlAttribute } = require('./utils');
+const { formatDate, parseDateForSorting, dateToString, isPostFile, escapeHtmlAttribute } = require('./utils');
+const { parseFrontmatter, extractTags, tagsToString, processThumbnailPath } = require('./frontmatter');
 
 // ============================================================================
 // POST VALIDATION
@@ -64,33 +82,6 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
 }
 
 /**
- * Parses a date string for sorting
- * @param {string|Date|any} dateStr - Date string in format "YYYY-M-D" or "YYYY-MM-DD", or a Date object
- * @returns {Date} Parsed date object
- */
-function parseDateForSorting(dateStr) {
-    if (!dateStr) return new Date(0);
-    
-    // Handle Date objects directly
-    if (dateStr instanceof Date) {
-        return dateStr;
-    }
-    
-    // Convert to string if it's not already
-    const dateString = typeof dateStr === 'string' ? dateStr : String(dateStr);
-    
-    const parts = dateString.split('-');
-    if (parts.length !== 3) return new Date(0);
-    const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
-    const day = parseInt(parts[2], 10);
-    
-    if (isNaN(year) || isNaN(month) || isNaN(day)) return new Date(0);
-    
-    return new Date(year, month, day);
-}
-
-/**
  * Generates posts.md from files in posts folder
  * @param {string} postsPath - The path to the posts directory
  * @param {string} postsMdPath - The path where posts.md should be written
@@ -147,7 +138,6 @@ function generatePostsMd(postsPath, postsMdPath) {
         }
 
         // Extract tags from frontmatter
-        const { extractTags } = require('./frontmatter');
         const tagsArray = extractTags(frontmatter.data.tags);
         tagsArray.forEach(tag => {
             if (tag) allTagsSet.add(tag);

@@ -1,5 +1,25 @@
 // ============================================================================
-// UTILITY FUNCTIONS
+// UTILS.JS
+//
+// This file contains general-purpose utility functions used across the codebase:
+//
+// Date Utilities:
+//   - formatDate: Formats dates for display (e.g., "2025-12-8" -> "8 Dec 2025")
+//   - parseDateForSorting: Parses date strings into Date objects for sorting
+//   - dateToString: Converts date values to string format
+//
+// Path Utilities:
+//   - normalizePath: Normalizes file paths to use forward slashes
+//   - isPostFile: Checks if a file path is a post file
+//
+// URL Utilities:
+//   - isURLParameter: Checks if a target is an internal URL parameter
+//
+// HTML Utilities:
+//   - escapeHtml: Escapes HTML special characters
+//   - escapeHtmlAttribute: Escapes strings for HTML attributes
+//
+// Used by: All other script files
 // ============================================================================
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 

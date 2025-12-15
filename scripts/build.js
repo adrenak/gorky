@@ -1,3 +1,20 @@
+// ============================================================================
+// BUILD.JS
+//
+// This is the main build script that orchestrates the entire build process:
+//
+// 1. Validates posts (checks for duplicate slugs)
+// 2. Generates posts.md from all post files
+// 3. Reads sidebar configuration
+// 4. Generates sidebar navigation HTML
+// 5. Collects all markdown files
+// 6. Generates content sections HTML
+// 7. Reads template and replaces placeholders
+// 8. Writes final index.html
+//
+// Entry point: Run with `npm run build`
+// ============================================================================
+
 const fs = require('fs');
 const path = require('path');
 const { generatePostsMd, checkDuplicateSlugs } = require('./posts');
