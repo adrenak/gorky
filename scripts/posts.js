@@ -1,55 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const matter = require('gray-matter');
-const { formatDate } = require('./utils');
+const { formatDate, parseDateForSorting, dateToString, isPostFile } = require('./utils');
+const { parseFrontmatter, tagsToString, processThumbnailPath } = require('./frontmatter');
+const { escapeHtmlAttribute } = require('./utils');
 
 // ============================================================================
-// UTILITY FUNCTIONS
+// POST VALIDATION
 // ============================================================================
-
-/**
- * Normalizes a file path to use forward slashes
- */
-function normalizePath(filePath) {
-    return filePath.replace(/\\/g, '/');
-}
-
-/**
- * Checks if a path is a post file
- * @param {string} filePath - The file path to check
- * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'user-content/posts/')
- * @returns {boolean} True if the path is a post file
- */
-function isPostFile(filePath, postsFolderPrefix) {
-    return normalizePath(filePath).startsWith(postsFolderPrefix);
-}
-
-// ============================================================================
-// POST FILENAME AND FRONTMATTER PARSING
-// ============================================================================
-
-/**
- * Parses frontmatter from a markdown file
- * @param {string} filePath - The full path to the markdown file
- * @returns {Object|null} Object with frontmatter data and content, or null if invalid
- */
-function parsePostFrontmatter(filePath) {
-    if (!fs.existsSync(filePath)) {
-        return null;
-    }
-    
-    try {
-        const fileContent = fs.readFileSync(filePath, 'utf8');
-        const parsed = matter(fileContent);
-        return {
-            data: parsed.data || {},
-            content: parsed.content
-        };
-    } catch (error) {
-        console.warn(`Warning: Could not parse frontmatter from ${filePath}:`, error.message);
-        return null;
-    }
-}
 
 /**
  * Validates post filename format
@@ -81,7 +38,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     
     // Parse frontmatter - all metadata comes from here
     const fullPath = path.join(__dirname, '..', filePath);
-    const frontmatter = parsePostFrontmatter(fullPath);
+    const frontmatter = parseFrontmatter(fullPath);
     
     if (!frontmatter) {
         return { slug: null, date: null, tags: null, title: null, preview: null, thumbnail: null };
@@ -93,21 +50,8 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     }
     
     // Get metadata from frontmatter
-    const tags = frontmatter.data.tags;
-    const tagsString = Array.isArray(tags) ? tags.join(',') : (typeof tags === 'string' ? tags : null);
-    
-    // Get thumbnail from frontmatter
-    let thumbnail = null;
-    if (frontmatter.data.thumbnail) {
-        const thumbnailValue = frontmatter.data.thumbnail;
-        if (thumbnailValue.includes('/')) {
-            // Full path provided
-            thumbnail = thumbnailValue;
-        } else {
-            // Just filename, assume it's in the posts directory
-            thumbnail = `user-content/posts/${thumbnailValue}`;
-        }
-    }
+    const tagsString = tagsToString(frontmatter.data.tags);
+    const thumbnail = processThumbnailPath(frontmatter.data.thumbnail, 'user-content/posts/');
     
     return {
         slug: frontmatter.data.slug,
@@ -190,7 +134,7 @@ function generatePostsMd(postsPath, postsMdPath) {
 
         // Parse frontmatter
         const filePath = path.join(postsPath, file);
-        const frontmatter = parsePostFrontmatter(filePath);
+        const frontmatter = parseFrontmatter(filePath);
         if (!frontmatter) {
             console.warn(`⚠️  Skipping post file without valid frontmatter: ${file}`);
             return;
@@ -203,44 +147,21 @@ function generatePostsMd(postsPath, postsMdPath) {
         }
 
         // Extract tags from frontmatter
-        const tags = frontmatter.data.tags;
-        if (tags) {
-            const tagsArray = Array.isArray(tags) ? tags : (typeof tags === 'string' ? tags.split(',').map(t => t.trim()) : []);
-            tagsArray.forEach(tag => {
-                if (tag) allTagsSet.add(tag);
-            });
-        }
+        const { extractTags } = require('./frontmatter');
+        const tagsArray = extractTags(frontmatter.data.tags);
+        tagsArray.forEach(tag => {
+            if (tag) allTagsSet.add(tag);
+        });
 
         // Get thumbnail from frontmatter
-        let thumbnailPath = null;
-        if (frontmatter.data.thumbnail) {
-            // If thumbnail is just a filename, prepend the posts directory path
-            const thumbnail = frontmatter.data.thumbnail;
-            if (thumbnail.includes('/')) {
-                // Full path provided
-                thumbnailPath = thumbnail;
-            } else {
-                // Just filename, assume it's in the posts directory
-                thumbnailPath = `user-content/posts/${thumbnail}`;
-            }
-        }
+        const thumbnailPath = processThumbnailPath(frontmatter.data.thumbnail, 'user-content/posts/');
 
         // Use date from frontmatter, ensure it's a string
-        let dateString = frontmatter.data.date;
+        const dateString = dateToString(frontmatter.data.date);
         
         if (!dateString) {
             console.warn(`⚠️  Skipping post file without date in frontmatter: ${file}`);
             return;
-        }
-        
-        // Convert Date object to string if needed
-        if (dateString instanceof Date) {
-            const year = dateString.getFullYear();
-            const month = dateString.getMonth() + 1;
-            const day = dateString.getDate();
-            dateString = `${year}-${month}-${day}`;
-        } else if (dateString && typeof dateString !== 'string') {
-            dateString = String(dateString);
         }
 
         posts.push({
@@ -280,8 +201,8 @@ function generatePostsMd(postsPath, postsMdPath) {
     posts.forEach(post => {
         // For posts with thumbnails, generate HTML directly to avoid markdown parsing issues
         if (post.thumbnail) {
-            const escapedTitle = post.title.replace(/"/g, '&quot;');
-            const escapedPreview = (post.preview || '').replace(/"/g, '&quot;');
+            const escapedTitle = escapeHtmlAttribute(post.title);
+            const escapedPreview = escapeHtmlAttribute(post.preview || '');
             postsMd += `<div class="post-entry">\n`;
             postsMd += `<img src="${post.thumbnail}" alt="${escapedTitle}" class="post-thumbnail" />\n`;
             postsMd += `<div class="post-content">\n`;
@@ -330,7 +251,7 @@ function checkDuplicateSlugs(postsPath) {
         
         // Read slug from frontmatter
         const filePath = path.join(postsPath, file);
-        const frontmatter = parsePostFrontmatter(filePath);
+        const frontmatter = parseFrontmatter(filePath);
         
         if (!frontmatter || !frontmatter.data.slug) {
             invalidFiles.push(`Post file "${file}" is missing required "slug" field in frontmatter`);
@@ -384,12 +305,10 @@ function generatePostAttributes(metadata) {
     if (metadata.date) attrs.push(`data-date="${metadata.date}"`);
     if (metadata.tags) attrs.push(`data-tags="${metadata.tags}"`);
     if (metadata.title) {
-        const escapedTitle = metadata.title.replace(/"/g, '&quot;');
-        attrs.push(`data-title="${escapedTitle}"`);
+        attrs.push(`data-title="${escapeHtmlAttribute(metadata.title)}"`);
     }
     if (metadata.preview) {
-        const escapedPreview = metadata.preview.replace(/"/g, '&quot;');
-        attrs.push(`data-preview="${escapedPreview}"`);
+        attrs.push(`data-preview="${escapeHtmlAttribute(metadata.preview)}"`);
     }
     if (metadata.thumbnail) {
         attrs.push(`data-thumbnail="${metadata.thumbnail}"`);
@@ -410,11 +329,8 @@ if (require.main === module) {
 }
 
 module.exports = {
-    parsePostFrontmatter,
     validatePostFilename,
     extractPostMetadata,
-    isPostFile,
-    normalizePath,
     checkDuplicateSlugs,
     generatePostsMd,
     generatePostAttributes,
