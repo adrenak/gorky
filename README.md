@@ -73,7 +73,7 @@ gorky/
 ├── user-content/
 │   ├── home.md              # Your home page content
 │   ├── posts/               # Blog posts directory
-│   │   └── DATE--slug--(tags)--Title--preview.md
+│   │   └── DATE--slug.md    # Posts with YAML frontmatter
 │   ├── sidebar.json         # Sidebar navigation configuration
 │   └── posts.md             # Auto-generated posts listing
 ├── scripts/
@@ -91,23 +91,48 @@ gorky/
 
 ## Post Naming Convention
 
-Posts must follow this format:
+Posts must follow this filename format:
 
 ```
-DATE--slug--(tags)--Title--preview.md
+DATE--slug.md
 ```
 
 Example:
 ```
-2025-12-15--my-first-post--(blog,tutorial)--My First Post--This is a preview of my first post.md
+2025-12-15--my-first-post.md
 ```
 
-gorky extracts:
-- **Date**: 2025-12-15
-- **Slug**: my-first-post
-- **Tags**: blog, tutorial
-- **Title**: My First Post
-- **Preview**: This is a preview of my first post
+The filename provides:
+- **Date**: 2025-12-15 (for sorting)
+- **Slug**: my-first-post (for URLs)
+
+### Frontmatter
+
+Post metadata (title, tags, preview, etc.) is defined in YAML frontmatter at the top of each markdown file:
+
+```markdown
+---
+title: My First Post
+date: 2025-12-15
+tags: blog,tutorial
+preview: This is a preview of my first post
+---
+
+# My First Post
+
+Your content here...
+```
+
+**Required fields:**
+- `title` - The post title
+
+**Optional fields:**
+- `date` - Override the date from filename (format: YYYY-MM-DD or YYYY-M-D)
+- `tags` - Comma-separated tags (e.g., `blog,tutorial`) or array format (e.g., `[blog, tutorial]`)
+- `preview` - Preview text shown in the posts listing
+- Any other custom fields you want to add
+
+**Note:** The `date` field in frontmatter overrides the date in the filename. If omitted, the filename date is used.
 
 ## Sidebar Configuration
 

@@ -1,3 +1,10 @@
+---
+title: Building a Todo List App in Flutter
+date: 2025-12-5
+tags: flutter,tutorial,code,classic
+preview: Learn how to create a simple todo list app with Flutter and Dart
+---
+
 In this tutorial, we'll build a simple yet functional todo list app using Flutter and Dart. This is a great project for beginners to learn state management, list handling, and user input in Flutter.
 
 ## Prerequisites

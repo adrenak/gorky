@@ -27,7 +27,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 ### Flexible Content Management
 
-- **Blog Posts**: Create posts in the `user-content/posts/` folder with automatic date, tags, and slug extraction
+- **Blog Posts**: Create posts in the `user-content/posts/` folder with YAML frontmatter for metadata
 - **Custom Pages**: Add any markdown file and link to it from your sidebar
 - **Dynamic Navigation**: Configure your sidebar through a simple JSON file
 - **Tag System**: Organize posts with tags and filter by them
@@ -47,21 +47,26 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 2. Install dependencies: `npm install`
 3. Customize `user-content/sidebar.json` with your links
 4. Edit `user-content/home.md` with your content
-5. Add posts to `user-content/posts/` following the naming convention: `DATE--slug--(tags)--Title--preview.md`
+5. Add posts to `user-content/posts/` following the format: `DATE--slug.md` with YAML frontmatter
 6. Build: `npm run build`
 7. Deploy to GitHub Pages
 
 ## Example Post Format
 
-```
-2025-12-15--my-first-post--(blog,tutorial)--My First Post--This is a preview of my first post.md
-```
+**Filename:** `2025-12-15--my-first-post.md`
 
-gorky extracts:
-- **Date**: 2025-12-15
-- **Slug**: my-first-post
-- **Tags**: blog, tutorial
-- **Title**: My First Post
-- **Preview**: This is a preview of my first post
+**Content:**
+```markdown
+---
+title: My First Post
+date: 2025-12-15
+tags: blog,tutorial
+preview: This is a preview of my first post
+---
+
+# My First Post
+
+Your content here...
+```
 
 Start writing in markdown and let gorky handle the rest!

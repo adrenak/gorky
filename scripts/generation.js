@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
+const matter = require('gray-matter');
 const { extractPostMetadata, generatePostAttributes } = require('./posts');
 
 // ============================================================================
@@ -71,8 +72,11 @@ function generateContentSections(markdownFiles, defaultFile = 'user-content/home
             const fullPath = path.join(__dirname, '..', filePath);
             if (!fs.existsSync(fullPath)) return;
             
-            const markdown = fs.readFileSync(fullPath, 'utf8');
-            let htmlContent = marked.parse(markdown);
+            const fileContent = fs.readFileSync(fullPath, 'utf8');
+            // Parse frontmatter if present, otherwise use content as-is
+            const parsed = matter(fileContent);
+            const markdownContent = parsed.content;
+            let htmlContent = marked.parse(markdownContent);
             
             const isDefault = filePath === defaultFile;
             const displayStyle = isDefault ? 'block' : 'none';
