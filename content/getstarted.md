@@ -79,6 +79,8 @@ Edit `content/sidebar.json` to customize your navigation. The sidebar header, ho
 }
 ```
 
+Beyond the defaults, you can also create custom elements and group them together. See `sidebar.json` for an example.
+
 ## Post Format
 
 Post files can have **any filename** you want - there are no naming requirements! All metadata is defined in YAML frontmatter at the top of each markdown file.

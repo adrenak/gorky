@@ -5,11 +5,12 @@
         "postsDisplayName": "📕 Blog",
         "footer": [
             {
-                "text": "2025 © Vatsal Ambastha"
+                "text": "2025 © Vatsal Ambastha",
+                "target": "https://adrenak.github.io"
             },
             {
                 "text": "Clone this repo",
-                "target": "https://www.github.com"
+                "target": "https://www.github.com/adrenak/gorky"
             }
         ]
     },
@@ -23,23 +24,13 @@
             "openInNewTab": false
         }
     },
-    "Socials": {
-        "Facebook": {
-            "target" : "https://www.facebook.com",
+    "Links": {
+        "Github": {
+            "target" : "https://www.github.com/adrenak/gorky",
             "openInNewTab" : true
         },
-        "Twitter": {
-            "target" : "https://x.com",
-            "openInNewTab" : true
-        }
-    },
-    "Work": {
-        "LinkedIn" : {
-            "target" : "https://www.linkedin.com",
-            "openInNewTab": true
-        },
-        "Github" : {
-            "target" : "https://github.com",
+        "Why I made gorky": {
+            "target" : "https://adrenak.github.io?post=why-i-made-gorky",
             "openInNewTab": true
         }
     }
