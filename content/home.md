@@ -2,6 +2,8 @@
 
 **gorky** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
+Gorky is named after [Maxim Gorky](https://en.wikipedia.org/wiki/Maxim_Gorky)
+
 The layout and design is inspired from [garry.net](https://garry.net)  
 
 ## Why gorky?

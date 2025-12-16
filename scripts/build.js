@@ -17,7 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { generatePostsMd, checkDuplicateSlugs } = require('./posts');
+const { generatePostsMd, checkDuplicateSlugs, extractPostMetadata } = require('./posts');
 const { generateMainNav, generateSidebarNav, generateSidebarHeader, generateSidebarFooter } = require('./sidebar');
 const { collectMarkdownFiles, generateContentSections } = require('./generation');
 
@@ -33,6 +33,69 @@ const PATHS = {
     postsMd: path.join(__dirname, '..', 'content', 'posts.md'),
     homeMd: path.join(__dirname, '..', 'content', 'home.md'),
 };
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+/**
+ * Escapes HTML special characters
+ * @param {string} text - Text to escape
+ * @returns {string} Escaped HTML
+ */
+function escapeHtml(text) {
+    if (!text) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+/**
+ * Extracts SITE_CONFIG from template file
+ * @param {string} templateContent - Template file content
+ * @returns {Object} SITE_CONFIG object
+ */
+function extractSiteConfig(templateContent) {
+    const configMatch = templateContent.match(/const SITE_CONFIG = \{([\s\S]*?)\};/);
+    if (!configMatch) {
+        // Fallback defaults
+        return {
+            baseUrl: 'https://yourusername.github.io/gorky',
+            siteName: 'gorky',
+            defaultDescription: 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
+            defaultKeywords: 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog'
+        };
+    }
+    
+    const configBlock = configMatch[1];
+    const config = {};
+    
+    // Extract baseUrl
+    const baseUrlMatch = configBlock.match(/baseUrl:\s*['"`]([^'"`]+)['"`]/);
+    if (baseUrlMatch) config.baseUrl = baseUrlMatch[1];
+    
+    // Extract siteName
+    const siteNameMatch = configBlock.match(/siteName:\s*['"`]([^'"`]+)['"`]/);
+    if (siteNameMatch) config.siteName = siteNameMatch[1];
+    
+    // Extract defaultDescription
+    const descMatch = configBlock.match(/defaultDescription:\s*['"`]([^'"`]+)['"`]/);
+    if (descMatch) config.defaultDescription = descMatch[1];
+    
+    // Extract defaultKeywords
+    const keywordsMatch = configBlock.match(/defaultKeywords:\s*['"`]([^'"`]+)['"`]/);
+    if (keywordsMatch) config.keywords = keywordsMatch[1];
+    
+    return {
+        baseUrl: config.baseUrl || 'https://yourusername.github.io/gorky',
+        siteName: config.siteName || 'gorky',
+        defaultDescription: config.defaultDescription || 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
+        defaultKeywords: config.keywords || 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog'
+    };
+}
 
 // ============================================================================
 // MAIN BUILD PROCESS
@@ -61,14 +124,35 @@ function build() {
         const DEFAULT_CONTENT_FILE = 'content/home.md';
         const contentHTML = generateContentSections(markdownFiles, DEFAULT_CONTENT_FILE);
         
-        // Read template and replace placeholders
+        // Read template
         let template = fs.readFileSync(PATHS.template, 'utf8');
+        
+        // Extract SITE_CONFIG from template
+        const siteConfig = extractSiteConfig(template);
+        
+        // Extract default page metadata for initial meta tags
+        const defaultMetadata = extractPostMetadata(DEFAULT_CONTENT_FILE, 'content/posts/');
+        const defaultTitle = defaultMetadata.title || siteConfig.siteName;
+        const defaultDescription = defaultMetadata.description || siteConfig.defaultDescription;
+        const defaultKeywords = defaultMetadata.keywords || siteConfig.defaultKeywords;
+        const defaultCanonicalUrl = `${siteConfig.baseUrl}?page=home`;
+        
+        // Replace placeholders
         template = template
             .replace('{{SIDEBAR_HEADER}}', sidebarHeaderHTML)
             .replace('{{MAIN_NAV}}', mainNavHTML)
             .replace('{{SIDEBAR_NAV}}', sidebarNavHTML)
             .replace('{{SIDEBAR_FOOTER}}', sidebarFooterHTML)
-            .replace('{{MARKDOWN_CONTENT}}', contentHTML);
+            .replace('{{MARKDOWN_CONTENT}}', contentHTML)
+            // Pre-populate meta tags with default values for SEO
+            .replace('<meta name="description" content="" id="meta-description">', 
+                     `<meta name="description" content="${escapeHtml(defaultDescription)}" id="meta-description">`)
+            .replace('<meta name="keywords" content="" id="meta-keywords">', 
+                     `<meta name="keywords" content="${escapeHtml(defaultKeywords)}" id="meta-keywords">`)
+            .replace('<link rel="canonical" href="" id="canonical-link">', 
+                     `<link rel="canonical" href="${escapeHtml(defaultCanonicalUrl)}" id="canonical-link">`)
+            .replace('<title id="page-title"></title>', 
+                     `<title id="page-title">${escapeHtml(defaultTitle)}</title>`);
         
         // Write output
         fs.writeFileSync(PATHS.output, template, 'utf8');
