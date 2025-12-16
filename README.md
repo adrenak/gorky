@@ -160,6 +160,27 @@ Edit `content/sidebar.json` to customize your navigation:
 }
 ```
 
+## Custom Pages
+
+All markdown files (not just posts) can include SEO frontmatter for better SEO:
+
+```markdown
+---
+title: About
+description: Learn more about this page
+keywords: about, information
+---
+
+# Your content here
+```
+
+Supported SEO fields:
+- `title` - Page title (used in meta tags and page title)
+- `description` - Page description (used in meta description tag)
+- `keywords` - Comma-separated keywords (used in meta keywords tag)
+
+These fields work the same way as for blog posts and are used for SEO meta tags.
+
 ## Customization
 
 ### Styling

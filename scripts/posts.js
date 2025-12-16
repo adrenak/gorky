@@ -44,52 +44,72 @@ function validatePostFilename(filename) {
 }
 
 /**
+ * Extracts keywords from frontmatter (can be string or array)
+ * @param {any} keywords - Keywords from frontmatter
+ * @returns {string|null} Comma-separated keywords string or null
+ */
+function extractKeywords(keywords) {
+    if (!keywords) return null;
+    
+    if (Array.isArray(keywords)) {
+        return keywords.join(',');
+    } else if (typeof keywords === 'string') {
+        return keywords;
+    }
+    
+    return null;
+}
+
+/**
  * Extracts post metadata from a file path
  * @param {string} filePath - The file path
  * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'content/posts/')
  * @returns {Object} Object with slug, date, tags, title, description (or null for non-post files)
  */
 function extractPostMetadata(filePath, postsFolderPrefix) {
-    if (!isPostFile(filePath, postsFolderPrefix)) {
-        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null, author: null };
-    }
-    
     // Parse frontmatter - all metadata comes from here
     const fullPath = path.join(__dirname, '..', filePath);
     const frontmatter = parseFrontmatter(fullPath);
     
+    // Extract SEO metadata that applies to all files (title, description, keywords)
+    const seoMetadata = {
+        title: frontmatter?.data?.title || null,
+        description: frontmatter?.data?.description || null,
+        keywords: extractKeywords(frontmatter?.data?.keywords) || null,
+    };
+    
+    // For non-post files, return only SEO metadata
+    if (!isPostFile(filePath, postsFolderPrefix)) {
+        return { 
+            slug: null, 
+            date: null, 
+            tags: null, 
+            thumbnail: null, 
+            author: null,
+            ...seoMetadata
+        };
+    }
+    
     if (!frontmatter) {
-        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null, author: null };
+        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, ...seoMetadata };
     }
     
-    // Slug is required in frontmatter
+    // Slug is required in frontmatter for posts
     if (!frontmatter.data.slug) {
-        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null, author: null };
+        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, ...seoMetadata };
     }
     
-    // Get metadata from frontmatter
+    // Get post-specific metadata from frontmatter
     const tagsString = tagsToString(frontmatter.data.tags);
-        const thumbnail = processThumbnailPath(frontmatter.data.thumbnail, 'content/posts/');
-    
-    // Extract keywords from frontmatter (can be string or array)
-    let keywordsString = null;
-    if (frontmatter.data.keywords) {
-        if (Array.isArray(frontmatter.data.keywords)) {
-            keywordsString = frontmatter.data.keywords.join(',');
-        } else if (typeof frontmatter.data.keywords === 'string') {
-            keywordsString = frontmatter.data.keywords;
-        }
-    }
+    const thumbnail = processThumbnailPath(frontmatter.data.thumbnail, 'content/posts/');
     
     return {
         slug: frontmatter.data.slug,
         date: formatDate(frontmatter.data.date),
         tags: tagsString,
-        title: frontmatter.data.title || null,
-        description: frontmatter.data.description || null,
         thumbnail: thumbnail,
-        keywords: keywordsString,
         author: frontmatter.data.author || null,
+        ...seoMetadata
     };
 }
 

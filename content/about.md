@@ -1,3 +1,9 @@
+---
+title: About
+description: Learn more about the creator of this website and blog template
+keywords: about, creator, developer, website
+---
+
 # Who made this? 🤔
 
 <img src="content/images/sf.jpg" alt="Description" style="width: 50%; float: left; padding: 0px 20px 20px 0px" />
