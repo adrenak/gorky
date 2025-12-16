@@ -1,18 +1,18 @@
-# gorky
+# Gorky
 
-**gorky** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
+**Gorky** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
 Gorky is named after [Maxim Gorky](https://en.wikipedia.org/wiki/Maxim_Gorky)
 
 The layout and design is inspired from [garry.net](https://garry.net)  
 
-## Why gorky?
+## Why Gorky?
 
-gorky makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and gorky handles the rest.
+Gorky makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and Gorky handles the rest.
 
 ### Perfect for GitHub Pages
 
-gorky is optimized for GitHub Pages deployment. Simply:
+Gorky is optimized for GitHub Pages deployment. Simply:
 1. Write your content in markdown
 2. Run `npm run build`
 3. Push to GitHub
@@ -22,7 +22,7 @@ Your site is live!
 
 ### Markdown-First Approach
 
-All your content lives in markdown files. Whether it's blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. gorky automatically:
+All your content lives in markdown files. Whether it's blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. Gorky automatically:
 - Converts markdown to beautiful HTML
 - Generates navigation from your sidebar configuration
 - Creates a posts listing page

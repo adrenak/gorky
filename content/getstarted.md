@@ -1,12 +1,12 @@
 ---
 title: Get Started
-description: Learn how to set up and customize your gorky website template
+description: Learn how to set up and customize your Gorky website template
 keywords: getting started, setup, configuration, tutorial, guide
 ---
 
-# Get Started with gorky
+# Get started with Gorky
 
-Welcome to **gorky** - a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
+Welcome to **Gorky** - a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
 
 ## Quick Start
 
@@ -42,7 +42,7 @@ Before deploying your site, you need to update the site configuration in `index-
 ```javascript
 const SITE_CONFIG = {
     baseUrl: 'https://yourusername.github.io/gorky',  // Your GitHub Pages URL
-    siteName: 'gorky',                                 // Your site name
+    siteName: 'Gorky',                                 // Your site name
     authorName: 'Your Name',                           // Default author name
     defaultDescription: 'Your site description...',    // Default meta description
     defaultKeywords: 'keyword1, keyword2'              // Default meta keywords
@@ -67,7 +67,7 @@ Edit `content/sidebar.json` to customize your navigation. The sidebar header, ho
 ```json
 {
     "_defaults": {
-        "header": "gorky",
+        "header": "Gorky",
         "homeDisplayName": "🐥 Home",
         "postsDisplayName": "🪶 Blog",
         "footer": [
@@ -139,7 +139,7 @@ Link to custom pages from your sidebar by referencing them with `?page=filename`
 ## Project Structure
 
 ```
-gorky/
+Gorky/
 ├── content/
 │   ├── home.md              # Your home page content
 │   ├── posts/               # Blog posts directory

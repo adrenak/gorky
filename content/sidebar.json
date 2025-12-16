@@ -1,8 +1,8 @@
 {
     "_defaults": {
-        "header": "gorky",
+        "header": "Gorky",
         "homeDisplayName" : "🏠 Home",
-        "postsDisplayName": "📕 Blog",
+        "postsDisplayName": "📕 Posts",
         "footer": [
             {
                 "text": "2025 © Vatsal Ambastha",
@@ -29,7 +29,7 @@
             "target" : "https://www.github.com/adrenak/gorky",
             "openInNewTab" : true
         },
-        "Why I made gorky": {
+        "Why I made Gorky": {
             "target" : "https://adrenak.github.io?post=why-i-made-gorky",
             "openInNewTab": true
         }
