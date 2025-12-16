@@ -14,12 +14,8 @@
         ]
     },
     "": {
-        "About" : {
-            "target":"?page=about",
-            "openInNewTab": false
-        },
-        "Contact" : {
-            "target": "?page=contact",
+        "Get Started" : {
+            "target":"?page=getstarted",
             "openInNewTab": false
         }
     },

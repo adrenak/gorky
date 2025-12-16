@@ -230,7 +230,7 @@ Posts can have multiple tags. Filter posts by tag using URL parameters:
 
 Add any markdown file to `content/` and link to it from your sidebar:
 - Create `content/about.md`
-- Add link in `sidebar.json`: `"target": "?page=about"`
+- Add link in `sidebar.json`: `"target": "?page=getstarted"`
 
 ### Responsive Design
 
