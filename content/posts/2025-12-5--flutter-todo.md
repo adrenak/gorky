@@ -2,7 +2,7 @@
 slug: flutter-todo
 title: Building a Todo List App in Flutter
 date: 2025-12-5
-tags: flutter,tutorial,code,classic
+tags: flutter, tutorial, code
 description: Learn how to create a simple todo list app with Flutter and Dart
 ---
 

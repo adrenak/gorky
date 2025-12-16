@@ -1,8 +1,8 @@
 {
     "_defaults": {
         "header": "gorky",
-        "homeDisplayName" : "🐥 Home",
-        "postsDisplayName": "🪶 Blog",
+        "homeDisplayName" : "🏠 Home",
+        "postsDisplayName": "📕 Blog",
         "footer": [
             {
                 "text": "2025 © Vatsal Ambastha"
@@ -14,8 +14,12 @@
         ]
     },
     "": {
-        "Get Started" : {
+        "🚀 Get Started" : {
             "target":"?page=getstarted",
+            "openInNewTab": false
+        },
+        "🎨 Customization" : {
+            "target":"?page=customization",
             "openInNewTab": false
         }
     },

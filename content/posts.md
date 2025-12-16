@@ -2,13 +2,17 @@
 
 ## Tags
 
-[classic (3)](?tag=classic) • [code (1)](?tag=code) • [flutter (1)](?tag=flutter) • [literature (1)](?tag=literature) • [markdown (1)](?tag=markdown) • [reference (1)](?tag=reference) • [tutorial (1)](?tag=tutorial)
+[tutorial (2)](?tag=tutorial) • [classic (1)](?tag=classic) • [code (1)](?tag=code) • [flutter (1)](?tag=flutter) • [literature (1)](?tag=literature) • [markdown (1)](?tag=markdown)
 
 ---
 
-## [An Excerpt from Great Expectations](?post=great-expectations)
-
-A memorable passage from Charles Dickens' classic novel
+<div class="post-entry">
+<img src="content/images/great-expectations.jpg" alt="An Excerpt from Great Expectations" class="post-thumbnail" />
+<div class="post-content">
+<h2><a href="?post=great-expectations">An Excerpt from Great Expectations</a></h2>
+<p>A memorable passage from Charles Dickens' classic novel</p>
+</div>
+</div>
 
 ## [Markdown Cheatsheet](?post=markdown-cheatsheet)
 

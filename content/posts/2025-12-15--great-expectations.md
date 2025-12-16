@@ -4,6 +4,7 @@ title: An Excerpt from Great Expectations
 date: 2025-12-15
 tags: literature,classic
 description: A memorable passage from Charles Dickens' classic novel
+thumbnail: content/images/great-expectations.jpg
 ---
 
 *By Charles Dickens*

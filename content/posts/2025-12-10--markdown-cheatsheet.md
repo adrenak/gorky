@@ -2,7 +2,7 @@
 slug: markdown-cheatsheet
 title: Markdown Cheatsheet
 date: 2025-12-10
-tags: reference,markdown,classic
+tags: markdown, tutorial
 description: A quick reference guide for all markdown syntax
 ---
 
