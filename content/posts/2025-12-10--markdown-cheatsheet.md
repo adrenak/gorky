@@ -162,6 +162,59 @@ Hidden content here
 </details>
 ```
 
+## Collapsible Sections
+
+Create accordion-style collapsible sections using HTML `<details>` and `<summary>` tags:
+
+<details>
+<summary>📚 Advanced Markdown Features</summary>
+
+This section contains advanced markdown features that you might find useful:
+
+### Nested Lists with Code
+
+You can combine different markdown elements:
+
+1. **Lists with code**: Use `inline code` within lists
+2. **Links in lists**: [Example link](https://example.com)
+3. **Emphasis**: *Italic* and **bold** text work here too
+
+### Code Blocks in Collapsible Sections
+
+```javascript
+function example() {
+    console.log("This code block is inside a collapsible section!");
+    return true;
+}
+```
+
+### Multiple Collapsible Sections
+
+You can nest collapsible sections:
+
+<details>
+<summary>Nested Section Example</summary>
+
+This is a nested collapsible section. You can have multiple levels of nesting if needed.
+
+</details>
+
+</details>
+
+<details>
+<summary>💡 Pro Tips for Markdown</summary>
+
+Here are some professional tips for writing better markdown:
+
+- **Use consistent spacing**: Add blank lines between sections
+- **Preview often**: Check your rendered output regularly
+- **Use semantic HTML**: When markdown isn't enough, HTML is your friend
+- **Keep it simple**: Markdown is meant to be readable in plain text too
+
+Remember: The best markdown is both readable in source and beautiful when rendered!
+
+</details>
+
 ## Common Patterns
 
 ### Definition Lists
