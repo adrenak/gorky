@@ -99,9 +99,15 @@ function generateContentSections(markdownFiles, defaultFile = 'content/home.md')
             const markdownContent = parsed.content;
             let htmlContent = marked.parse(markdownContent);
             
+            const metadata = extractPostMetadata(filePath, POSTS_FOLDER_PREFIX);
+            
+            // Skip unpublished posts - don't generate HTML for them (only applies to posts)
+            if (metadata && metadata.slug && metadata.published === false) {
+                return;
+            }
+            
             const isDefault = filePath === defaultFile;
             const displayStyle = isDefault ? 'block' : 'none';
-            const metadata = extractPostMetadata(filePath, POSTS_FOLDER_PREFIX);
             
             // Thumbnail is now handled in extractPostMetadata via frontmatter
             

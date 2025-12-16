@@ -61,6 +61,32 @@ function extractKeywords(keywords) {
 }
 
 /**
+ * Checks if a post is published (defaults to true if field doesn't exist)
+ * @param {any} published - Published field from frontmatter
+ * @returns {boolean} true if published, false otherwise
+ */
+function isPostPublished(published) {
+    // If field doesn't exist, default to true (published)
+    if (published === undefined || published === null) {
+        return true;
+    }
+    
+    // Handle boolean values
+    if (typeof published === 'boolean') {
+        return published;
+    }
+    
+    // Handle string values (case-insensitive)
+    if (typeof published === 'string') {
+        const lower = published.toLowerCase().trim();
+        return lower === 'true' || lower === 'yes' || lower === '1';
+    }
+    
+    // For other types, default to true
+    return true;
+}
+
+/**
  * Extracts post metadata from a file path
  * @param {string} filePath - The file path
  * @param {string} postsFolderPrefix - The prefix path for posts folder (e.g., 'content/posts/')
@@ -78,7 +104,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         keywords: extractKeywords(frontmatter?.data?.keywords) || null,
     };
     
-    // For non-post files, return only SEO metadata
+    // For non-post files, return only SEO metadata (no published field check)
     if (!isPostFile(filePath, postsFolderPrefix)) {
         return { 
             slug: null, 
@@ -86,17 +112,24 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
             tags: null, 
             thumbnail: null, 
             author: null,
+            published: true, // Non-post files are always "published"
             ...seoMetadata
         };
     }
     
     if (!frontmatter) {
-        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, ...seoMetadata };
+        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, published: false, ...seoMetadata };
     }
     
     // Slug is required in frontmatter for posts
     if (!frontmatter.data.slug) {
-        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, ...seoMetadata };
+        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, published: false, ...seoMetadata };
+    }
+    
+    // Check if post is published - if not, return null-like object to indicate it should be ignored
+    const published = isPostPublished(frontmatter.data.published);
+    if (!published) {
+        return { slug: null, date: null, tags: null, thumbnail: null, keywords: null, author: null, published: false, ...seoMetadata };
     }
     
     // Get post-specific metadata from frontmatter
@@ -109,6 +142,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         tags: tagsString,
         thumbnail: thumbnail,
         author: frontmatter.data.author || null,
+        published: true,
         ...seoMetadata
     };
 }
@@ -167,6 +201,11 @@ function generatePostsMd(postsPath, postsMdPath) {
         if (!frontmatter.data.slug || !frontmatter.data.title) {
             console.warn(`⚠️  Skipping post file without required frontmatter (slug and title): ${file}`);
             return;
+        }
+
+        // Skip unpublished posts
+        if (!isPostPublished(frontmatter.data.published)) {
+            return; // Silently skip - treat as if file doesn't exist
         }
 
         // Extract tags from frontmatter and count them
@@ -291,6 +330,11 @@ function checkDuplicateSlugs(postsPath) {
         
         if (!frontmatter || !frontmatter.data.slug) {
             invalidFiles.push(`Post file "${file}" is missing required "slug" field in frontmatter`);
+            return;
+        }
+        
+        // Skip unpublished posts - they shouldn't count for duplicate checking
+        if (!isPostPublished(frontmatter.data.published)) {
             return;
         }
         
