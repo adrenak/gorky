@@ -1,0 +1,32 @@
+# My Gorky Site
+
+This site is built with [Gorky](https://github.com/adrenak/gorky), a lightweight, markdown-powered static site generator.
+
+## Getting Started
+
+1. Edit `content/sidebar.json` to configure navigation
+2. Edit `index-template.html` and update the `SITE_CONFIG` object with your site details
+3. Add your markdown files to `content/`
+4. Add images to `content/images/`
+5. Run `gorky build` to generate your site
+
+## Building
+
+```bash
+gorky build
+```
+
+Or use npm:
+
+```bash
+npm run build
+```
+
+## Deployment
+
+This site is ready to deploy to GitHub Pages. Simply:
+
+1. Push your code to GitHub
+2. Enable GitHub Pages in your repository settings on a branch with index.html
+3. Your site will be live!
+

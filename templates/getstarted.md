@@ -1,12 +1,12 @@
 ---
 title: Get Started
-description: Learn how to set up and customize your Gorky website template
+description: Learn how to set up and customize your Gorky website
 keywords: getting started, setup, configuration, tutorial, guide
 ---
 
-# Get started with Gorky
+# Get Started with Gorky
 
-Welcome to **Gorky** - a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
+Welcome! This guide will help you set up and customize your Gorky site.
 
 ## Quick Start
 
@@ -16,41 +16,52 @@ Welcome to **Gorky** - a lightweight, markdown-powered static site generator des
 
 ### Installation
 
-1. Clone or download this repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+If you haven't already, install Gorky:
 
-### Basic Usage
+```bash
+npm install -g gorky
+```
 
-1. Customize `content/sidebar.json` with your links
-2. Edit `content/home.md` with your content
-3. Add posts to `content/posts/` following the frontmatter format (see below)
-4. Build the site:
-   ```bash
-   npm run build
-   ```
-5. Open `index.html` in your browser or deploy to GitHub Pages
+Or install locally in your project:
+
+```bash
+npm install --save-dev gorky
+```
+
+### Building Your Site
+
+Build your site using the Gorky CLI:
+
+```bash
+gorky build
+```
+
+Or use npm:
+
+```bash
+npm run build
+```
+
+This generates `index.html` from your markdown files.
 
 ## Configuration
 
 ### Site-Wide Configuration
 
-Before deploying your site, you need to update the site configuration in `index-template.html`. Look for the `SITE_CONFIG` object (around line 59) and customize these values:
+Update the site configuration in `index-template.html`. Look for the `SITE_CONFIG` object (around line 60) and customize these values:
 
 ```javascript
 const SITE_CONFIG = {
-    baseUrl: 'https://yourusername.github.io/gorky',  // Your GitHub Pages URL
-    siteName: 'Gorky',                                 // Your site name
-    authorName: 'Your Name',                           // Default author name
-    defaultDescription: 'Your site description...',    // Default meta description
-    defaultKeywords: 'keyword1, keyword2'              // Default meta keywords
+    baseUrl: 'https://yourusername.github.io/your-repo',  // Your GitHub Pages URL
+    siteName: 'My Site',                                   // Your site name
+    authorName: 'Your Name',                               // Default author name
+    defaultDescription: 'Your site description...',       // Default meta description
+    defaultKeywords: 'keyword1, keyword2'                   // Default meta keywords
 };
 ```
 
 **Important:** Update `baseUrl` to match your GitHub Pages URL. For example:
-- If your repo is `username/gorky`, use: `https://username.github.io/gorky`
+- If your repo is `username/my-site`, use: `https://username.github.io/my-site`
 - If your repo is `username/username.github.io`, use: `https://username.github.io`
 
 These settings are used for:
@@ -67,19 +78,20 @@ Edit `content/sidebar.json` to customize your navigation. The sidebar header, ho
 ```json
 {
     "_defaults": {
-        "header": "Gorky",
-        "homeDisplayName": "🐥 Home",
-        "postsDisplayName": "🪶 Blog",
+        "header": "My Site",
+        "homeDisplayName": "🏠 Home",
+        "postsDisplayName": "✍️ Posts",
         "footer": [
             {
-                "text": "2025 © Your Name"
+                "text": "2025 © Your Name",
+                "target": "https://yourusername.github.io"
             }
         ]
     }
 }
 ```
 
-Beyond the defaults, you can also create custom elements and group them together. See `sidebar.json` for an example.
+Beyond the defaults, you can create custom navigation sections. See `sidebar.json` for examples.
 
 ## Post Format
 
@@ -96,7 +108,7 @@ title: My First Post
 date: 2025-12-15
 tags: blog,tutorial
 description: This is a preview of my first post
-thumbnail: my-image.jpg
+thumbnail: content/images/my-image.jpg
 keywords: keyword1, keyword2
 author: Author Name
 ---
@@ -117,6 +129,7 @@ Your content here...
 - `thumbnail` - Thumbnail image path (relative to content root, e.g., `content/images/thumb.jpg`)
 - `keywords` - Comma-separated keywords for SEO meta tags
 - `author` - Author name for the post (falls back to `SITE_CONFIG.authorName` if not provided)
+- `published` - Set to `false` to hide a post (defaults to `true`)
 
 ### Custom Pages
 
@@ -134,27 +147,23 @@ keywords: about, information
 Your page content...
 ```
 
-Link to custom pages from your sidebar by referencing them with `?page=filename` (without the `.md` extension).
+Link to custom pages from your sidebar by referencing them with `?page=filename` (without the `.md` extension). For example, to link to `content/about.md`, use `?page=about`.
 
 ## Project Structure
 
 ```
-Gorky/
+my-site/
 ├── content/
 │   ├── home.md              # Your home page content
 │   ├── posts/               # Blog posts directory
 │   │   └── *.md             # Posts with YAML frontmatter (any filename)
+│   ├── images/              # Images directory
 │   ├── sidebar.json         # Sidebar navigation configuration
-│   └── posts.md             # Auto-generated posts listing
-├── scripts/
-│   ├── build.js             # Main build script
-│   ├── posts.js             # Post processing utilities
-│   ├── sidebar.js           # Sidebar generation
-│   ├── generation.js        # Content generation
-│   └── utils.js             # Utility functions
-├── index-template.html      # HTML template (update SITE_CONFIG here!)
-├── index.html               # Generated HTML (auto-generated)
+│   └── posts.md             # Auto-generated posts listing (don't edit)
 ├── styles/                  # CSS styling files
+├── index-template.html      # HTML template (update SITE_CONFIG here!)
+├── index.html               # Generated HTML (auto-generated, don't edit)
+├── gorky.config.js          # Optional configuration file
 ├── package.json             # Node.js dependencies
 └── README.md                # Documentation
 ```
@@ -168,13 +177,26 @@ Gorky/
 
 **Tip:** If you want your site at `username.github.io`, create a repository named exactly `username.github.io` and set `baseUrl` in `SITE_CONFIG` to `https://username.github.io`.
 
+## Optional Configuration
+
+Create a `gorky.config.js` file to customize paths:
+
+```javascript
+module.exports = {
+  contentDir: 'content',
+  outputFile: 'index.html',
+  templateFile: 'index-template.html',
+  stylesDir: 'styles'
+};
+```
+
 ## Next Steps
 
-- Create your first blog post in `content/posts/`
-- Customize the sidebar in `content/sidebar.json`
-- Edit your home page content in `content/home.md`
-- Customize the styling in the `styles/` directory
-- Build and test locally with `npm run build`
+- ✅ Customize the sidebar in `content/sidebar.json`
+- ✅ Edit your home page content in `content/home.md`
+- ✅ Update `SITE_CONFIG` in `index-template.html`
+- ✅ Create your first blog post in `content/posts/`
+- ✅ Customize the styling in the `styles/` directory
+- ✅ Build and test locally with `gorky build`
 
 Happy blogging! 🚀
-

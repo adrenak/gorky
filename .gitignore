@@ -4,6 +4,10 @@ node_modules/
 # Generated files
 index.html
 
+# User site content (not part of package)
+content/
+index-template.html
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

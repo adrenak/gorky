@@ -6,19 +6,58 @@ Gorky is named after [Maxim Gorky](https://en.wikipedia.org/wiki/Maxim_Gorky)
 
 The layout and design is inspired from [garry.net](https://garry.net)  
 
+## Installation
+
+```bash
+npm install -g gorky
+```
+
+Or install locally in your project:
+
+```bash
+npm install --save-dev gorky
+```
+
+## Quick Start
+
+### 1. Initialize a new site
+
+```bash
+gorky init my-site
+cd my-site
+```
+
+This creates a new Gorky site with example content and templates.
+
+### 2. Customize your site
+
+- Edit `content/sidebar.json` to configure navigation
+- Edit `index-template.html` and update the `SITE_CONFIG` object
+- Add your markdown files to `content/`
+- Create blog posts in `content/posts/`
+
+### 3. Build your site
+
+```bash
+gorky build
+```
+
+Or use npm:
+
+```bash
+npm run build
+```
+
+### 4. Deploy to GitHub Pages
+
+1. Push your code to GitHub
+2. Go to Settings → Pages
+3. Select the branch with `index.html`
+4. Your site is live!
+
 ## Why Gorky?
 
 Gorky makes it incredibly simple to create and maintain a static website using **markdown files**. No complex build tools, no database setup, just write your content in markdown and Gorky handles the rest.
-
-### Perfect for GitHub Pages
-
-Gorky is optimized for GitHub Pages deployment. Simply:
-1. Write your content in markdown
-2. Run `npm run build`
-3. Push to GitHub
-4. Enable GitHub Pages
-
-Your site is live!
 
 ### Markdown-First Approach
 
@@ -45,4 +84,28 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
-_Disclaimer: LLM generated code and documentation has been heaviily used in Gorky_
+## CLI Commands
+
+- `gorky init [project-name]` - Initialize a new Gorky site
+- `gorky build` - Build the static site
+
+## Configuration
+
+Create a `gorky.config.js` file to customize paths (optional):
+
+```javascript
+module.exports = {
+  contentDir: 'content',
+  outputFile: 'index.html',
+  templateFile: 'index-template.html',
+  stylesDir: 'styles'
+};
+```
+
+## License
+
+MIT
+
+---
+
+_Disclaimer: LLM generated code and documentation has been heavily used in Gorky_
