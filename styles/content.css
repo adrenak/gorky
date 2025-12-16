@@ -111,6 +111,7 @@
     color: #0066cc;
     text-decoration: none;
     transition: color 0.2s ease;
+    font-weight: 600;
 }
 
 #markdown-content a:hover {
@@ -146,6 +147,7 @@
     text-decoration: none;
     margin-left: 0.25rem;
     transition: text-decoration 0.2s ease;
+    font-weight: 600;
 }
 
 .post-tags .tag-link:hover {
