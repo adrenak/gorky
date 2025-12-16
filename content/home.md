@@ -44,3 +44,5 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Client-Side Routing**: Fast navigation without page reloads
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Lightweight**: Minimal dependencies, fast load times
+
+_Disclaimer: LLM generated code and documentation has been heaviily used in Gorky_
