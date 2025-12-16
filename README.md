@@ -122,6 +122,7 @@ Your content here...
 - `description` - Description text shown in the posts listing (also used as meta description for SEO)
 - `thumbnail` - Thumbnail image filename (or path relative to posts directory)
 - `keywords` - Comma-separated keywords for SEO meta tags (e.g., `keyword1, keyword2`) or array format (e.g., `[keyword1, keyword2]`)
+- `author` - Author name for the post (used in structured data; falls back to AUTHOR_NAME in template if not provided)
 - Any other custom fields you want to add
 
 ### Example Files

@@ -58,6 +58,8 @@
         // ============================================================================
         
         const BASE_URL = 'https://yourusername.github.io/gorky';
+        const SITE_NAME = 'gorky';
+        const AUTHOR_NAME = 'Your Name';
         const DEFAULT_PAGE = 'content/home.md';
         const CONTENT_ID_PREFIX = 'content-';
         const TAG_LIST_ID = 'tag-posts-list';
@@ -226,15 +228,63 @@
         }
         
         /**
-         * Updates meta tags (title, description, keywords) based on current content
+         * Helper function to get or create a meta tag
+         */
+        function getOrCreateMetaTag(attribute, value, property = false) {
+            const selector = property ? `meta[property="${attribute}"]` : `meta[name="${attribute}"]`;
+            let meta = document.querySelector(selector);
+            if (!meta) {
+                meta = document.createElement('meta');
+                if (property) {
+                    meta.setAttribute('property', attribute);
+                } else {
+                    meta.setAttribute('name', attribute);
+                }
+                document.head.appendChild(meta);
+            }
+            meta.setAttribute('content', value);
+        }
+        
+        /**
+         * Removes a meta tag if it exists
+         */
+        function removeMetaTag(attribute, property = false) {
+            const selector = property ? `meta[property="${attribute}"]` : `meta[name="${attribute}"]`;
+            const meta = document.querySelector(selector);
+            if (meta) {
+                meta.remove();
+            }
+        }
+        
+        /**
+         * Converts a relative URL to absolute URL
+         */
+        function getAbsoluteUrl(relativeUrl) {
+            if (!relativeUrl) return null;
+            if (relativeUrl.startsWith('http://') || relativeUrl.startsWith('https://')) {
+                return relativeUrl;
+            }
+            // Remove leading slash if present, BASE_URL should handle it
+            const cleanUrl = relativeUrl.startsWith('/') ? relativeUrl.slice(1) : relativeUrl;
+            return `${BASE_URL}/${cleanUrl}`;
+        }
+        
+        /**
+         * Updates meta tags (title, description, keywords, Open Graph, Twitter Cards) and structured data based on current content
          */
         function updateMetaTags() {
             const tagParam = getURLParameter('tag');
             const postSlug = getURLParameter('post');
+            const pageParam = getURLParameter('page');
             
-            let title = 'gorky';
+            let title = SITE_NAME;
             let description = 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.';
             let keywords = 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog';
+            let image = null;
+            let url = BASE_URL;
+            let datePublished = null;
+            let tags = null;
+            let isPost = false;
             
             // Get meta tags from current visible content section
             const visibleSection = document.querySelector('.content-section[style*="block"]') || 
@@ -244,6 +294,11 @@
                 const sectionTitle = visibleSection.getAttribute('data-title');
                 const sectionDescription = visibleSection.getAttribute('data-description');
                 const sectionKeywords = visibleSection.getAttribute('data-keywords');
+                const sectionThumbnail = visibleSection.getAttribute('data-thumbnail');
+                const sectionDate = visibleSection.getAttribute('data-date');
+                const sectionTags = visibleSection.getAttribute('data-tags');
+                const sectionSlug = visibleSection.getAttribute('data-slug');
+                const sectionAuthor = visibleSection.getAttribute('data-author');
                 
                 if (sectionTitle) {
                     title = sectionTitle;
@@ -256,13 +311,34 @@
                 if (sectionKeywords) {
                     keywords = sectionKeywords;
                 } else if (tagParam) {
-                    // For tag pages, use the tag as keyword
                     keywords = tagParam;
+                }
+                
+                if (sectionThumbnail) {
+                    image = getAbsoluteUrl(sectionThumbnail);
+                }
+                
+                if (sectionDate) {
+                    datePublished = sectionDate;
+                }
+                
+                if (sectionTags) {
+                    tags = sectionTags.split(',').map(t => t.trim());
+                }
+                
+                if (sectionAuthor) {
+                    author = sectionAuthor;
+                }
+                
+                if (sectionSlug) {
+                    url = `${BASE_URL}?post=${sectionSlug}`;
+                    isPost = true;
                 }
             } else if (tagParam) {
                 // Tag filtering page
-                title = `Posts tagged ${tagParam} - gorky`;
+                title = `Posts tagged ${tagParam} - ${SITE_NAME}`;
                 keywords = tagParam;
+                url = `${BASE_URL}?tag=${encodeURIComponent(tagParam)}`;
             } else if (postSlug) {
                 // Fallback: try to find post by slug
                 const postSection = document.querySelector(`.content-section[data-slug="${postSlug}"]`);
@@ -270,33 +346,151 @@
                     const postTitle = postSection.getAttribute('data-title');
                     const postDescription = postSection.getAttribute('data-description');
                     const postKeywords = postSection.getAttribute('data-keywords');
+                    const postThumbnail = postSection.getAttribute('data-thumbnail');
+                    const postDate = postSection.getAttribute('data-date');
+                    const postTags = postSection.getAttribute('data-tags');
+                    const postAuthor = postSection.getAttribute('data-author');
                     
                     if (postTitle) title = postTitle;
                     if (postDescription) description = postDescription;
                     if (postKeywords) keywords = postKeywords;
+                    if (postThumbnail) image = getAbsoluteUrl(postThumbnail);
+                    if (postDate) datePublished = postDate;
+                    if (postTags) tags = postTags.split(',').map(t => t.trim());
+                    if (postAuthor) author = postAuthor;
+                    
+                    url = `${BASE_URL}?post=${postSlug}`;
+                    isPost = true;
                 }
+            } else if (pageParam) {
+                url = `${BASE_URL}?page=${pageParam}`;
+            } else {
+                url = `${BASE_URL}?page=home`;
             }
             
             // Update title
             document.title = title;
             
-            // Update description meta tag
-            let descMeta = document.querySelector('meta[name="description"]');
-            if (!descMeta) {
-                descMeta = document.createElement('meta');
-                descMeta.setAttribute('name', 'description');
-                document.head.appendChild(descMeta);
-            }
-            descMeta.setAttribute('content', description);
+            // Update basic meta tags
+            getOrCreateMetaTag('description', description);
+            getOrCreateMetaTag('keywords', keywords);
             
-            // Update keywords meta tag
-            let keywordsMeta = document.querySelector('meta[name="keywords"]');
-            if (!keywordsMeta) {
-                keywordsMeta = document.createElement('meta');
-                keywordsMeta.setAttribute('name', 'keywords');
-                document.head.appendChild(keywordsMeta);
+            // Update Open Graph tags
+            getOrCreateMetaTag('og:title', title, true);
+            getOrCreateMetaTag('og:description', description, true);
+            getOrCreateMetaTag('og:url', url, true);
+            getOrCreateMetaTag('og:type', isPost ? 'article' : 'website', true);
+            getOrCreateMetaTag('og:site_name', SITE_NAME, true);
+            if (image) {
+                getOrCreateMetaTag('og:image', image, true);
+            } else {
+                removeMetaTag('og:image', true);
             }
-            keywordsMeta.setAttribute('content', keywords);
+            
+            // Update Twitter Card tags
+            getOrCreateMetaTag('twitter:card', image ? 'summary_large_image' : 'summary');
+            getOrCreateMetaTag('twitter:title', title);
+            getOrCreateMetaTag('twitter:description', description);
+            if (image) {
+                getOrCreateMetaTag('twitter:image', image);
+            } else {
+                removeMetaTag('twitter:image');
+            }
+            
+            // Update structured data (JSON-LD)
+            updateStructuredData(title, description, image, url, datePublished, tags, author, isPost);
+        }
+        
+        /**
+         * Converts formatted date (e.g., "9 Dec 2025") to ISO 8601 format (e.g., "2025-12-09")
+         */
+        function convertDateToISO(dateStr) {
+            if (!dateStr) return null;
+            
+            const MONTHS = {
+                'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+                'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+            };
+            
+            const parts = dateStr.split(' ');
+            if (parts.length !== 3) return null;
+            
+            const day = parts[0].padStart(2, '0');
+            const month = MONTHS[parts[1]];
+            const year = parts[2];
+            
+            if (!month) return null;
+            
+            return `${year}-${month}-${day}`;
+        }
+        
+        /**
+         * Updates JSON-LD structured data for SEO
+         */
+        function updateStructuredData(title, description, image, url, datePublished, tags, author, isPost) {
+            // Remove existing structured data
+            const existingScript = document.querySelector('script[type="application/ld+json"]');
+            if (existingScript) {
+                existingScript.remove();
+            }
+            
+            if (isPost && datePublished) {
+                // Convert date to ISO format for schema.org
+                const isoDate = convertDateToISO(datePublished);
+                
+                // Article schema for blog posts
+                const articleSchema = {
+                    '@context': 'https://schema.org',
+                    '@type': 'BlogPosting',
+                    'headline': title,
+                    'description': description,
+                    'url': url
+                };
+                
+                if (isoDate) {
+                    articleSchema.datePublished = isoDate;
+                }
+                
+                if (image) {
+                    articleSchema.image = image;
+                }
+                
+                if (tags && tags.length > 0) {
+                    articleSchema.keywords = tags.join(', ');
+                }
+                
+                // Add author - use frontmatter author if available, otherwise fallback to AUTHOR_NAME
+                const authorName = author || AUTHOR_NAME;
+                if (authorName) {
+                    articleSchema.author = {
+                        '@type': 'Person',
+                        'name': authorName
+                    };
+                }
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(articleSchema);
+                document.head.appendChild(script);
+            } else {
+                // WebPage schema for other pages
+                const webpageSchema = {
+                    '@context': 'https://schema.org',
+                    '@type': 'WebPage',
+                    'name': title,
+                    'description': description,
+                    'url': url
+                };
+                
+                if (image) {
+                    webpageSchema.image = image;
+                }
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(webpageSchema);
+                document.head.appendChild(script);
+            }
         }
         
         /**

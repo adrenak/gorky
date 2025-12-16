@@ -51,7 +51,7 @@ function validatePostFilename(filename) {
  */
 function extractPostMetadata(filePath, postsFolderPrefix) {
     if (!isPostFile(filePath, postsFolderPrefix)) {
-        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null };
+        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null, author: null };
     }
     
     // Parse frontmatter - all metadata comes from here
@@ -59,12 +59,12 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
     const frontmatter = parseFrontmatter(fullPath);
     
     if (!frontmatter) {
-        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null };
+        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null, author: null };
     }
     
     // Slug is required in frontmatter
     if (!frontmatter.data.slug) {
-        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null };
+        return { slug: null, date: null, tags: null, title: null, description: null, thumbnail: null, keywords: null, author: null };
     }
     
     // Get metadata from frontmatter
@@ -89,6 +89,7 @@ function extractPostMetadata(filePath, postsFolderPrefix) {
         description: frontmatter.data.description || null,
         thumbnail: thumbnail,
         keywords: keywordsString,
+        author: frontmatter.data.author || null,
     };
 }
 
@@ -330,6 +331,9 @@ function generatePostAttributes(metadata) {
     }
     if (metadata.keywords) {
         attrs.push(`data-keywords="${escapeHtmlAttribute(metadata.keywords)}"`);
+    }
+    if (metadata.author) {
+        attrs.push(`data-author="${escapeHtmlAttribute(metadata.author)}"`);
     }
     return attrs.join(' ');
 }
