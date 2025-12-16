@@ -122,6 +122,17 @@ function generateSidebarNav(sidebarData) {
 }
 
 /**
+ * Generates sidebar header HTML from JSON
+ * @param {Object} sidebarData - Sidebar configuration data
+ * @returns {string} Header HTML string
+ */
+function generateSidebarHeader(sidebarData) {
+    const defaults = sidebarData._defaults || {};
+    const headerText = defaults.header || 'gorky';
+    return `<h1>${headerText}</h1>`;
+}
+
+/**
  * Generates sidebar footer HTML from JSON
  * @param {Object} sidebarData - Sidebar configuration data
  * @returns {string} Footer HTML string
@@ -160,6 +171,7 @@ module.exports = {
     generateNavItem,
     generateMainNav,
     generateSidebarNav,
+    generateSidebarHeader,
     generateSidebarFooter,
 };
 

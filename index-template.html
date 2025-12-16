@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.">
-    <meta name="keywords" content="gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog">
-    <link rel="canonical" href="https://yourusername.github.io/gorky?page=home">
-    <title>gorky</title>
+    <meta name="description" content="" id="meta-description">
+    <meta name="keywords" content="" id="meta-keywords">
+    <link rel="canonical" href="" id="canonical-link">
+    <title id="page-title"></title>
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/layout.css">
     <link rel="stylesheet" href="styles/navigation.css">
@@ -30,7 +30,7 @@
         <!-- Left Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h1>gorky</h1>
+                {{SIDEBAR_HEADER}}
             </div>
             <nav class="sidebar-main-nav">
                 {{MAIN_NAV}}
@@ -54,12 +54,23 @@
 
     <script>
         // ============================================================================
+        // SITE CONFIGURATION - CUSTOMIZE THESE VALUES
+        // ============================================================================
+        const SITE_CONFIG = {
+            baseUrl: 'https://yourusername.github.io/gorky',
+            siteName: 'gorky',
+            authorName: 'Your Name',
+            defaultDescription: 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
+            defaultKeywords: 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog'
+        };
+        
+        // ============================================================================
         // CONSTANTS
         // ============================================================================
         
-        const BASE_URL = 'https://yourusername.github.io/gorky';
-        const SITE_NAME = 'gorky';
-        const AUTHOR_NAME = 'Your Name';
+        const BASE_URL = SITE_CONFIG.baseUrl;
+        const SITE_NAME = SITE_CONFIG.siteName;
+        const AUTHOR_NAME = SITE_CONFIG.authorName;
         const DEFAULT_PAGE = 'content/home.md';
         const CONTENT_ID_PREFIX = 'content-';
         const TAG_LIST_ID = 'tag-posts-list';
@@ -277,9 +288,9 @@
             const postSlug = getURLParameter('post');
             const pageParam = getURLParameter('page');
             
-            let title = SITE_NAME;
-            let description = 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.';
-            let keywords = 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog';
+            let title = SITE_CONFIG.siteName;
+            let description = SITE_CONFIG.defaultDescription;
+            let keywords = SITE_CONFIG.defaultKeywords;
             let image = null;
             let url = BASE_URL;
             let datePublished = null;
@@ -751,6 +762,12 @@
         
         // Content switching functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize default meta tags from SITE_CONFIG
+            document.getElementById('meta-description').setAttribute('content', SITE_CONFIG.defaultDescription);
+            document.getElementById('meta-keywords').setAttribute('content', SITE_CONFIG.defaultKeywords);
+            document.getElementById('canonical-link').setAttribute('href', `${SITE_CONFIG.baseUrl}?page=home`);
+            document.getElementById('page-title').textContent = SITE_CONFIG.siteName;
+            
             // Set up nav link click handlers
             // Handle navigation links with data-url (URL parameters)
             const navLinksWithURL = document.querySelectorAll('.nav-link[data-url]');

@@ -1,5 +1,6 @@
 {
     "_defaults": {
+        "header": "gorky",
         "homeDisplayName" : "🐥 Home",
         "postsDisplayName": "🪶 Blog",
         "footer": [
