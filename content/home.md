@@ -45,4 +45,4 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
-_Disclaimer: LLM generated code and documentation has been heaviily used in Gorky_
+_Disclaimer: LLM generated code and documentation has been used in Gorky_
