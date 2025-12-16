@@ -23,9 +23,20 @@ const { isURLParameter } = require('./utils');
  */
 function generateNavItem(label, config, isActive = false) {
     // Extract emoji and text from label (e.g., "🏠 Home" -> emoji: "🏠", text: "Home")
+    // Only treat as emoji if the first group contains emoji characters
     const emojiMatch = label.match(/^([^\s]+)\s+(.+)$/);
-    const emoji = emojiMatch ? emojiMatch[1] : '';
-    const text = emojiMatch ? emojiMatch[2] : label;
+    let emoji = '';
+    let text = label;
+    
+    if (emojiMatch) {
+        const potentialEmoji = emojiMatch[1];
+        // Check if it's actually an emoji (contains emoji Unicode ranges or common emoji characters)
+        const emojiPattern = /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F1E0}-\u{1F1FF}]/u;
+        if (emojiPattern.test(potentialEmoji)) {
+            emoji = potentialEmoji;
+            text = emojiMatch[2];
+        }
+    }
     
     const activeClass = isActive ? ' active' : '';
     const isURLParam = isURLParameter(config.target);
