@@ -7,6 +7,9 @@
     <meta name="keywords" content="" id="meta-keywords">
     <link rel="canonical" href="" id="canonical-link">
     <title id="page-title"></title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" id="favicon-link">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" id="apple-touch-icon-link">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/layout.css">
@@ -62,7 +65,9 @@
             siteName: 'Gorky',
             authorName: 'Your Name',
             defaultDescription: 'gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
-            defaultKeywords: 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog'
+            defaultKeywords: 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog',
+            favicon: 'favicon.ico',  // Optional: path to favicon (default: favicon.ico)
+            appleTouchIcon: 'apple-touch-icon.png'  // Optional: path to Apple touch icon
         };
         
         // ============================================================================
@@ -768,6 +773,20 @@
             document.getElementById('meta-keywords').setAttribute('content', SITE_CONFIG.defaultKeywords);
             document.getElementById('canonical-link').setAttribute('href', `${SITE_CONFIG.baseUrl}?page=home`);
             document.getElementById('page-title').textContent = SITE_CONFIG.siteName;
+            
+            // Set favicon if configured
+            if (SITE_CONFIG.favicon) {
+                const faviconLink = document.getElementById('favicon-link');
+                if (faviconLink) {
+                    faviconLink.setAttribute('href', SITE_CONFIG.favicon);
+                }
+            }
+            if (SITE_CONFIG.appleTouchIcon) {
+                const appleIconLink = document.getElementById('apple-touch-icon-link');
+                if (appleIconLink) {
+                    appleIconLink.setAttribute('href', SITE_CONFIG.appleTouchIcon);
+                }
+            }
             
             // Set up nav link click handlers
             // Handle navigation links with data-url (URL parameters)

@@ -56,7 +56,9 @@ const SITE_CONFIG = {
     siteName: 'My Site',                                   // Your site name
     authorName: 'Your Name',                               // Default author name
     defaultDescription: 'Your site description...',       // Default meta description
-    defaultKeywords: 'keyword1, keyword2'                   // Default meta keywords
+    defaultKeywords: 'keyword1, keyword2',                 // Default meta keywords
+    favicon: 'favicon.ico',                                // Optional: path to favicon
+    appleTouchIcon: 'apple-touch-icon.png'                 // Optional: path to Apple touch icon
 };
 ```
 
@@ -130,6 +132,25 @@ Your content here...
 - `keywords` - Comma-separated keywords for SEO meta tags
 - `author` - Author name for the post (falls back to `SITE_CONFIG.authorName` if not provided)
 - `published` - Set to `false` to hide a post (defaults to `true`)
+
+### Favicon
+
+Add a favicon to your site:
+
+1. Create or obtain a `favicon.ico` file (16x16 or 32x32 pixels)
+2. Place it in your site root (same directory as `index.html`)
+3. Optionally create `apple-touch-icon.png` (180x180 pixels) for iOS devices
+4. The favicon will be automatically used (defaults to `favicon.ico`)
+
+To customize the favicon path, update `SITE_CONFIG` in `index-template.html`:
+
+```javascript
+const SITE_CONFIG = {
+    // ... other config
+    favicon: 'favicon.ico',              // Path to favicon
+    appleTouchIcon: 'apple-touch-icon.png'  // Path to Apple touch icon
+};
+```
 
 ### Custom Pages
 
