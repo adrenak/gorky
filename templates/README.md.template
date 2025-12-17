@@ -3,12 +3,11 @@
 This site is built with [Gorky](https://github.com/adrenak/gorky), a lightweight, markdown-powered static site generator.
 
 ## Getting Started
-
-1. Edit `content/sidebar.json` to configure navigation
-2. Edit `index-template.html` and update the `SITE_CONFIG` object with your site details
-3. Add your markdown files to `content/`
-4. Add images to `content/images/`
-5. Run `gorky build` to generate your site
+- Edit `content/sidebar.json` to configure navigation
+- Edit `site-config.js` to configure site-wide settings (baseUrl, siteName, etc.)
+- Add your markdown files to `content/`
+- Create blog posts in `content/posts/`
+- Place images anywhere in `content`, for example `content/images` for using in your markdown files
 
 ## Building
 
@@ -21,6 +20,10 @@ Or use npm:
 ```bash
 npm run build
 ```
+
+Your site will be generated as `index.html`. 
+
+If you want to rename or move some things, look at `gorky.config.js`
 
 ## Deployment
 

@@ -308,6 +308,3 @@ Edit `styles/content.css`:
 - Check the comments in each CSS file - they describe what each section controls
 - Use browser DevTools to inspect elements and see which CSS file controls them
 - Test changes incrementally - change one thing at a time to see the effect
-
-Happy customizing! 🎨
-

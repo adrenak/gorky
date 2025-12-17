@@ -68,7 +68,7 @@ This configuration is automatically injected into your site during the build pro
 - If your repo is `username/my-site`, use: `https://username.github.io/my-site`
 - If your repo is `username/username.github.io`, use: `https://username.github.io`
 
-These settings are used for:
+These settings are also used for:
 - SEO meta tags (title, description, keywords)
 - Open Graph tags for social media sharing
 - Canonical URLs
@@ -95,17 +95,15 @@ Edit `content/sidebar.json` to customize your navigation. The sidebar header, ho
 }
 ```
 
-Beyond the defaults, you can create custom navigation sections. See `sidebar.json` for examples.
+Beyond the defaults, you can create custom navigation sections. See `content/sidebar.json` for how this sidebar you're seeing right now is configured.
 
 ## Post Format
 
-Post files can have **any filename** you want - there are no naming requirements! All metadata is defined in YAML frontmatter at the top of each markdown file.
-
-### Frontmatter
-
+Post files can have any filename you want. All metadata is defined in YAML frontmatter at the top of each markdown file.
+  
 Post metadata is defined in YAML frontmatter at the top of each markdown file:
 
-```markdown
+```
 ---
 slug: my-first-post
 title: My First Post
@@ -135,7 +133,9 @@ Your content here...
 - `author` - Author name for the post (falls back to `SITE_CONFIG.authorName` if not provided)
 - `published` - Set to `false` to hide a post (defaults to `true`)
 
-### Favicon
+> 💡 You can directly visit `<URL>?post=slug` to land on a specific post.
+
+## Favicon
 
 Add a favicon to your site:
 
@@ -144,7 +144,7 @@ Add a favicon to your site:
 3. Optionally create `apple-touch-icon.png` (180x180 pixels) for iOS devices
 4. The favicon will be automatically used (defaults to `favicon.ico`)
 
-To customize the favicon path, update `SITE_CONFIG` in `index-template.html`:
+To customize the favicon path, edit `site-config.js` in your project root:
 
 ```javascript
 const SITE_CONFIG = {
@@ -154,15 +154,16 @@ const SITE_CONFIG = {
 };
 ```
 
-### Custom Pages
+## Custom Pages
 
 Any markdown file in the `content/` directory (not in `posts/`) can be a custom page. Add frontmatter for SEO:
 
-```markdown
+```
 ---
 title: About
 description: Learn more about this site
 keywords: about, information
+
 ---
 
 # About
@@ -171,6 +172,8 @@ Your page content...
 ```
 
 Link to custom pages from your sidebar by referencing them with `?page=filename` (without the `.md` extension). For example, to link to `content/about.md`, use `?page=about`.
+
+> 💡 You can also directly land on a page using `?page=filename` in the browser address bar.
 
 ## Project Structure
 
@@ -212,14 +215,3 @@ module.exports = {
   stylesDir: 'styles'
 };
 ```
-
-## Next Steps
-
-- ✅ Customize the sidebar in `content/sidebar.json`
-- ✅ Edit your home page content in `content/home.md`
-- ✅ Update `SITE_CONFIG` in `index-template.html`
-- ✅ Create your first blog post in `content/posts/`
-- ✅ Customize the styling in the `styles/` directory
-- ✅ Build and test locally with `gorky build`
-
-Happy blogging! 🚀
