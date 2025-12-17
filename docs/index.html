@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A lightweight, markdown-powered static site generator" id="meta-description">
+    <meta name="keywords" content="gorky, static site generator, markdown, blog" id="meta-keywords">
+    <link rel="canonical" href="https://adrenak.github.io/gorky?page=home" id="canonical-link">
+    <title id="page-title">Gorky</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="styles/mobile.css">
+    <link rel="stylesheet" href="styles/content.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Hamburger Menu Button (mobile/portrait only) -->
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- Left Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Gorky</h1>
+            </div>
+            <nav class="sidebar-main-nav">
+                <a href="#" class="nav-link active" data-url="?page=home">
+    <span class="nav-icon">🏠</span>
+    <span>Home</span>
+</a>
+<a href="#" class="nav-link" data-url="?page=posts">
+    <span class="nav-icon">✍️</span>
+    <span>Posts</span>
+</a>
+
+            </nav>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+    <h3 class="section-title">Documentation</h3>
+    <ul class="section-list">
+        <li>
+            <a href="#" class="nav-link" data-url="?page=getstarted">
+                <span>Get Started</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link" data-url="?page=customization">
+                <span>Customization</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="sidebar-section">
+    <h3 class="section-title">Links</h3>
+    <ul class="section-list">
+        <li>
+            <a href="https://github.com/adrenak/gorky" class="nav-link" target="_blank" rel="noopener noreferrer">
+                <span>GitHub</span>
+                <span class="external-icon">↗</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+            </nav>
+            <div class="sidebar-footer">
+    <a href="https://adrenak.github.io" class="footer-link">2025 © Vatsal Ambastha</a>
+    <a href="https://github.com/adrenak/gorky" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+</div>
+
+        </aside>
+        
+        <!-- Overlay for mobile (closes sidebar when clicked) -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="markdown-content">
+                <div id="content-content/customization-md" class="content-section" data-title="Customization" data-description="Learn how to customize fonts, colors, and styling to make your website unique" data-keywords="customization, styling, fonts, colors, CSS, theme" style="display: none;">
+<h1>Customization Guide</h1>
+<p>This guide will help you customize the look and feel of your gorky website by modifying fonts and colors. All styling is controlled through CSS files in the <code>styles/</code> directory.</p>
+<h2>CSS File Structure</h2>
+<p>The styles are organized into several files, each controlling different aspects:</p>
+<ul>
+<li><strong><code>styles/base.css</code></strong> - Global font family and base styles</li>
+<li><strong><code>styles/layout.css</code></strong> - Main layout, sidebar, and background colors</li>
+<li><strong><code>styles/navigation.css</code></strong> - Navigation links, hover states, and active states</li>
+<li><strong><code>styles/content.css</code></strong> - Content typography, headings, links, and code blocks</li>
+<li><strong><code>styles/mobile.css</code></strong> - Mobile-specific styles</li>
+<li><strong><code>styles/responsive.css</code></strong> - Responsive breakpoints and adjustments</li>
+</ul>
+<h2>Changing Fonts</h2>
+<h3>Main Body Font</h3>
+<p>The main font for all content is set in <code>styles/base.css</code>. By default, it uses a system font stack:</p>
+<pre><code class="language-css">body {
+    font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+</code></pre>
+<p><strong>To change it</strong>, edit <code>styles/base.css</code> and replace with your preferred font:</p>
+<pre><code class="language-css">body {
+    font-family: &#39;Your Font Name&#39;, sans-serif;
+}
+</code></pre>
+<p><strong>Using Google Fonts:</strong></p>
+<ol>
+<li><p>Add the font link in <code>index-template.html</code> (in the <code>&lt;head&gt;</code> section):</p>
+<pre><code class="language-html">&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+</code></pre>
+</li>
+<li><p>Update <code>styles/base.css</code>:</p>
+<pre><code class="language-css">body {
+    font-family: &#39;Inter&#39;, sans-serif;
+}
+</code></pre>
+</li>
+</ol>
+<p><strong>Popular font choices:</strong></p>
+<ul>
+<li><code>&#39;Inter&#39;, sans-serif</code> - Modern, clean sans-serif</li>
+<li><code>&#39;Merriweather&#39;, serif</code> - Readable serif font</li>
+<li><code>&#39;Fira Code&#39;, monospace</code> - For a monospace feel</li>
+<li><code>&#39;Playfair Display&#39;, serif</code> - Elegant serif</li>
+</ul>
+<h3>Heading Fonts</h3>
+<p>Headings use the same font as the body by default. To change heading fonts, edit <code>styles/content.css</code>:</p>
+<pre><code class="language-css">#markdown-content h1 {
+    font-family: &#39;Your Heading Font&#39;, sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#markdown-content h2 {
+    font-family: &#39;Your Heading Font&#39;, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+</code></pre>
+<h3>Code Font</h3>
+<p>Code blocks and inline code use a monospace font. Edit <code>styles/content.css</code>:</p>
+<pre><code class="language-css">#markdown-content code {
+    font-family: &#39;Courier New&#39;, monospace;
+    /* Or use a custom monospace font */
+    /* font-family: &#39;Fira Code&#39;, &#39;Courier New&#39;, monospace; */
+}
+</code></pre>
+<p><strong>Popular monospace fonts:</strong></p>
+<ul>
+<li><code>&#39;Fira Code&#39;</code> - Programming font with ligatures</li>
+<li><code>&#39;JetBrains Mono&#39;</code> - Modern monospace</li>
+<li><code>&#39;Source Code Pro&#39;</code> - Clean code font</li>
+</ul>
+<h2>Changing Colors</h2>
+<h3>Sidebar Background</h3>
+<p>The sidebar background color is in <code>styles/layout.css</code>:</p>
+<pre><code class="language-css">.sidebar {
+    background-color: #f5f5f5;  /* Light gray */
+}
+</code></pre>
+<p><strong>Color suggestions:</strong></p>
+<ul>
+<li><code>#ffffff</code> - Pure white</li>
+<li><code>#f8f9fa</code> - Very light gray</li>
+<li><code>#2d3748</code> - Dark gray/charcoal</li>
+<li><code>#1a202c</code> - Very dark (dark mode)</li>
+</ul>
+<h3>Main Content Background</h3>
+<p>The main content area background is also in <code>styles/layout.css</code>:</p>
+<pre><code class="language-css">.main-content {
+    background-color: #ffffff;  /* White */
+}
+</code></pre>
+<h3>Navigation Link Colors</h3>
+<p>Navigation link colors are in <code>styles/navigation.css</code>:</p>
+<p><strong>Default link color:</strong></p>
+<pre><code class="language-css">.nav-link {
+    color: rgba(0, 0, 0, 0.6);  /* 60% opacity black */
+}
+</code></pre>
+<p><strong>Hover state:</strong></p>
+<pre><code class="language-css">.nav-link:hover {
+    background-color: rgb(188, 188, 188);  /* Light gray background */
+    color: rgba(0, 0, 0, 0.8);  /* Darker text */
+}
+</code></pre>
+<p><strong>Active/selected link:</strong></p>
+<pre><code class="language-css">.nav-link.active {
+    background-color: #000000;  /* Black background */
+    color: rgb(255, 255, 255);  /* White text */
+}
+</code></pre>
+<p><strong>To customize</strong>, change these values in <code>styles/navigation.css</code>. For example, a blue theme:</p>
+<pre><code class="language-css">.nav-link {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.nav-link:hover {
+    background-color: #e3f2fd;  /* Light blue */
+    color: #1976d2;  /* Blue text */
+}
+
+.nav-link.active {
+    background-color: #1976d2;  /* Blue background */
+    color: rgb(255, 255, 255);  /* White text */
+}
+</code></pre>
+<h3>Content Link Colors</h3>
+<p>Content links (in blog posts and pages) are styled in <code>styles/content.css</code>:</p>
+<pre><code class="language-css">#markdown-content a {
+    color: #0066cc;  /* Blue */
+}
+
+#markdown-content a:hover {
+    color: #0052a3;  /* Darker blue */
+}
+</code></pre>
+<p><strong>To change</strong>, edit <code>styles/content.css</code>:</p>
+<pre><code class="language-css">#markdown-content a {
+    color: #your-color;  /* Your preferred link color */
+}
+
+#markdown-content a:hover {
+    color: #your-hover-color;  /* Darker shade for hover */
+}
+</code></pre>
+<h3>Code Block Background</h3>
+<p>Code block backgrounds are in <code>styles/content.css</code>:</p>
+<pre><code class="language-css">#markdown-content code {
+    background-color: #f4f4f4;  /* Light gray */
+}
+
+#markdown-content pre {
+    background-color: #f4f4f4;  /* Light gray */
+}
+</code></pre>
+<p><strong>To change</strong>, use any color you prefer:</p>
+<pre><code class="language-css">#markdown-content code {
+    background-color: #f8f9fa;  /* Lighter gray */
+}
+
+#markdown-content pre {
+    background-color: #282c34;  /* Dark background for code blocks */
+    color: #abb2bf;  /* Light text */
+}
+</code></pre>
+<h3>Sidebar Footer</h3>
+<p>Footer colors are in <code>styles/navigation.css</code>:</p>
+<pre><code class="language-css">.sidebar-footer {
+    background-color: #f5f5f5;  /* Light gray */
+}
+
+.footer-text,
+.footer-link {
+    color: rgba(0, 0, 0, 0.6);  /* 60% opacity black */
+}
+</code></pre>
+<h2>Quick Color Theme Examples</h2>
+<h3>Light Theme (Default)</h3>
+<ul>
+<li>Sidebar: <code>#f5f5f5</code></li>
+<li>Content: <code>#ffffff</code></li>
+<li>Links: <code>#0066cc</code></li>
+<li>Active nav: <code>#000000</code> with white text</li>
+</ul>
+<h3>Dark Theme</h3>
+<p>Edit <code>styles/layout.css</code>:</p>
+<pre><code class="language-css">.sidebar {
+    background-color: #1a202c;
+    color: white;
+}
+
+.main-content {
+    background-color: #2d3748;
+    color: #e2e8f0;
+}
+</code></pre>
+<p>Edit <code>styles/navigation.css</code>:</p>
+<pre><code class="language-css">.nav-link {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-link.active {
+    background-color: #4a5568;
+    color: rgb(255, 255, 255);
+}
+</code></pre>
+<p>Edit <code>styles/content.css</code>:</p>
+<pre><code class="language-css">#markdown-content {
+    color: #e2e8f0;
+}
+
+#markdown-content a {
+    color: #63b3ed;
+}
+</code></pre>
+<h3>Blue Theme</h3>
+<ul>
+<li>Sidebar: <code>#e3f2fd</code></li>
+<li>Active nav: <code>#1976d2</code></li>
+<li>Links: <code>#1565c0</code></li>
+</ul>
+<h2>Tips</h2>
+<ol>
+<li><p><strong>Use CSS variables</strong> (optional): For easier theming, you can define CSS custom properties in <code>styles/base.css</code>:</p>
+<pre><code class="language-css">:root {
+    --primary-color: #0066cc;
+    --sidebar-bg: #f5f5f5;
+    --content-bg: #ffffff;
+}
+</code></pre>
+<p>Then use them throughout: <code>color: var(--primary-color);</code></p>
+</li>
+<li><p><strong>Test your changes</strong>: After modifying CSS, run <code>npm run build</code> and check <code>index.html</code> in your browser.</p>
+</li>
+<li><p><strong>Keep backups</strong>: Before making major changes, consider committing your current state to git.</p>
+</li>
+<li><p><strong>Browser DevTools</strong>: Use your browser&#39;s developer tools (F12) to inspect elements and test color changes in real-time before editing files.</p>
+</li>
+</ol>
+<h2>Need Help?</h2>
+<ul>
+<li>Check the comments in each CSS file - they describe what each section controls</li>
+<li>Use browser DevTools to inspect elements and see which CSS file controls them</li>
+<li>Test changes incrementally - change one thing at a time to see the effect</li>
+</ul>
+</div>
+<div id="content-content/getstarted-md" class="content-section" data-title="Get Started" data-description="Learn how to set up and customize your Gorky website" data-keywords="getting started, setup, configuration, tutorial, guide" style="display: none;">
+<h1>Get Started with Gorky</h1>
+<p>Welcome! This guide will help you set up and customize your Gorky site.</p>
+<h2>Quick Start</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li><a href="https://nodejs.org/">Node.js</a> (version 12 or higher)</li>
+</ul>
+<h3>Installation</h3>
+<p>If you haven&#39;t already, install Gorky:</p>
+<pre><code class="language-bash">npm install -g gorky
+</code></pre>
+<p>Or install locally in your project:</p>
+<pre><code class="language-bash">npm install --save-dev gorky
+</code></pre>
+<h3>Building Your Site</h3>
+<p>Build your site using the Gorky CLI:</p>
+<pre><code class="language-bash">gorky build
+</code></pre>
+<p>Or use npm:</p>
+<pre><code class="language-bash">npm run build
+</code></pre>
+<p>This generates <code>index.html</code> from your markdown files.</p>
+<h2>Configuration</h2>
+<h3>Site-Wide Configuration</h3>
+<p>Update the site configuration in <code>index-template.html</code>. Look for the <code>SITE_CONFIG</code> object (around line 60) and customize these values:</p>
+<pre><code class="language-javascript">const SITE_CONFIG = {
+    baseUrl: &#39;https://yourusername.github.io/your-repo&#39;,  // Your GitHub Pages URL
+    siteName: &#39;My Site&#39;,                                   // Your site name
+    authorName: &#39;Your Name&#39;,                               // Default author name
+    defaultDescription: &#39;Your site description...&#39;,       // Default meta description
+    defaultKeywords: &#39;keyword1, keyword2&#39;                   // Default meta keywords
+};
+</code></pre>
+<p><strong>Important:</strong> Update <code>baseUrl</code> to match your GitHub Pages URL. For example:</p>
+<ul>
+<li>If your repo is <code>username/my-site</code>, use: <code>https://username.github.io/my-site</code></li>
+<li>If your repo is <code>username/username.github.io</code>, use: <code>https://username.github.io</code></li>
+</ul>
+<p>These settings are used for:</p>
+<ul>
+<li>SEO meta tags (title, description, keywords)</li>
+<li>Open Graph tags for social media sharing</li>
+<li>Canonical URLs</li>
+<li>JSON-LD structured data</li>
+<li>Author attribution (fallback if posts don&#39;t specify an author)</li>
+</ul>
+<h3>Sidebar Configuration</h3>
+<p>Edit <code>content/sidebar.json</code> to customize your navigation. The sidebar header, home/posts display names, and footer can be customized in the <code>_defaults</code> section:</p>
+<pre><code class="language-json">{
+    &quot;_defaults&quot;: {
+        &quot;header&quot;: &quot;My Site&quot;,
+        &quot;homeDisplayName&quot;: &quot;🏠 Home&quot;,
+        &quot;postsDisplayName&quot;: &quot;✍️ Posts&quot;,
+        &quot;footer&quot;: [
+            {
+                &quot;text&quot;: &quot;2025 © Your Name&quot;,
+                &quot;target&quot;: &quot;https://yourusername.github.io&quot;
+            }
+        ]
+    }
+}
+</code></pre>
+<p>Beyond the defaults, you can create custom navigation sections. See <code>sidebar.json</code> for examples.</p>
+<h2>Post Format</h2>
+<p>Post files can have <strong>any filename</strong> you want - there are no naming requirements! All metadata is defined in YAML frontmatter at the top of each markdown file.</p>
+<h3>Frontmatter</h3>
+<p>Post metadata is defined in YAML frontmatter at the top of each markdown file:</p>
+<pre><code class="language-markdown">---
+slug: my-first-post
+title: My First Post
+date: 2025-12-15
+tags: blog,tutorial
+description: This is a preview of my first post
+thumbnail: content/images/my-image.jpg
+keywords: keyword1, keyword2
+author: Author Name
+---
+
+# My First Post
+
+Your content here...
+</code></pre>
+<p><strong>Required fields:</strong></p>
+<ul>
+<li><code>slug</code> - Unique identifier for the post (used in URLs like <code>?post=my-first-post</code>)</li>
+<li><code>title</code> - The post title</li>
+<li><code>date</code> - Publication date (format: YYYY-MM-DD or YYYY-M-D)</li>
+</ul>
+<p><strong>Optional fields:</strong></p>
+<ul>
+<li><code>tags</code> - Comma-separated tags (e.g., <code>blog,tutorial</code>) or array format</li>
+<li><code>description</code> - Description text shown in the posts listing (also used as meta description for SEO)</li>
+<li><code>thumbnail</code> - Thumbnail image path (relative to content root, e.g., <code>content/images/thumb.jpg</code>)</li>
+<li><code>keywords</code> - Comma-separated keywords for SEO meta tags</li>
+<li><code>author</code> - Author name for the post (falls back to <code>SITE_CONFIG.authorName</code> if not provided)</li>
+<li><code>published</code> - Set to <code>false</code> to hide a post (defaults to <code>true</code>)</li>
+</ul>
+<h3>Custom Pages</h3>
+<p>Any markdown file in the <code>content/</code> directory (not in <code>posts/</code>) can be a custom page. Add frontmatter for SEO:</p>
+<pre><code class="language-markdown">---
+title: About
+description: Learn more about this site
+keywords: about, information
+---
+
+# About
+
+Your page content...
+</code></pre>
+<p>Link to custom pages from your sidebar by referencing them with <code>?page=filename</code> (without the <code>.md</code> extension). For example, to link to <code>content/about.md</code>, use <code>?page=about</code>.</p>
+<h2>Project Structure</h2>
+<pre><code>my-site/
+├── content/
+│   ├── home.md              # Your home page content
+│   ├── posts/               # Blog posts directory
+│   │   └── *.md             # Posts with YAML frontmatter (any filename)
+│   ├── images/              # Images directory
+│   ├── sidebar.json         # Sidebar navigation configuration
+│   └── posts.md             # Auto-generated posts listing (don&#39;t edit)
+├── styles/                  # CSS styling files
+├── index-template.html      # HTML template (update SITE_CONFIG here!)
+├── index.html               # Generated HTML (auto-generated, don&#39;t edit)
+├── gorky.config.js          # Optional configuration file
+├── package.json             # Node.js dependencies
+└── README.md                # Documentation
+</code></pre>
+<h2>Deployment to GitHub Pages</h2>
+<ol>
+<li>Push your code to a GitHub repository</li>
+<li>Go to your repository Settings → Pages</li>
+<li>Select the branch that contains your <code>index.html</code> (usually <code>main</code> or <code>gh-pages</code>)</li>
+<li>Your site will be available at <code>https://yourusername.github.io/repository-name</code></li>
+</ol>
+<p><strong>Tip:</strong> If you want your site at <code>username.github.io</code>, create a repository named exactly <code>username.github.io</code> and set <code>baseUrl</code> in <code>SITE_CONFIG</code> to <code>https://username.github.io</code>.</p>
+<h2>Optional Configuration</h2>
+<p>Create a <code>gorky.config.js</code> file to customize paths:</p>
+<pre><code class="language-javascript">module.exports = {
+  contentDir: &#39;content&#39;,
+  outputFile: &#39;index.html&#39;,
+  templateFile: &#39;index-template.html&#39;,
+  stylesDir: &#39;styles&#39;
+};
+</code></pre>
+<h2>Next Steps</h2>
+<ul>
+<li>✅ Customize the sidebar in <code>content/sidebar.json</code></li>
+<li>✅ Edit your home page content in <code>content/home.md</code></li>
+<li>✅ Update <code>SITE_CONFIG</code> in <code>index-template.html</code></li>
+<li>✅ Create your first blog post in <code>content/posts/</code></li>
+<li>✅ Customize the styling in the <code>styles/</code> directory</li>
+<li>✅ Build and test locally with <code>gorky build</code></li>
+</ul>
+</div>
+<div id="content-content/home-md" class="content-section" data-title="Gorky" data-description="A lightweight, markdown-powered static site generator" data-keywords="gorky, static site generator, markdown, blog" style="display: block;">
+<h1>Gorky</h1>
+<p><strong>Gorky</strong> is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.</p>
+<p>Gorky is named after <a href="https://en.wikipedia.org/wiki/Maxim_Gorky">Maxim Gorky</a></p>
+<p>The layout and design is inspired from <a href="https://garry.net">garry.net</a>  </p>
+<h2>Why Gorky?</h2>
+<p>Gorky makes it incredibly simple to create and maintain a static website using <strong>markdown files</strong>. No complex build tools, no database setup, just write your content in markdown and Gorky handles the rest.</p>
+<h3>Perfect for GitHub Pages</h3>
+<p>Gorky is optimized for GitHub Pages deployment. Simply:</p>
+<ol>
+<li>Write your content in markdown</li>
+<li>Run <code>gorky build</code></li>
+<li>Push to GitHub</li>
+<li>Enable GitHub Pages</li>
+</ol>
+<p>Your site is live!</p>
+<h3>Markdown-First Approach</h3>
+<p>All your content lives in markdown files. Whether it&#39;s blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. Gorky automatically:</p>
+<ul>
+<li>Converts markdown to beautiful HTML</li>
+<li>Generates navigation from your sidebar configuration</li>
+<li>Creates a posts listing page</li>
+<li>Handles tags and filtering</li>
+<li>Provides syntax highlighting for code blocks</li>
+</ul>
+<h3>Flexible Content Management</h3>
+<ul>
+<li><strong>Blog Posts</strong>: Create posts in the <code>content/posts/</code> folder with YAML frontmatter for metadata</li>
+<li><strong>Custom Pages</strong>: Add any markdown file and link to it from your sidebar</li>
+<li><strong>Dynamic Navigation</strong>: Configure your sidebar through a simple JSON file</li>
+<li><strong>Tag System</strong>: Organize posts with tags and filter by them</li>
+</ul>
+<h3>Features</h3>
+<ul>
+<li>✅ <strong>Responsive Design</strong>: Works beautifully on desktop, tablet, and mobile</li>
+<li>✅ <strong>Syntax Highlighting</strong>: Code blocks automatically highlighted with Prism.js</li>
+<li>✅ <strong>Tag Filtering</strong>: Filter posts by tags with a simple URL parameter</li>
+<li>✅ <strong>Client-Side Routing</strong>: Fast navigation without page reloads</li>
+<li>✅ <strong>SEO Friendly</strong>: Meta tags and canonical URLs included</li>
+<li>✅ <strong>Lightweight</strong>: Minimal dependencies, fast load times</li>
+</ul>
+</div>
+<div id="content-content/posts/2025-12-10--markdown-cheatsheet-md" class="content-section" data-slug="markdown-cheatsheet" data-date="10 Dec 2025" data-tags="markdown,tutorial" data-title="Markdown Cheatsheet" data-description="A quick reference guide for all markdown syntax" style="display: none;">
+<p>A comprehensive reference guide for Markdown syntax. Bookmark this page for quick access to all Markdown formatting options.</p>
+<h2>Headers</h2>
+<pre><code class="language-markdown"># H1 Header
+## H2 Header
+### H3 Header
+#### H4 Header
+##### H5 Header
+###### H6 Header
+</code></pre>
+<h2>Emphasis</h2>
+<pre><code class="language-markdown">*italic text* or _italic text_
+**bold text** or __bold text__
+***bold italic*** or ___bold italic___
+~~strikethrough~~
+</code></pre>
+<h2>Lists</h2>
+<h3>Unordered Lists</h3>
+<pre><code class="language-markdown">- Item 1
+- Item 2
+  - Nested item 2.1
+  - Nested item 2.2
+- Item 3
+
+* Alternative bullet
+* Another item
+</code></pre>
+<h3>Ordered Lists</h3>
+<pre><code class="language-markdown">1. First item
+2. Second item
+3. Third item
+   1. Nested numbered item
+   2. Another nested item
+</code></pre>
+<h2>Links</h2>
+<pre><code class="language-markdown">[Link text](https://example.com)
+[Link with title](https://example.com &quot;Title text&quot;)
+&lt;https://example.com&gt;
+[Reference link][ref-id]
+
+[ref-id]: https://example.com &quot;Optional title&quot;
+</code></pre>
+<h2>Images</h2>
+<pre><code class="language-markdown">![Alt text](image-url.jpg)
+![Alt text](image-url.jpg &quot;Image title&quot;)
+![Reference image][img-ref]
+
+[img-ref]: image-url.jpg &quot;Image title&quot;
+</code></pre>
+<h2>Code</h2>
+<h3>Inline Code</h3>
+<pre><code class="language-markdown">Use `backticks` for inline code.
+</code></pre>
+<h3>Code Blocks</h3>
+<pre><code class="language-markdown">```language
+function example() {
+    return &quot;code block&quot;;
+}
+```
+</code></pre>
+<p>Supported languages: <code>javascript</code>, <code>python</code>, <code>java</code>, <code>csharp</code>, <code>html</code>, <code>css</code>, <code>json</code>, <code>bash</code>, and many more.</p>
+<h2>Blockquotes</h2>
+<pre><code class="language-markdown">&gt; This is a blockquote.
+&gt; It can span multiple lines.
+&gt;
+&gt; &gt; Nested blockquote
+</code></pre>
+<h2>Horizontal Rules</h2>
+<pre><code class="language-markdown">---
+***
+___
+</code></pre>
+<h2>Tables</h2>
+<pre><code class="language-markdown">| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |
+
+| Left Align | Center Align | Right Align |
+|:-----------|:------------:|------------:|
+| Left       | Center       | Right       |
+</code></pre>
+<h2>Task Lists</h2>
+<pre><code class="language-markdown">- [x] Completed task
+- [ ] Incomplete task
+- [x] Another completed task
+</code></pre>
+<h2>Escaping Characters</h2>
+<p>Use backslash <code>\</code> to escape special characters:</p>
+<pre><code class="language-markdown">\*not italic\*
+\#not a header
+\[not a link\](
+</code></pre>
+<h2>Line Breaks</h2>
+<pre><code class="language-markdown">End a line with two spaces for a line break.
+
+Or use a blank line for a paragraph break.
+</code></pre>
+<h2>HTML</h2>
+<p>You can use raw HTML in Markdown:</p>
+<pre><code class="language-markdown">&lt;button&gt;Click me&lt;/button&gt;
+&lt;details&gt;
+&lt;summary&gt;Click to expand&lt;/summary&gt;
+Hidden content here
+&lt;/details&gt;
+</code></pre>
+<h2>Collapsible Sections</h2>
+<p>Create accordion-style collapsible sections using HTML <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> tags:</p>
+<details>
+<summary>📚 Advanced Markdown Features</summary>
+
+<p>This section contains advanced markdown features that you might find useful:</p>
+<h3>Nested Lists with Code</h3>
+<p>You can combine different markdown elements:</p>
+<ol>
+<li><strong>Lists with code</strong>: Use <code>inline code</code> within lists</li>
+<li><strong>Links in lists</strong>: <a href="https://example.com">Example link</a></li>
+<li><strong>Emphasis</strong>: <em>Italic</em> and <strong>bold</strong> text work here too</li>
+</ol>
+<h3>Code Blocks in Collapsible Sections</h3>
+<pre><code class="language-javascript">function example() {
+    console.log(&quot;This code block is inside a collapsible section!&quot;);
+    return true;
+}
+</code></pre>
+<h3>Multiple Collapsible Sections</h3>
+<p>You can nest collapsible sections:</p>
+<details>
+<summary>Nested Section Example</summary>
+
+<p>This is a nested collapsible section. You can have multiple levels of nesting if needed.</p>
+</details>
+
+</details>
+
+<details>
+<summary>💡 Pro Tips for Markdown</summary>
+
+<p>Here are some professional tips for writing better markdown:</p>
+<ul>
+<li><strong>Use consistent spacing</strong>: Add blank lines between sections</li>
+<li><strong>Preview often</strong>: Check your rendered output regularly</li>
+<li><strong>Use semantic HTML</strong>: When markdown isn&#39;t enough, HTML is your friend</li>
+<li><strong>Keep it simple</strong>: Markdown is meant to be readable in plain text too</li>
+</ul>
+<p>Remember: The best markdown is both readable in source and beautiful when rendered!</p>
+</details>
+
+<h2>Common Patterns</h2>
+<h3>Definition Lists</h3>
+<pre><code class="language-markdown">Term 1
+: Definition 1
+
+Term 2
+: Definition 2a
+: Definition 2b
+</code></pre>
+<h3>Footnotes</h3>
+<pre><code class="language-markdown">Here&#39;s a sentence with a footnote[^1].
+
+[^1]: This is the footnote content.
+</code></pre>
+<h3>Abbreviations</h3>
+<pre><code class="language-markdown">*[HTML]: HyperText Markup Language
+*[CSS]: Cascading Style Sheets
+
+The HTML and CSS are used for web development.
+</code></pre>
+<h2>Tips</h2>
+<ol>
+<li><strong>Consistency</strong>: Use consistent formatting throughout your document</li>
+<li><strong>Readability</strong>: Add blank lines between sections for better readability</li>
+<li><strong>Preview</strong>: Always preview your markdown before publishing</li>
+<li><strong>Syntax Highlighting</strong>: Use appropriate language tags in code blocks</li>
+<li><strong>Links</strong>: Use descriptive link text instead of raw URLs</li>
+</ol>
+<h2>Markdown Flavors</h2>
+<p>Different platforms support different Markdown features:</p>
+<ul>
+<li><strong>GitHub Flavored Markdown (GFM)</strong>: Tables, task lists, strikethrough</li>
+<li><strong>CommonMark</strong>: Standardized Markdown specification</li>
+<li><strong>MultiMarkdown</strong>: Footnotes, tables, definition lists</li>
+<li><strong>Pandoc Markdown</strong>: Extended features for academic writing</li>
+</ul>
+<p>Happy writing! 📝</p>
+</div>
+<div id="content-content/posts-md" class="content-section" style="display: none;">
+<h1>Posts</h1>
+<h2>Tags</h2>
+<p><a href="?tag=markdown">markdown (1)</a> • <a href="?tag=tutorial">tutorial (1)</a></p>
+<hr>
+<h2><a href="?post=markdown-cheatsheet">Markdown Cheatsheet</a></h2>
+<p>A quick reference guide for all markdown syntax</p>
+</div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ============================================================================
+        // SITE CONFIGURATION - CUSTOMIZE THESE VALUES
+        // ============================================================================
+        const SITE_CONFIG = {
+            baseUrl: 'https://adrenak.github.io/gorky',
+            siteName: 'Gorky',
+            authorName: 'Vatsal Ambastha',
+            defaultDescription: 'Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
+            defaultKeywords: 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog'
+        };
+        
+        // ============================================================================
+        // CONSTANTS
+        // ============================================================================
+        
+        const BASE_URL = SITE_CONFIG.baseUrl;
+        const SITE_NAME = SITE_CONFIG.siteName;
+        const AUTHOR_NAME = SITE_CONFIG.authorName;
+        const DEFAULT_PAGE = 'content/home.md';
+        const CONTENT_ID_PREFIX = 'content-';
+        const TAG_LIST_ID = 'tag-posts-list';
+        
+        // ============================================================================
+        // UTILITY FUNCTIONS
+        // ============================================================================
+        
+        /**
+         * Gets a URL parameter value
+         * @param {string} name - Parameter name
+         * @returns {string|null} Parameter value or null
+         */
+        function getURLParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        /**
+         * Generates a content section ID from a file path
+         * @param {string} filePath - File path (e.g., 'content/home.md')
+         * @returns {string} Content ID (e.g., 'content-content-home-md')
+         */
+        function getContentId(filePath) {
+            return CONTENT_ID_PREFIX + filePath.replace(/\./g, '-');
+        }
+        
+        /**
+         * Hides all content sections
+         */
+        function hideAllContentSections() {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+        }
+        
+        /**
+         * Removes active class from all navigation links
+         */
+        function clearActiveNavLinks() {
+            document.querySelectorAll('.nav-link').forEach(nav => {
+                nav.classList.remove('active');
+            });
+        }
+        
+        /**
+         * Highlights syntax in code blocks using Prism.js
+         * @param {Element} container - Container element to search for code blocks
+         */
+        function highlightSyntax(container) {
+            if (!window.Prism) return;
+            
+            const codeBlocks = container.querySelectorAll('pre code[class*="language-"]');
+            codeBlocks.forEach(block => {
+                Prism.highlightElement(block);
+            });
+        }
+        
+        /**
+         * Hides the tag posts list container if it exists
+         */
+        function hideTagListContainer() {
+            const tagListContainer = document.getElementById(TAG_LIST_ID);
+            if (tagListContainer) {
+                tagListContainer.style.display = 'none';
+            }
+        }
+        
+        /**
+         * Parses a formatted date string to a Date object
+         * @param {string} dateStr - Date string in format "25 Sep 2025"
+         * @returns {Date} Parsed date object
+         */
+        function parseFormattedDate(dateStr) {
+            const MONTHS = {
+                'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+            };
+            
+            const parts = dateStr.split(' ');
+            if (parts.length !== 3) {
+                return new Date(0);
+            }
+            
+            const day = parseInt(parts[0], 10);
+            const month = MONTHS[parts[1]];
+            const year = parseInt(parts[2], 10);
+            
+            if (isNaN(day) || month === undefined || isNaN(year)) {
+                return new Date(0);
+            }
+            
+            return new Date(year, month, day);
+        }
+        
+        /**
+         * Sets the active navigation link based on current page
+         * @param {string} expectedURL - Expected URL to match (e.g., '?page=home')
+         */
+        function setActiveNavLink(expectedURL) {
+            // Check data-url attributes (for internal navigation)
+            document.querySelectorAll('.nav-link[data-url]').forEach(link => {
+                const targetURL = link.getAttribute('data-url');
+                if (targetURL === expectedURL) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Also check href attributes (for links that open in new tab)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === expectedURL) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        /**
+         * Creates a clickable tag link element
+         * @param {string} tag - Tag name
+         * @returns {HTMLAnchorElement} Tag link element
+         */
+        function createTagLink(tag) {
+            const tagLink = document.createElement('a');
+            tagLink.href = `?tag=${encodeURIComponent(tag)}`;
+            tagLink.textContent = tag;
+            tagLink.className = 'tag-link';
+            
+            tagLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPostsByTag(tag);
+                window.history.pushState({}, '', `?tag=${encodeURIComponent(tag)}`);
+                updateCanonicalURL();
+            });
+            
+            return tagLink;
+        }
+        
+        /**
+         * Updates the canonical URL based on current page
+         */
+        function updateCanonicalURL() {
+            const tagParam = getURLParameter('tag');
+            const pageParam = getURLParameter('page');
+            const postSlug = getURLParameter('post');
+            
+            let canonicalURL = BASE_URL;
+            
+            if (postSlug) {
+                canonicalURL += `?post=${postSlug}`;
+            } else if (tagParam) {
+                canonicalURL += `?tag=${encodeURIComponent(tagParam)}`;
+            } else if (pageParam === 'posts') {
+                canonicalURL += '?page=posts';
+            } else {
+                canonicalURL += '?page=home';
+            }
+            
+            let canonicalLink = document.querySelector('link[rel="canonical"]');
+            if (!canonicalLink) {
+                canonicalLink = document.createElement('link');
+                canonicalLink.setAttribute('rel', 'canonical');
+                document.head.appendChild(canonicalLink);
+            }
+            canonicalLink.setAttribute('href', canonicalURL);
+        }
+        
+        /**
+         * Helper function to get or create a meta tag
+         */
+        function getOrCreateMetaTag(attribute, value, property = false) {
+            const selector = property ? `meta[property="${attribute}"]` : `meta[name="${attribute}"]`;
+            let meta = document.querySelector(selector);
+            if (!meta) {
+                meta = document.createElement('meta');
+                if (property) {
+                    meta.setAttribute('property', attribute);
+                } else {
+                    meta.setAttribute('name', attribute);
+                }
+                document.head.appendChild(meta);
+            }
+            meta.setAttribute('content', value);
+        }
+        
+        /**
+         * Removes a meta tag if it exists
+         */
+        function removeMetaTag(attribute, property = false) {
+            const selector = property ? `meta[property="${attribute}"]` : `meta[name="${attribute}"]`;
+            const meta = document.querySelector(selector);
+            if (meta) {
+                meta.remove();
+            }
+        }
+        
+        /**
+         * Converts a relative URL to absolute URL
+         */
+        function getAbsoluteUrl(relativeUrl) {
+            if (!relativeUrl) return null;
+            if (relativeUrl.startsWith('http://') || relativeUrl.startsWith('https://')) {
+                return relativeUrl;
+            }
+            // Remove leading slash if present, BASE_URL should handle it
+            const cleanUrl = relativeUrl.startsWith('/') ? relativeUrl.slice(1) : relativeUrl;
+            return `${BASE_URL}/${cleanUrl}`;
+        }
+        
+        /**
+         * Updates meta tags (title, description, keywords, Open Graph, Twitter Cards) and structured data based on current content
+         */
+        function updateMetaTags() {
+            const tagParam = getURLParameter('tag');
+            const postSlug = getURLParameter('post');
+            const pageParam = getURLParameter('page');
+            
+            let title = SITE_CONFIG.siteName;
+            let description = SITE_CONFIG.defaultDescription;
+            let keywords = SITE_CONFIG.defaultKeywords;
+            let image = null;
+            let url = BASE_URL;
+            let datePublished = null;
+            let tags = null;
+            let author = null;
+            let isPost = false;
+            
+            // Get meta tags from current visible content section
+            const visibleSection = document.querySelector('.content-section[style*="block"]') || 
+                                  document.querySelector('.content-section:not([style*="none"])');
+            
+            if (visibleSection) {
+                const sectionTitle = visibleSection.getAttribute('data-title');
+                const sectionDescription = visibleSection.getAttribute('data-description');
+                const sectionKeywords = visibleSection.getAttribute('data-keywords');
+                const sectionThumbnail = visibleSection.getAttribute('data-thumbnail');
+                const sectionDate = visibleSection.getAttribute('data-date');
+                const sectionTags = visibleSection.getAttribute('data-tags');
+                const sectionSlug = visibleSection.getAttribute('data-slug');
+                const sectionAuthor = visibleSection.getAttribute('data-author');
+                
+                if (sectionTitle) {
+                    title = sectionTitle;
+                }
+                
+                if (sectionDescription) {
+                    description = sectionDescription;
+                }
+                
+                if (sectionKeywords) {
+                    keywords = sectionKeywords;
+                } else if (tagParam) {
+                    keywords = tagParam;
+                }
+                
+                if (sectionThumbnail) {
+                    image = getAbsoluteUrl(sectionThumbnail);
+                }
+                
+                if (sectionDate) {
+                    datePublished = sectionDate;
+                }
+                
+                if (sectionTags) {
+                    tags = sectionTags.split(',').map(t => t.trim());
+                }
+                
+                if (sectionAuthor) {
+                    author = sectionAuthor;
+                }
+                
+                if (sectionSlug) {
+                    url = `${BASE_URL}?post=${sectionSlug}`;
+                    isPost = true;
+                }
+            } else if (tagParam) {
+                // Tag filtering page
+                title = `Posts tagged ${tagParam} - ${SITE_NAME}`;
+                keywords = tagParam;
+                url = `${BASE_URL}?tag=${encodeURIComponent(tagParam)}`;
+            } else if (postSlug) {
+                // Fallback: try to find post by slug
+                const postSection = document.querySelector(`.content-section[data-slug="${postSlug}"]`);
+                if (postSection) {
+                    const postTitle = postSection.getAttribute('data-title');
+                    const postDescription = postSection.getAttribute('data-description');
+                    const postKeywords = postSection.getAttribute('data-keywords');
+                    const postThumbnail = postSection.getAttribute('data-thumbnail');
+                    const postDate = postSection.getAttribute('data-date');
+                    const postTags = postSection.getAttribute('data-tags');
+                    const postAuthor = postSection.getAttribute('data-author');
+                    
+                    if (postTitle) title = postTitle;
+                    if (postDescription) description = postDescription;
+                    if (postKeywords) keywords = postKeywords;
+                    if (postThumbnail) image = getAbsoluteUrl(postThumbnail);
+                    if (postDate) datePublished = postDate;
+                    if (postTags) tags = postTags.split(',').map(t => t.trim());
+                    if (postAuthor) author = postAuthor;
+                    
+                    url = `${BASE_URL}?post=${postSlug}`;
+                    isPost = true;
+                }
+            } else if (pageParam) {
+                url = `${BASE_URL}?page=${pageParam}`;
+            } else {
+                url = `${BASE_URL}?page=home`;
+            }
+            
+            // Update title
+            document.title = title;
+            
+            // Update basic meta tags
+            getOrCreateMetaTag('description', description);
+            getOrCreateMetaTag('keywords', keywords);
+            
+            // Update Open Graph tags
+            getOrCreateMetaTag('og:title', title, true);
+            getOrCreateMetaTag('og:description', description, true);
+            getOrCreateMetaTag('og:url', url, true);
+            getOrCreateMetaTag('og:type', isPost ? 'article' : 'website', true);
+            getOrCreateMetaTag('og:site_name', SITE_NAME, true);
+            if (image) {
+                getOrCreateMetaTag('og:image', image, true);
+            } else {
+                removeMetaTag('og:image', true);
+            }
+            
+            // Update Twitter Card tags
+            getOrCreateMetaTag('twitter:card', image ? 'summary_large_image' : 'summary');
+            getOrCreateMetaTag('twitter:title', title);
+            getOrCreateMetaTag('twitter:description', description);
+            if (image) {
+                getOrCreateMetaTag('twitter:image', image);
+            } else {
+                removeMetaTag('twitter:image');
+            }
+            
+            // Update structured data (JSON-LD)
+            updateStructuredData(title, description, image, url, datePublished, tags, author, isPost);
+        }
+        
+        /**
+         * Converts formatted date (e.g., "9 Dec 2025") to ISO 8601 format (e.g., "2025-12-09")
+         */
+        function convertDateToISO(dateStr) {
+            if (!dateStr) return null;
+            
+            const MONTHS = {
+                'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+                'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+            };
+            
+            const parts = dateStr.split(' ');
+            if (parts.length !== 3) return null;
+            
+            const day = parts[0].padStart(2, '0');
+            const month = MONTHS[parts[1]];
+            const year = parts[2];
+            
+            if (!month) return null;
+            
+            return `${year}-${month}-${day}`;
+        }
+        
+        /**
+         * Updates JSON-LD structured data for SEO
+         */
+        function updateStructuredData(title, description, image, url, datePublished, tags, author, isPost) {
+            // Remove existing structured data
+            const existingScript = document.querySelector('script[type="application/ld+json"]');
+            if (existingScript) {
+                existingScript.remove();
+            }
+            
+            if (isPost && datePublished) {
+                // Convert date to ISO format for schema.org
+                const isoDate = convertDateToISO(datePublished);
+                
+                // Article schema for blog posts
+                const articleSchema = {
+                    '@context': 'https://schema.org',
+                    '@type': 'BlogPosting',
+                    'headline': title,
+                    'description': description,
+                    'url': url
+                };
+                
+                if (isoDate) {
+                    articleSchema.datePublished = isoDate;
+                }
+                
+                if (image) {
+                    articleSchema.image = image;
+                }
+                
+                if (tags && tags.length > 0) {
+                    articleSchema.keywords = tags.join(', ');
+                }
+                
+                // Add author - use frontmatter author if available, otherwise fallback to AUTHOR_NAME
+                const authorName = author || AUTHOR_NAME;
+                if (authorName) {
+                    articleSchema.author = {
+                        '@type': 'Person',
+                        'name': authorName
+                    };
+                }
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(articleSchema);
+                document.head.appendChild(script);
+            } else {
+                // WebPage schema for other pages
+                const webpageSchema = {
+                    '@context': 'https://schema.org',
+                    '@type': 'WebPage',
+                    'name': title,
+                    'description': description,
+                    'url': url
+                };
+                
+                if (image) {
+                    webpageSchema.image = image;
+                }
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(webpageSchema);
+                document.head.appendChild(script);
+            }
+        }
+        
+        /**
+         * Shows post metadata (title, date, tags) for a content section
+         * @param {Element} contentSection - Content section element
+         */
+        function showPostMetadata(contentSection) {
+            const date = contentSection.getAttribute('data-date');
+            const tags = contentSection.getAttribute('data-tags');
+            const title = contentSection.getAttribute('data-title');
+            
+            if (!title && !date && !tags) return;
+            
+            let metadataContainer = contentSection.querySelector('.post-metadata');
+            if (!metadataContainer) {
+                metadataContainer = document.createElement('div');
+                metadataContainer.className = 'post-metadata';
+                contentSection.insertBefore(metadataContainer, contentSection.firstChild);
+            }
+            
+            metadataContainer.innerHTML = '';
+            
+            if (title) {
+                const titleElement = document.createElement('h1');
+                titleElement.className = 'post-title';
+                titleElement.textContent = title;
+                metadataContainer.appendChild(titleElement);
+            }
+            
+            if (date) {
+                const dateElement = document.createElement('div');
+                dateElement.className = 'post-date';
+                dateElement.textContent = date;
+                metadataContainer.appendChild(dateElement);
+            }
+            
+            if (tags) {
+                const tagsElement = document.createElement('div');
+                tagsElement.className = 'post-tags';
+                
+                const tagText = document.createTextNode('Tagged: ');
+                tagsElement.appendChild(tagText);
+                
+                const tagList = tags.split(',').map(t => t.trim());
+                tagList.forEach((tag, index) => {
+                    const tagLink = createTagLink(tag);
+                    tagsElement.appendChild(tagLink);
+                    
+                    if (index < tagList.length - 1) {
+                        const comma = document.createTextNode(', ');
+                        tagsElement.appendChild(comma);
+                    }
+                });
+                
+                metadataContainer.appendChild(tagsElement);
+            }
+        }
+        
+        /**
+         * Shows content section by post slug
+         * @param {string} slug - Post slug
+         * @returns {boolean} True if content was found and shown
+         */
+        function showContentBySlug(slug) {
+            if (!slug) return false;
+            
+            hideTagListContainer();
+            
+            const contentSection = document.querySelector(`.content-section[data-slug="${slug}"]`);
+            if (!contentSection) return false;
+            
+            hideAllContentSections();
+            contentSection.style.display = 'block';
+            showPostMetadata(contentSection);
+            highlightSyntax(contentSection);
+            clearActiveNavLinks();
+            updateMetaTags();
+            
+            return true;
+        }
+        
+        /**
+         * Shows content section by file path
+         * @param {string} filePath - File path (e.g., 'content/home.md')
+         * @returns {boolean} True if content was found and shown
+         */
+        function showContentByFile(filePath) {
+            hideTagListContainer();
+            
+            const contentId = getContentId(filePath);
+            const contentSection = document.getElementById(contentId);
+            
+            if (!contentSection) return false;
+            
+            hideAllContentSections();
+            contentSection.style.display = 'block';
+            highlightSyntax(contentSection);
+            clearActiveNavLinks();
+            updateMetaTags();
+            
+            const currentPage = getURLParameter('page');
+            if (currentPage) {
+                setActiveNavLink(`?page=${currentPage}`);
+            }
+            
+            return true;
+        }
+        
+        /**
+         * Shows posts filtered by tag
+         * @param {string} tag - Tag to filter by
+         * @returns {boolean} True if posts were found and shown
+         */
+        function showPostsByTag(tag) {
+            if (!tag) return false;
+            
+            // Hide all content sections except tag list container
+            document.querySelectorAll('.content-section').forEach(section => {
+                if (section.id !== TAG_LIST_ID) {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Find all posts with matching tag
+            const allPosts = document.querySelectorAll('.content-section[data-tags]');
+            const matchingPosts = [];
+            
+            allPosts.forEach(post => {
+                const tags = post.getAttribute('data-tags');
+                if (!tags) return;
+                
+                const tagList = tags.split(',').map(t => t.trim().toLowerCase());
+                if (tagList.includes(tag.toLowerCase())) {
+                    const slug = post.getAttribute('data-slug');
+                    const title = post.getAttribute('data-title');
+                    const date = post.getAttribute('data-date');
+                    const description = post.getAttribute('data-description');
+                    const thumbnail = post.getAttribute('data-thumbnail');
+                    
+                    if (slug && title) {
+                        matchingPosts.push({ slug, title, date, description, thumbnail });
+                    }
+                }
+            });
+            
+            if (matchingPosts.length === 0) return false;
+            
+            // Get or create tag list container
+            let tagListContainer = document.getElementById(TAG_LIST_ID);
+            if (!tagListContainer) {
+                tagListContainer = document.createElement('div');
+                tagListContainer.id = TAG_LIST_ID;
+                tagListContainer.className = 'content-section';
+                document.getElementById('markdown-content').appendChild(tagListContainer);
+            }
+            
+            tagListContainer.style.display = 'block';
+            tagListContainer.innerHTML = '';
+            
+            // Add header
+            const header = document.createElement('h1');
+            header.textContent = `Posts tagged ${tag}`;
+            tagListContainer.appendChild(header);
+            
+            // Sort posts by date (newest first)
+            matchingPosts.sort((a, b) => {
+                if (!a.date || !b.date) return 0;
+                return parseFormattedDate(b.date) - parseFormattedDate(a.date);
+            });
+            
+            // Add post entries (matching posts.md format)
+            matchingPosts.forEach(({ slug, title, description, thumbnail }) => {
+                // Create post entry container
+                const postEntry = document.createElement('div');
+                postEntry.className = 'post-entry';
+                
+                // Add thumbnail if available
+                if (thumbnail) {
+                    const img = document.createElement('img');
+                    img.src = thumbnail;
+                    img.alt = title;
+                    img.className = 'post-thumbnail';
+                    postEntry.appendChild(img);
+                }
+                
+                // Create content container
+                const postContent = document.createElement('div');
+                postContent.className = 'post-content';
+                
+                // Add title
+                const titleHeading = document.createElement('h2');
+                const titleLink = document.createElement('a');
+                titleLink.href = `?post=${slug}`;
+                titleLink.textContent = title;
+                titleLink.className = 'post-link';
+                
+                titleLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showContentBySlug(slug);
+                    window.history.pushState({}, '', `?post=${slug}`);
+                    updateCanonicalURL();
+                    updateMetaTags();
+                });
+                
+                titleHeading.appendChild(titleLink);
+                postContent.appendChild(titleHeading);
+                
+                // Add description if available
+                if (description) {
+                    const descriptionPara = document.createElement('p');
+                    descriptionPara.textContent = description;
+                    postContent.appendChild(descriptionPara);
+                }
+                
+                postEntry.appendChild(postContent);
+                tagListContainer.appendChild(postEntry);
+            });
+            
+            clearActiveNavLinks();
+            updateMetaTags();
+            return true;
+        }
+        
+        /**
+         * Handles URL changes and updates content accordingly
+         */
+        function handleURLChange() {
+            const tagParam = getURLParameter('tag');
+            const pageParam = getURLParameter('page');
+            const postSlug = getURLParameter('post');
+            
+            let contentShown = false;
+            
+            if (tagParam && showPostsByTag(tagParam)) {
+                contentShown = true;
+            } else if (postSlug && showContentBySlug(postSlug)) {
+                contentShown = true;
+            } else if (pageParam) {
+                const targetFile = `content/${pageParam}.md`;
+                contentShown = showContentByFile(targetFile);
+            }
+            
+            if (!contentShown) {
+                // Show default page (home) and set Home nav link as active
+                showContentByFile(DEFAULT_PAGE);
+                clearActiveNavLinks();
+                setActiveNavLink('?page=home');
+                updateMetaTags();
+            }
+            
+            updateCanonicalURL();
+        }
+        
+        // ============================================================================
+        // INITIALIZATION
+        // ============================================================================
+        
+        // Content switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize default meta tags from SITE_CONFIG
+            document.getElementById('meta-description').setAttribute('content', SITE_CONFIG.defaultDescription);
+            document.getElementById('meta-keywords').setAttribute('content', SITE_CONFIG.defaultKeywords);
+            document.getElementById('canonical-link').setAttribute('href', `${SITE_CONFIG.baseUrl}?page=home`);
+            document.getElementById('page-title').textContent = SITE_CONFIG.siteName;
+            
+            // Set up nav link click handlers
+            // Handle navigation links with data-url (URL parameters)
+            const navLinksWithURL = document.querySelectorAll('.nav-link[data-url]');
+            navLinksWithURL.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetURL = this.getAttribute('data-url');
+                    if (targetURL) {
+                        window.history.pushState({}, '', targetURL);
+                        handleURLChange();
+                    }
+                });
+            });
+            
+            // Handle browser back/forward navigation
+            window.addEventListener('popstate', function(event) {
+                handleURLChange();
+            });
+            
+            // Initial load - handle URL parameters
+            handleURLChange();
+            
+            // Highlight syntax in initially visible content
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+            
+            // Hamburger menu toggle functionality
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+            }
+            
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+            
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', toggleSidebar);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+            
+            // Close sidebar when clicking on a nav link (mobile)
+            const mobileNavLinks = document.querySelectorAll('.nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Check if we're in mobile/portrait mode
+                    if (window.matchMedia('(max-aspect-ratio: 1/1)').matches) {
+                        closeSidebar();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

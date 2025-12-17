@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
+    "build:docs": "node scripts/build-docs.js",
     "prepublishOnly": "echo 'Ready to publish'"
   },
   "keywords": [
@@ -15,7 +16,8 @@
     "markdown",
     "blog",
     "github-pages",
-    "jamstack"
+    "jekyll",
+    "ghost"
   ],
   "author": "Vatsal Ambastha",
   "license": "MIT",

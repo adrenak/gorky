@@ -1,0 +1,35 @@
+{
+    "_defaults": {
+        "header": "Gorky",
+        "homeDisplayName": "🏠 Home",
+        "postsDisplayName": "✍️ Posts",
+        "footer": [
+            {
+                "text": "2025 © Vatsal Ambastha",
+                "target": "https://adrenak.github.io"
+            },
+            {
+                "text": "GitHub",
+                "target": "https://github.com/adrenak/gorky",
+                "openInNewTab": true
+            }
+        ]
+    },
+    "Documentation": {
+        "Get Started": {
+            "target": "?page=getstarted",
+            "openInNewTab": false
+        },
+        "Customization": {
+            "target": "?page=customization",
+            "openInNewTab": false
+        }
+    },
+    "Links": {
+        "GitHub": {
+            "target": "https://github.com/adrenak/gorky",
+            "openInNewTab": true
+        }
+    }
+}
+
