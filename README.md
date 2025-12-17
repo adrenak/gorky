@@ -31,8 +31,8 @@ This creates a new Gorky site with example content and templates.
 
 ### 2. Customize your site
 
+- Edit `site-config.js` to configure site-wide settings (baseUrl, siteName, etc.)
 - Edit `content/sidebar.json` to configure navigation
-- Edit `index-template.html` and update the `SITE_CONFIG` object
 - Add your markdown files to `content/`
 - Create blog posts in `content/posts/`
 
@@ -90,6 +90,24 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - `gorky build` - Build the static site
 
 ## Configuration
+
+### Site Configuration
+
+Edit `site-config.js` to customize site-wide settings:
+
+```javascript
+module.exports = {
+  baseUrl: 'https://yourusername.github.io/your-repo',
+  siteName: 'My Site',
+  authorName: 'Your Name',
+  defaultDescription: 'Your site description...',
+  defaultKeywords: 'keyword1, keyword2',
+  favicon: 'favicon.ico',
+  appleTouchIcon: 'apple-touch-icon.png'
+};
+```
+
+### Build Configuration
 
 Create a `gorky.config.js` file to customize paths (optional):
 
