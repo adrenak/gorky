@@ -48,10 +48,10 @@ This generates `index.html` from your markdown files.
 
 ### Site-Wide Configuration
 
-Update the site configuration in `index-template.html`. Look for the `SITE_CONFIG` object (around line 60) and customize these values:
+Edit `site-config.js` in your project root to customize site-wide settings:
 
 ```javascript
-const SITE_CONFIG = {
+module.exports = {
     baseUrl: 'https://yourusername.github.io/your-repo',  // Your GitHub Pages URL
     siteName: 'My Site',                                   // Your site name
     authorName: 'Your Name',                               // Default author name
@@ -61,6 +61,8 @@ const SITE_CONFIG = {
     appleTouchIcon: 'apple-touch-icon.png'                 // Optional: path to Apple touch icon
 };
 ```
+
+This configuration is automatically injected into your site during the build process.
 
 **Important:** Update `baseUrl` to match your GitHub Pages URL. For example:
 - If your repo is `username/my-site`, use: `https://username.github.io/my-site`

@@ -42,6 +42,16 @@ if (fs.existsSync(packageTemplate)) {
     console.warn('⚠️  Template file not found');
 }
 
+// Sync site-config.js template (but keep docs-specific one if it exists)
+const packageSiteConfig = path.join(__dirname, '..', 'templates', 'site-config.js');
+const docsSiteConfig = path.join(docsDir, 'site-config.js');
+
+// Only sync if docs doesn't have its own config (preserve docs-specific config)
+if (!fs.existsSync(docsSiteConfig) && fs.existsSync(packageSiteConfig)) {
+    fs.copyFileSync(packageSiteConfig, docsSiteConfig);
+    console.log('✓ Synced site-config.js from templates to docs/');
+}
+
 // Build the site directly in docs/
 console.log('Building docs site...');
 buildSite({
