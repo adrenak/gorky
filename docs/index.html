@@ -385,13 +385,15 @@
 <p>This generates <code>index.html</code> from your markdown files.</p>
 <h2>Configuration</h2>
 <h3>Site-Wide Configuration</h3>
-<p>Update the site configuration in <code>index-template.html</code>. Look for the <code>SITE_CONFIG</code> object (around line 60) and customize these values:</p>
-<pre><code class="language-javascript">const SITE_CONFIG = {
+<p>Edit <code>site-config.js</code> in your project root to customize site-wide settings:</p>
+<pre><code class="language-javascript">module.exports = {
     baseUrl: &#39;https://yourusername.github.io/your-repo&#39;,  // Your GitHub Pages URL
     siteName: &#39;My Site&#39;,                                   // Your site name
     authorName: &#39;Your Name&#39;,                               // Default author name
     defaultDescription: &#39;Your site description...&#39;,       // Default meta description
-    defaultKeywords: &#39;keyword1, keyword2&#39;                   // Default meta keywords
+    defaultKeywords: &#39;keyword1, keyword2&#39;,                 // Default meta keywords
+    favicon: &#39;favicon.ico&#39;,                                // Optional: path to favicon
+    appleTouchIcon: &#39;apple-touch-icon.png&#39;                 // Optional: path to Apple touch icon
 };
 </code></pre>
 <p><strong>Important:</strong> Update <code>baseUrl</code> to match your GitHub Pages URL. For example:</p>
@@ -408,22 +410,45 @@
 <li>Author attribution (fallback if posts don&#39;t specify an author)</li>
 </ul>
 <h3>Sidebar Configuration</h3>
-<p>Edit <code>content/sidebar.json</code> to customize your navigation. The sidebar header, home/posts display names, and footer can be customized in the <code>_defaults</code> section:</p>
-<pre><code class="language-json">{
-    &quot;_defaults&quot;: {
-        &quot;header&quot;: &quot;My Site&quot;,
-        &quot;homeDisplayName&quot;: &quot;🏠 Home&quot;,
-        &quot;postsDisplayName&quot;: &quot;✍️ Posts&quot;,
-        &quot;footer&quot;: [
+<p>Edit <code>site-config.js</code> to customize your navigation. The sidebar configuration is in the <code>sidebar</code> property:</p>
+<pre><code class="language-javascript">module.exports = {
+    // ... other config ...
+    sidebar: {
+        // Sidebar header text (displayed at top of sidebar)
+        header: &#39;My Site&#39;,
+        
+        // Display names for main navigation items
+        homeDisplayName: &#39;🏠 Home&#39;,
+        postsDisplayName: &#39;✍️ Posts&#39;,
+        
+        // Sidebar footer items (array of text items or links)
+        footer: [
             {
-                &quot;text&quot;: &quot;2025 © Your Name&quot;,
-                &quot;target&quot;: &quot;https://yourusername.github.io&quot;
+                text: &#39;2025 © Your Name&#39;,
+                target: &#39;https://yourusername.github.io&#39;
             }
-        ]
+        ],
+        
+        // Navigation sections (object where keys are section titles, values are navigation items)
+        sections: {
+            // Empty section name creates items without a section header
+            &#39;&#39;: {
+                &#39;📝 About&#39;: {
+                    target: &#39;?page=about&#39;,
+                    openInNewTab: false
+                }
+            },
+            &#39;Links&#39;: {
+                &#39;GitHub&#39;: {
+                    target: &#39;https://github.com/yourusername&#39;,
+                    openInNewTab: true
+                }
+            }
+        }
     }
-}
+};
 </code></pre>
-<p>Beyond the defaults, you can create custom navigation sections. See <code>sidebar.json</code> for examples.</p>
+<p>Navigation items in <code>sections</code> have the format: <code>label: { target: &#39;url&#39;, openInNewTab: boolean }</code>. Use <code>?page=filename</code> for internal pages (without .md extension) or full URLs for external links.</p>
 <h2>Post Format</h2>
 <p>Post files can have <strong>any filename</strong> you want - there are no naming requirements! All metadata is defined in YAML frontmatter at the top of each markdown file.</p>
 <h3>Frontmatter</h3>
@@ -478,10 +503,9 @@ Your page content...
 │   ├── posts/               # Blog posts directory
 │   │   └── *.md             # Posts with YAML frontmatter (any filename)
 │   ├── images/              # Images directory
-│   ├── sidebar.json         # Sidebar navigation configuration
 │   └── posts.md             # Auto-generated posts listing (don&#39;t edit)
 ├── styles/                  # CSS styling files
-├── index-template.html      # HTML template (update SITE_CONFIG here!)
+├── index-template.html      # HTML template (don&#39;t edit, auto-generated from site-config.js)
 ├── index.html               # Generated HTML (auto-generated, don&#39;t edit)
 ├── gorky.config.js          # Optional configuration file
 ├── package.json             # Node.js dependencies
@@ -494,7 +518,7 @@ Your page content...
 <li>Select the branch that contains your <code>index.html</code> (usually <code>main</code> or <code>gh-pages</code>)</li>
 <li>Your site will be available at <code>https://yourusername.github.io/repository-name</code></li>
 </ol>
-<p><strong>Tip:</strong> If you want your site at <code>username.github.io</code>, create a repository named exactly <code>username.github.io</code> and set <code>baseUrl</code> in <code>SITE_CONFIG</code> to <code>https://username.github.io</code>.</p>
+<p><strong>Tip:</strong> If you want your site at <code>username.github.io</code>, create a repository named exactly <code>username.github.io</code> and set <code>baseUrl</code> in <code>site-config.js</code> to <code>https://username.github.io</code>.</p>
 <h2>Optional Configuration</h2>
 <p>Create a <code>gorky.config.js</code> file to customize paths:</p>
 <pre><code class="language-javascript">module.exports = {
@@ -506,7 +530,7 @@ Your page content...
 </code></pre>
 <h2>Next Steps</h2>
 <ul>
-<li>✅ Customize the sidebar in <code>content/sidebar.json</code></li>
+<li>✅ Customize the sidebar in <code>site-config.js</code></li>
 <li>✅ Edit your home page content in <code>content/home.md</code></li>
 <li>✅ Update <code>SITE_CONFIG</code> in <code>index-template.html</code></li>
 <li>✅ Create your first blog post in <code>content/posts/</code></li>
@@ -634,7 +658,41 @@ Your page content...
                       "goatCounterCode": "yourcode",
                       "allowLocal": false,
                       "allowFrame": false,
-                      "noOnload": false
+                      "noOnload": false,
+                      "sidebar": {
+                                "header": "Gorky",
+                                "homeDisplayName": "🏠 Home",
+                                "postsDisplayName": "✍️ Posts",
+                                "footer": [
+                                          {
+                                                    "text": "2025 © Vatsal Ambastha",
+                                                    "target": "https://adrenak.github.io"
+                                          },
+                                          {
+                                                    "text": "GitHub",
+                                                    "target": "https://github.com/adrenak/gorky",
+                                                    "openInNewTab": true
+                                          }
+                                ],
+                                "sections": {
+                                          "Documentation": {
+                                                    "Get Started": {
+                                                              "target": "?page=getstarted",
+                                                              "openInNewTab": false
+                                                    },
+                                                    "Customization": {
+                                                              "target": "?page=customization",
+                                                              "openInNewTab": false
+                                                    }
+                                          },
+                                          "Links": {
+                                                    "GitHub": {
+                                                              "target": "https://github.com/adrenak/gorky",
+                                                              "openInNewTab": true
+                                                    }
+                                          }
+                                }
+                      }
             };
         
         // ============================================================================

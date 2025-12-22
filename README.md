@@ -31,8 +31,7 @@ This creates a new Gorky site with example content and templates.
 
 ### 2. Customize your site
 
-- Edit `site-config.js` to configure site-wide settings (baseUrl, siteName, etc.)
-- Edit `content/sidebar.json` to configure navigation
+- Edit `site-config.js` to configure site settings and navigation
 - Add your markdown files to `content/`
 - Create blog posts in `content/posts/`
 

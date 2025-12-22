@@ -3,8 +3,7 @@
 This site is built with [Gorky](https://github.com/adrenak/gorky), a lightweight, markdown-powered static site generator.
 
 ## Getting Started
-- Edit `content/sidebar.json` to configure navigation
-- Edit `site-config.js` to configure site-wide settings (baseUrl, siteName, etc.)
+- Edit `site-config.js` to configure site settings and navigation
 - Add your markdown files to `content/`
 - Create blog posts in `content/posts/`
 - Place images anywhere in `content`, for example `content/images` for using in your markdown files

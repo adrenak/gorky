@@ -77,25 +77,48 @@ These settings are also used for:
 
 ### Sidebar Configuration
 
-Edit `content/sidebar.json` to customize your navigation. The sidebar header, home/posts display names, and footer can be customized in the `_defaults` section:
+Edit `site-config.js` to customize your navigation. The sidebar configuration is in the `sidebar` property:
 
-```json
-{
-    "_defaults": {
-        "header": "My Site",
-        "homeDisplayName": "🏠 Home",
-        "postsDisplayName": "✍️ Posts",
-        "footer": [
+```javascript
+module.exports = {
+    // ... other config ...
+    sidebar: {
+        // Sidebar header text (displayed at top of sidebar)
+        header: 'My Site',
+        
+        // Display names for main navigation items
+        homeDisplayName: '🏠 Home',
+        postsDisplayName: '✍️ Posts',
+        
+        // Sidebar footer items (array of text items or links)
+        footer: [
             {
-                "text": "2025 © Your Name",
-                "target": "https://yourusername.github.io"
+                text: '2025 © Your Name',
+                target: 'https://yourusername.github.io'
             }
-        ]
+        ],
+        
+        // Navigation sections (object where keys are section titles, values are navigation items)
+        sections: {
+            // Empty section name creates items without a section header
+            '': {
+                '📝 About': {
+                    target: '?page=about',
+                    openInNewTab: false
+                }
+            },
+            'Links': {
+                'GitHub': {
+                    target: 'https://github.com/yourusername',
+                    openInNewTab: true
+                }
+            }
+        }
     }
-}
+};
 ```
 
-Beyond the defaults, you can create custom navigation sections. See `content/sidebar.json` for how this sidebar you're seeing right now is configured.
+Navigation items in `sections` have the format: `label: { target: 'url', openInNewTab: boolean }`. Use `?page=filename` for internal pages (without .md extension) or full URLs for external links.
 
 ## Post Format
 
@@ -171,7 +194,7 @@ keywords: about, information
 Your page content...
 ```
 
-Link to custom pages from your sidebar by referencing them with `?page=filename` (without the `.md` extension). For example, to link to `content/about.md`, use `?page=about`.
+Link to custom pages from your sidebar by referencing them with `?page=filename` (without the `.md` extension). For example, to link to `content/about.md`, use `?page=about` in the sidebar configuration in `site-config.js`.
 
 > 💡 You can also directly land on a page using `?page=filename` in the browser address bar.
 
@@ -184,10 +207,9 @@ my-site/
 │   ├── posts/               # Blog posts directory
 │   │   └── *.md             # Posts with YAML frontmatter (any filename)
 │   ├── images/              # Images directory
-│   ├── sidebar.json         # Sidebar navigation configuration
 │   └── posts.md             # Auto-generated posts listing (don't edit)
 ├── styles/                  # CSS styling files
-├── index-template.html      # HTML template (update SITE_CONFIG here!)
+├── index-template.html      # HTML template (don't edit, auto-generated from site-config.js)
 ├── index.html               # Generated HTML (auto-generated, don't edit)
 ├── gorky.config.js          # Optional configuration file
 ├── package.json             # Node.js dependencies
@@ -201,7 +223,7 @@ my-site/
 3. Select the branch that contains your `index.html` (usually `main` or `gh-pages`)
 4. Your site will be available at `https://yourusername.github.io/repository-name`
 
-**Tip:** If you want your site at `username.github.io`, create a repository named exactly `username.github.io` and set `baseUrl` in `SITE_CONFIG` to `https://username.github.io`.
+**Tip:** If you want your site at `username.github.io`, create a repository named exactly `username.github.io` and set `baseUrl` in `site-config.js` to `https://username.github.io`.
 
 ## Optional Configuration
 
