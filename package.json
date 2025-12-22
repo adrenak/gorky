@@ -24,7 +24,7 @@
     "bin",
     "lib",
     "templates",
-    "styles",
+    "_base",
     "README.md",
     "LICENSE"
   ],
