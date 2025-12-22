@@ -71,8 +71,9 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 - **Blog Posts**: Create posts in the `content/posts/` folder with YAML frontmatter for metadata
 - **Custom Pages**: Add any markdown file and link to it from your sidebar
-- **Dynamic Navigation**: Configure your sidebar through a simple JSON file
+- **Dynamic Navigation**: Configure your sidebar through `site-config.js`
 - **Tag System**: Organize posts with tags and filter by them
+- **Analytics Ready**: Built-in support for GoatCounter analytics
 
 ### Features
 
@@ -81,6 +82,8 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Tag Filtering**: Filter posts by tags with a simple URL parameter
 - ✅ **Client-Side Routing**: Fast navigation without page reloads
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
+- ✅ **Analytics Ready**: Built-in support for GoatCounter
+- ✅ **Easy Theming**: All theme properties in one `styles/theme.css` file
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
 ## CLI Commands
@@ -92,19 +95,54 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 ### Site Configuration
 
-Edit `site-config.js` to customize site-wide settings:
+Edit `site-config.js` to customize site-wide settings, sidebar navigation, and analytics:
 
 ```javascript
 module.exports = {
+  // Basic site settings
   baseUrl: 'https://yourusername.github.io/your-repo',
   siteName: 'My Site',
   authorName: 'Your Name',
   defaultDescription: 'Your site description...',
   defaultKeywords: 'keyword1, keyword2',
   favicon: 'favicon.ico',
-  appleTouchIcon: 'apple-touch-icon.png'
+  appleTouchIcon: 'apple-touch-icon.png',
+  
+  // GoatCounter Analytics (optional)
+  goatCounterEnabled: false,
+  goatCounterCode: 'yourcode',
+  allowLocal: false,
+  allowFrame: false,
+  noOnload: false,
+  
+  // Sidebar Configuration
+  sidebar: {
+    header: 'My Site',
+    homeDisplayName: '🏠 Home',
+    postsDisplayName: '✍️ Posts',
+    footer: [
+      {
+        text: '2025 © Your Name',
+        target: 'https://yoursite.com'
+      }
+    ],
+    sections: {
+      'Links': {
+        'GitHub': {
+          target: 'https://github.com/yourusername',
+          openInNewTab: true
+        }
+      }
+    }
+  }
 };
 ```
+
+The sidebar configuration includes:
+- `header`: Text displayed at the top of the sidebar
+- `homeDisplayName` / `postsDisplayName`: Display names for main navigation items
+- `footer`: Array of footer items (text or links)
+- `sections`: Navigation sections with items (`target` can be `?page=filename` for internal pages or full URLs for external links)
 
 ### Build Configuration
 
@@ -122,7 +160,3 @@ module.exports = {
 ## License
 
 MIT
-
----
-
-_Disclaimer: LLM generated code and documentation has been heavily used in Gorky_
