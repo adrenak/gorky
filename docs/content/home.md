@@ -1,9 +1,3 @@
----
-title: Gorky
-description: A lightweight, markdown-powered static site generator
-keywords: gorky, static site generator, markdown, blog
----
-
 # Gorky
 
 **Gorky** is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.
