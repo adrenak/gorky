@@ -533,199 +533,57 @@ Your page content...
 <li>✅ <strong>Lightweight</strong>: Minimal dependencies, fast load times</li>
 </ul>
 </div>
-<div id="content-content/posts/2025-12-10--markdown-cheatsheet-md" class="content-section" data-slug="markdown-cheatsheet" data-date="10 Dec 2025" data-tags="markdown,tutorial" data-title="Markdown Cheatsheet" data-description="A quick reference guide for all markdown syntax" style="display: none;">
-<p>A comprehensive reference guide for Markdown syntax. Bookmark this page for quick access to all Markdown formatting options.</p>
-<h2>Headers</h2>
-<pre><code class="language-markdown"># H1 Header
-## H2 Header
-### H3 Header
-#### H4 Header
-##### H5 Header
-###### H6 Header
-</code></pre>
-<h2>Emphasis</h2>
-<pre><code class="language-markdown">*italic text* or _italic text_
-**bold text** or __bold text__
-***bold italic*** or ___bold italic___
-~~strikethrough~~
-</code></pre>
-<h2>Lists</h2>
-<h3>Unordered Lists</h3>
-<pre><code class="language-markdown">- Item 1
-- Item 2
-  - Nested item 2.1
-  - Nested item 2.2
-- Item 3
-
-* Alternative bullet
-* Another item
-</code></pre>
-<h3>Ordered Lists</h3>
-<pre><code class="language-markdown">1. First item
-2. Second item
-3. Third item
-   1. Nested numbered item
-   2. Another nested item
-</code></pre>
-<h2>Links</h2>
-<pre><code class="language-markdown">[Link text](https://example.com)
-[Link with title](https://example.com &quot;Title text&quot;)
-&lt;https://example.com&gt;
-[Reference link][ref-id]
-
-[ref-id]: https://example.com &quot;Optional title&quot;
-</code></pre>
-<h2>Images</h2>
-<pre><code class="language-markdown">![Alt text](image-url.jpg)
-![Alt text](image-url.jpg &quot;Image title&quot;)
-![Reference image][img-ref]
-
-[img-ref]: image-url.jpg &quot;Image title&quot;
-</code></pre>
-<h2>Code</h2>
-<h3>Inline Code</h3>
-<pre><code class="language-markdown">Use `backticks` for inline code.
-</code></pre>
-<h3>Code Blocks</h3>
-<pre><code class="language-markdown">```language
-function example() {
-    return &quot;code block&quot;;
-}
-```
-</code></pre>
-<p>Supported languages: <code>javascript</code>, <code>python</code>, <code>java</code>, <code>csharp</code>, <code>html</code>, <code>css</code>, <code>json</code>, <code>bash</code>, and many more.</p>
-<h2>Blockquotes</h2>
-<pre><code class="language-markdown">&gt; This is a blockquote.
-&gt; It can span multiple lines.
-&gt;
-&gt; &gt; Nested blockquote
-</code></pre>
-<h2>Horizontal Rules</h2>
-<pre><code class="language-markdown">---
-***
-___
-</code></pre>
-<h2>Tables</h2>
-<pre><code class="language-markdown">| Header 1 | Header 2 | Header 3 |
-|----------|----------|----------|
-| Cell 1   | Cell 2   | Cell 3   |
-| Cell 4   | Cell 5   | Cell 6   |
-
-| Left Align | Center Align | Right Align |
-|:-----------|:------------:|------------:|
-| Left       | Center       | Right       |
-</code></pre>
-<h2>Task Lists</h2>
-<pre><code class="language-markdown">- [x] Completed task
-- [ ] Incomplete task
-- [x] Another completed task
-</code></pre>
-<h2>Escaping Characters</h2>
-<p>Use backslash <code>\</code> to escape special characters:</p>
-<pre><code class="language-markdown">\*not italic\*
-\#not a header
-\[not a link\](
-</code></pre>
-<h2>Line Breaks</h2>
-<pre><code class="language-markdown">End a line with two spaces for a line break.
-
-Or use a blank line for a paragraph break.
-</code></pre>
-<h2>HTML</h2>
-<p>You can use raw HTML in Markdown:</p>
-<pre><code class="language-markdown">&lt;button&gt;Click me&lt;/button&gt;
-&lt;details&gt;
-&lt;summary&gt;Click to expand&lt;/summary&gt;
-Hidden content here
-&lt;/details&gt;
-</code></pre>
-<h2>Collapsible Sections</h2>
-<p>Create accordion-style collapsible sections using HTML <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> tags:</p>
-<details>
-<summary>📚 Advanced Markdown Features</summary>
-
-<p>This section contains advanced markdown features that you might find useful:</p>
-<h3>Nested Lists with Code</h3>
-<p>You can combine different markdown elements:</p>
-<ol>
-<li><strong>Lists with code</strong>: Use <code>inline code</code> within lists</li>
-<li><strong>Links in lists</strong>: <a href="https://example.com">Example link</a></li>
-<li><strong>Emphasis</strong>: <em>Italic</em> and <strong>bold</strong> text work here too</li>
-</ol>
-<h3>Code Blocks in Collapsible Sections</h3>
-<pre><code class="language-javascript">function example() {
-    console.log(&quot;This code block is inside a collapsible section!&quot;);
-    return true;
-}
-</code></pre>
-<h3>Multiple Collapsible Sections</h3>
-<p>You can nest collapsible sections:</p>
-<details>
-<summary>Nested Section Example</summary>
-
-<p>This is a nested collapsible section. You can have multiple levels of nesting if needed.</p>
-</details>
-
-</details>
-
-<details>
-<summary>💡 Pro Tips for Markdown</summary>
-
-<p>Here are some professional tips for writing better markdown:</p>
+<div id="content-content/posts/2025-12-10--writing-a-post-md" class="content-section" data-slug="writing-a-post" data-date="10 Dec 2025" data-tags="tutorial,writing" data-title="Writing a post" data-description="Learn how to write posts in Gorky using markdown and HTML" style="display: none;">
+<p>Posts in Gorky are written in Markdown, which makes it easy to format your content with simple syntax. However, you can also use HTML tags when you need more control or want to embed rich content like videos or create advanced layouts.</p>
+<h2>Basic Markdown</h2>
+<p>Markdown provides a simple way to format text with headers, lists, links, and more. For example:</p>
 <ul>
-<li><strong>Use consistent spacing</strong>: Add blank lines between sections</li>
-<li><strong>Preview often</strong>: Check your rendered output regularly</li>
-<li><strong>Use semantic HTML</strong>: When markdown isn&#39;t enough, HTML is your friend</li>
-<li><strong>Keep it simple</strong>: Markdown is meant to be readable in plain text too</li>
+<li><strong>Bold text</strong> with <code>**bold**</code></li>
+<li><em>Italic text</em> with <code>*italic*</code></li>
+<li><a href="https://www.google.com">Links</a> with <code>[text](url)</code></li>
+<li>Code blocks with triple backticks</li>
 </ul>
-<p>Remember: The best markdown is both readable in source and beautiful when rendered!</p>
-</details>
+<p><a href="https://www.markdownguide.org/cheat-sheet/">Here&#39;s a Markdown cheatsheet</a>  </p>
+<h2>Embedding YouTube Videos</h2>
+<p>You can embed YouTube videos using HTML iframes. Here&#39;s an example:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aqz-KE-bpKQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<h2>Common Patterns</h2>
-<h3>Definition Lists</h3>
-<pre><code class="language-markdown">Term 1
-: Definition 1
-
-Term 2
-: Definition 2a
-: Definition 2b
+<p>To embed a video, use this HTML format:</p>
+<pre><code class="language-html">&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/VIDEO_ID&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;
 </code></pre>
-<h3>Footnotes</h3>
-<pre><code class="language-markdown">Here&#39;s a sentence with a footnote[^1].
-
-[^1]: This is the footnote content.
+<p>Replace <code>VIDEO_ID</code> with the video ID from the YouTube URL. For example, if the URL is <code>https://www.youtube.com/watch?v=aqz-KE-bpKQ</code>, the video ID is <code>aqz-KE-bpKQ</code>.</p>
+<h2>Adding Images with Markdown</h2>
+<p>You can add images using standard Markdown syntax:</p>
+<p><img src="content/images/gorky.jpg" alt="Gorky"></p>
+<p>The syntax is:</p>
+<pre><code class="language-markdown">![Alt text](path/to/image.jpg)
 </code></pre>
-<h3>Abbreviations</h3>
-<pre><code class="language-markdown">*[HTML]: HyperText Markup Language
-*[CSS]: Cascading Style Sheets
+<p>The alt text is displayed if the image can&#39;t be loaded and helps with accessibility.</p>
+<h2>Adding Images with HTML (Floating)</h2>
+<p>For more control over image positioning, you can use HTML tags. Here&#39;s how to float an image to the right:</p>
+<img src="content/images/gorky.jpg" alt="Gorky" style="float: right; margin: 0 0 1rem 1rem; max-width: 300px;">
 
-The HTML and CSS are used for web development.
+<p>You can see this image is floating to the right side of the text. This is useful when you want images to flow alongside your content rather than breaking into a new block. The HTML syntax gives you full control over styling, including margins, sizing, and positioning.</p>
+<p>Here&#39;s the HTML code to float an image to the right:</p>
+<pre><code class="language-html">&lt;img src=&quot;images/gorky.jpg&quot; alt=&quot;Gorky&quot; style=&quot;float: right; margin: 0 0 1rem 1rem; max-width: 300px;&quot;&gt;
 </code></pre>
-<h2>Tips</h2>
-<ol>
-<li><strong>Consistency</strong>: Use consistent formatting throughout your document</li>
-<li><strong>Readability</strong>: Add blank lines between sections for better readability</li>
-<li><strong>Preview</strong>: Always preview your markdown before publishing</li>
-<li><strong>Syntax Highlighting</strong>: Use appropriate language tags in code blocks</li>
-<li><strong>Links</strong>: Use descriptive link text instead of raw URLs</li>
-</ol>
-<h2>Markdown Flavors</h2>
-<p>Different platforms support different Markdown features:</p>
+<p>The CSS properties used:</p>
 <ul>
-<li><strong>GitHub Flavored Markdown (GFM)</strong>: Tables, task lists, strikethrough</li>
-<li><strong>CommonMark</strong>: Standardized Markdown specification</li>
-<li><strong>MultiMarkdown</strong>: Footnotes, tables, definition lists</li>
-<li><strong>Pandoc Markdown</strong>: Extended features for academic writing</li>
+<li><code>float: right</code> - Floats the image to the right</li>
+<li><code>margin: 0 0 1rem 1rem</code> - Adds space around the image (top, right, bottom, left)</li>
+<li><code>max-width: 300px</code> - Limits the maximum width of the image</li>
 </ul>
-<p>Happy writing! 📝</p>
+<p>You can adjust these values to suit your needs. For example, use <code>float: left</code> to float the image to the left side instead.</p>
+<h2>Combining Markdown and HTML</h2>
+<p>Remember, you can freely mix Markdown and HTML in your posts. Use Markdown for simple formatting, and switch to HTML when you need more advanced features like videos, custom layouts, or specific styling.</p>
 </div>
 <div id="content-content/posts-md" class="content-section" style="display: none;">
 <h1>Posts</h1>
 <h2>Tags</h2>
-<p><a href="?tag=markdown">markdown (1)</a> • <a href="?tag=tutorial">tutorial (1)</a></p>
+<p><a href="?tag=tutorial">tutorial (1)</a> • <a href="?tag=writing">writing (1)</a></p>
 <hr>
-<h2><a href="?post=markdown-cheatsheet">Markdown Cheatsheet</a></h2>
-<p>A quick reference guide for all markdown syntax</p>
+<h2><a href="?post=writing-a-post">Writing a post</a></h2>
+<p>Learn how to write posts in Gorky using markdown and HTML</p>
 </div>
 
             </div>

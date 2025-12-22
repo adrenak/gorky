@@ -2,11 +2,11 @@
 
 ## Tags
 
-[markdown (1)](?tag=markdown) • [tutorial (1)](?tag=tutorial)
+[tutorial (1)](?tag=tutorial) • [writing (1)](?tag=writing)
 
 ---
 
-## [Markdown Cheatsheet](?post=markdown-cheatsheet)
+## [Writing a post](?post=writing-a-post)
 
-A quick reference guide for all markdown syntax
+Learn how to write posts in Gorky using markdown and HTML
 
