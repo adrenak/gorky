@@ -92,25 +92,36 @@
             <div id="markdown-content">
                 <div id="content-content/customization-md" class="content-section" data-title="Customization" data-description="Learn how to customize fonts, colors, and styling to make your website unique" data-keywords="customization, styling, fonts, colors, CSS, theme" style="display: none;">
 <h1>Customization Guide</h1>
-<p>This guide will help you customize the look and feel of your gorky website by modifying fonts and colors. All styling is controlled through CSS files in the <code>styles/</code> directory.</p>
-<h2>CSS File Structure</h2>
-<p>The styles are organized into several files, each controlling different aspects:</p>
+<p>This guide will help you customize the look and feel of your Gorky website. <strong>Most customization is done through <code>styles/theme.css</code></strong> - this is where you&#39;ll find all the important theme-related properties like colors, fonts, and spacing.</p>
+<h2>The Most Important File: <code>theme.css</code></h2>
+<p><strong><code>styles/theme.css</code> is where most customization happens.</strong> This file contains all theme-related CSS properties organized for easy customization:</p>
 <ul>
-<li><strong><code>styles/base.css</code></strong> - Global font family and base styles</li>
-<li><strong><code>styles/layout.css</code></strong> - Main layout, sidebar, and background colors</li>
-<li><strong><code>styles/navigation.css</code></strong> - Navigation links, hover states, and active states</li>
-<li><strong><code>styles/content.css</code></strong> - Content typography, headings, links, and code blocks</li>
+<li><strong>Fonts</strong> (body, code)</li>
+<li><strong>Sidebar</strong> background and text colors (idle, hovered, selected states)</li>
+<li><strong>Content</strong> background color, text color, link colors</li>
+<li><strong>Content</strong> line spacing</li>
+<li><strong>Blockquote</strong> colors and borders</li>
+</ul>
+<p>Simply edit <code>styles/theme.css</code> to change your site&#39;s appearance. Most users won&#39;t need to touch the other CSS files.</p>
+<h2>CSS File Structure</h2>
+<p>While <code>theme.css</code> handles most customization, the styles are organized into several files:</p>
+<ul>
+<li><strong><code>styles/theme.css</code></strong> ⭐ - <strong>Most important!</strong> Contains fonts, colors, and theme properties</li>
+<li><strong><code>styles/base.css</code></strong> - CSS reset and container layout (rarely needs editing)</li>
+<li><strong><code>styles/layout.css</code></strong> - Layout structure, padding, margins (structural properties)</li>
+<li><strong><code>styles/navigation.css</code></strong> - Navigation structure and layout (not colors)</li>
+<li><strong><code>styles/content.css</code></strong> - Content structure, spacing, typography structure</li>
 <li><strong><code>styles/mobile.css</code></strong> - Mobile-specific styles</li>
 <li><strong><code>styles/responsive.css</code></strong> - Responsive breakpoints and adjustments</li>
 </ul>
-<h2>Changing Fonts</h2>
+<h2>Customizing Fonts</h2>
 <h3>Main Body Font</h3>
-<p>The main font for all content is set in <code>styles/base.css</code>. By default, it uses a system font stack:</p>
+<p>The main font for all content is set in <code>styles/theme.css</code>:</p>
 <pre><code class="language-css">body {
     font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 </code></pre>
-<p><strong>To change it</strong>, edit <code>styles/base.css</code> and replace with your preferred font:</p>
+<p><strong>To change it</strong>, edit <code>styles/theme.css</code> and replace with your preferred font:</p>
 <pre><code class="language-css">body {
     font-family: &#39;Your Font Name&#39;, sans-serif;
 }
@@ -121,7 +132,7 @@
 <pre><code class="language-html">&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
 </code></pre>
 </li>
-<li><p>Update <code>styles/base.css</code>:</p>
+<li><p>Update <code>styles/theme.css</code>:</p>
 <pre><code class="language-css">body {
     font-family: &#39;Inter&#39;, sans-serif;
 }
@@ -132,207 +143,219 @@
 <ul>
 <li><code>&#39;Inter&#39;, sans-serif</code> - Modern, clean sans-serif</li>
 <li><code>&#39;Merriweather&#39;, serif</code> - Readable serif font</li>
-<li><code>&#39;Fira Code&#39;, monospace</code> - For a monospace feel</li>
 <li><code>&#39;Playfair Display&#39;, serif</code> - Elegant serif</li>
 </ul>
-<h3>Heading Fonts</h3>
-<p>Headings use the same font as the body by default. To change heading fonts, edit <code>styles/content.css</code>:</p>
-<pre><code class="language-css">#markdown-content h1 {
-    font-family: &#39;Your Heading Font&#39;, sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-#markdown-content h2 {
-    font-family: &#39;Your Heading Font&#39;, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-</code></pre>
 <h3>Code Font</h3>
-<p>Code blocks and inline code use a monospace font. Edit <code>styles/content.css</code>:</p>
-<pre><code class="language-css">#markdown-content code {
-    font-family: &#39;Courier New&#39;, monospace;
-    /* Or use a custom monospace font */
-    /* font-family: &#39;Fira Code&#39;, &#39;Courier New&#39;, monospace; */
+<p>Code blocks and inline code use a monospace font. Edit <code>styles/theme.css</code>:</p>
+<pre><code class="language-css">#markdown-content code,
+#markdown-content pre {
+    font-family: &#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace;
 }
 </code></pre>
 <p><strong>Popular monospace fonts:</strong></p>
 <ul>
+<li><code>&#39;JetBrains Mono&#39;</code> - Modern monospace (already included via Google Fonts)</li>
 <li><code>&#39;Fira Code&#39;</code> - Programming font with ligatures</li>
-<li><code>&#39;JetBrains Mono&#39;</code> - Modern monospace</li>
 <li><code>&#39;Source Code Pro&#39;</code> - Clean code font</li>
 </ul>
-<h2>Changing Colors</h2>
-<h3>Sidebar Background</h3>
-<p>The sidebar background color is in <code>styles/layout.css</code>:</p>
+<h2>Customizing Colors</h2>
+<p>All color customization happens in <code>styles/theme.css</code>. This is much simpler than before!</p>
+<h3>Sidebar Colors</h3>
+<p><strong>Sidebar background:</strong></p>
 <pre><code class="language-css">.sidebar {
-    background-color: #f5f5f5;  /* Light gray */
+    background-color: #f5f5f5;
 }
 </code></pre>
-<p><strong>Color suggestions:</strong></p>
-<ul>
-<li><code>#ffffff</code> - Pure white</li>
-<li><code>#f8f9fa</code> - Very light gray</li>
-<li><code>#2d3748</code> - Dark gray/charcoal</li>
-<li><code>#1a202c</code> - Very dark (dark mode)</li>
-</ul>
-<h3>Main Content Background</h3>
-<p>The main content area background is also in <code>styles/layout.css</code>:</p>
-<pre><code class="language-css">.main-content {
-    background-color: #ffffff;  /* White */
+<p><strong>Sidebar text colors (idle state):</strong></p>
+<pre><code class="language-css">.sidebar-header h1 {
+    color: rgb(0, 0, 0);
+}
+
+.nav-link {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.section-title {
+    color: rgba(0, 0, 0, 0.75);
 }
 </code></pre>
-<h3>Navigation Link Colors</h3>
-<p>Navigation link colors are in <code>styles/navigation.css</code>:</p>
-<p><strong>Default link color:</strong></p>
-<pre><code class="language-css">.nav-link {
-    color: rgba(0, 0, 0, 0.6);  /* 60% opacity black */
-}
-</code></pre>
-<p><strong>Hover state:</strong></p>
+<p><strong>Sidebar text colors (hovered state):</strong></p>
 <pre><code class="language-css">.nav-link:hover {
-    background-color: rgb(188, 188, 188);  /* Light gray background */
-    color: rgba(0, 0, 0, 0.8);  /* Darker text */
+    background-color: rgb(188, 188, 188);
+    color: rgba(0, 0, 0, 0.8);
 }
 </code></pre>
-<p><strong>Active/selected link:</strong></p>
+<p><strong>Sidebar text colors (selected/active state):</strong></p>
 <pre><code class="language-css">.nav-link.active {
-    background-color: #000000;  /* Black background */
-    color: rgb(255, 255, 255);  /* White text */
+    background-color: #000000;
+    color: rgb(255, 255, 255);
 }
 </code></pre>
-<p><strong>To customize</strong>, change these values in <code>styles/navigation.css</code>. For example, a blue theme:</p>
-<pre><code class="language-css">.nav-link {
-    color: rgba(0, 0, 0, 0.7);
-}
-
-.nav-link:hover {
-    background-color: #e3f2fd;  /* Light blue */
-    color: #1976d2;  /* Blue text */
-}
-
-.nav-link.active {
-    background-color: #1976d2;  /* Blue background */
-    color: rgb(255, 255, 255);  /* White text */
+<h3>Content Colors</h3>
+<p><strong>Content background:</strong></p>
+<pre><code class="language-css">.main-content {
+    background-color: #ffffff;
 }
 </code></pre>
-<h3>Content Link Colors</h3>
-<p>Content links (in blog posts and pages) are styled in <code>styles/content.css</code>:</p>
-<pre><code class="language-css">#markdown-content a {
-    color: #0066cc;  /* Blue */
-}
-
-#markdown-content a:hover {
-    color: #0052a3;  /* Darker blue */
+<p><strong>Content text color:</strong></p>
+<pre><code class="language-css">#markdown-content {
+    color: inherit;  /* Uses default browser text color */
 }
 </code></pre>
-<p><strong>To change</strong>, edit <code>styles/content.css</code>:</p>
-<pre><code class="language-css">#markdown-content a {
-    color: #your-color;  /* Your preferred link color */
+<p><strong>Content links:</strong></p>
+<pre><code class="language-css">#markdown-content a,
+#tag-posts-list h2 a,
+.post-link,
+.post-tags .tag-link {
+    color: #0066cc;
+    font-weight: 600;
 }
 
-#markdown-content a:hover {
-    color: #your-hover-color;  /* Darker shade for hover */
+#markdown-content a:hover,
+#tag-posts-list h2 a:hover,
+.post-link:hover,
+.post-tags .tag-link:hover {
+    color: #0052a3;
 }
 </code></pre>
-<h3>Code Block Background</h3>
-<p>Code block backgrounds are in <code>styles/content.css</code>:</p>
-<pre><code class="language-css">#markdown-content code {
-    background-color: #f4f4f4;  /* Light gray */
-}
-
-#markdown-content pre {
-    background-color: #f4f4f4;  /* Light gray */
+<p>All links in your content (blog posts, tag links, post list links) use the same color and weight for consistency.</p>
+<h3>Blockquote Colors</h3>
+<p>Blockquotes are styled in <code>styles/theme.css</code>:</p>
+<pre><code class="language-css">#markdown-content blockquote {
+    border-left: 4px solid #0066cc;
+    color: #666;
 }
 </code></pre>
-<p><strong>To change</strong>, use any color you prefer:</p>
-<pre><code class="language-css">#markdown-content code {
-    background-color: #f8f9fa;  /* Lighter gray */
-}
-
-#markdown-content pre {
-    background-color: #282c34;  /* Dark background for code blocks */
-    color: #abb2bf;  /* Light text */
-}
-</code></pre>
+<p>The border color matches your link color by default, but you can customize it.</p>
 <h3>Sidebar Footer</h3>
-<p>Footer colors are in <code>styles/navigation.css</code>:</p>
+<p>Footer colors are also in <code>styles/theme.css</code>:</p>
 <pre><code class="language-css">.sidebar-footer {
-    background-color: #f5f5f5;  /* Light gray */
+    background-color: #000000;
 }
 
 .footer-text,
 .footer-link {
-    color: rgba(0, 0, 0, 0.6);  /* 60% opacity black */
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-link:hover {
+    color: rgba(0, 0, 0, 0.8);
 }
 </code></pre>
-<h2>Quick Color Theme Examples</h2>
-<h3>Light Theme (Default)</h3>
+<h2>Content Spacing</h2>
+<h3>Line Spacing</h3>
+<p>Content line spacing is controlled in <code>styles/theme.css</code>:</p>
+<pre><code class="language-css">.main-content {
+    line-height: 1.7;
+}
+</code></pre>
+<p>Adjust this value to make text more or less spaced. Common values:</p>
 <ul>
-<li>Sidebar: <code>#f5f5f5</code></li>
-<li>Content: <code>#ffffff</code></li>
-<li>Links: <code>#0066cc</code></li>
-<li>Active nav: <code>#000000</code> with white text</li>
+<li><code>1.5</code> - Tighter spacing</li>
+<li><code>1.7</code> - Default (comfortable reading)</li>
+<li><code>1.8</code> - More breathing room</li>
+<li><code>2.0</code> - Very spacious</li>
 </ul>
+<h2>Quick Theme Examples</h2>
+<h3>Light Theme (Default)</h3>
+<p>All in <code>styles/theme.css</code>:</p>
+<pre><code class="language-css">.sidebar {
+    background-color: #f5f5f5;
+}
+
+.main-content {
+    background-color: #ffffff;
+}
+
+#markdown-content a {
+    color: #0066cc;
+}
+
+.nav-link.active {
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+}
+</code></pre>
 <h3>Dark Theme</h3>
-<p>Edit <code>styles/layout.css</code>:</p>
+<p>Edit <code>styles/theme.css</code>:</p>
 <pre><code class="language-css">.sidebar {
     background-color: #1a202c;
-    color: white;
 }
 
 .main-content {
     background-color: #2d3748;
+}
+
+#markdown-content {
     color: #e2e8f0;
 }
-</code></pre>
-<p>Edit <code>styles/navigation.css</code>:</p>
-<pre><code class="language-css">.nav-link {
+
+.nav-link {
     color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-link:hover {
+    background-color: #4a5568;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .nav-link.active {
     background-color: #4a5568;
     color: rgb(255, 255, 255);
 }
-</code></pre>
-<p>Edit <code>styles/content.css</code>:</p>
-<pre><code class="language-css">#markdown-content {
-    color: #e2e8f0;
-}
 
 #markdown-content a {
     color: #63b3ed;
 }
-</code></pre>
-<h3>Blue Theme</h3>
-<ul>
-<li>Sidebar: <code>#e3f2fd</code></li>
-<li>Active nav: <code>#1976d2</code></li>
-<li>Links: <code>#1565c0</code></li>
-</ul>
-<h2>Tips</h2>
-<ol>
-<li><p><strong>Use CSS variables</strong> (optional): For easier theming, you can define CSS custom properties in <code>styles/base.css</code>:</p>
-<pre><code class="language-css">:root {
-    --primary-color: #0066cc;
-    --sidebar-bg: #f5f5f5;
-    --content-bg: #ffffff;
+
+.sidebar-footer {
+    background-color: #1a202c;
+}
+
+.footer-text,
+.footer-link {
+    color: rgba(255, 255, 255, 0.6);
 }
 </code></pre>
-<p>Then use them throughout: <code>color: var(--primary-color);</code></p>
+<h3>Blue Theme</h3>
+<pre><code class="language-css">.sidebar {
+    background-color: #e3f2fd;
+}
+
+.nav-link.active {
+    background-color: #1976d2;
+    color: rgb(255, 255, 255);
+}
+
+.nav-link:hover {
+    background-color: #bbdefb;
+}
+
+#markdown-content a {
+    color: #1565c0;
+}
+
+#markdown-content blockquote {
+    border-left: 4px solid #1976d2;
+}
+</code></pre>
+<h2>Tips</h2>
+<ol>
+<li><p><strong>Start with <code>theme.css</code></strong>: This file contains 90% of what you&#39;ll want to customize. Edit this first!</p>
 </li>
-<li><p><strong>Test your changes</strong>: After modifying CSS, run <code>npm run build</code> and check <code>index.html</code> in your browser.</p>
-</li>
-<li><p><strong>Keep backups</strong>: Before making major changes, consider committing your current state to git.</p>
+<li><p><strong>Test your changes</strong>: After modifying CSS, run <code>gorky build</code> and check <code>index.html</code> in your browser.</p>
 </li>
 <li><p><strong>Browser DevTools</strong>: Use your browser&#39;s developer tools (F12) to inspect elements and test color changes in real-time before editing files.</p>
+</li>
+<li><p><strong>Keep it organized</strong>: All theme-related properties are in <code>theme.css</code> - use that as your main customization file.</p>
+</li>
+<li><p><strong>Check file comments</strong>: Each CSS file has comments at the top explaining what it controls.</p>
 </li>
 </ol>
 <h2>Need Help?</h2>
 <ul>
-<li>Check the comments in each CSS file - they describe what each section controls</li>
+<li><strong>Check <code>styles/theme.css</code> first</strong> - most customization is there</li>
+<li>Read the comments in each CSS file - they describe what each section controls</li>
 <li>Use browser DevTools to inspect elements and see which CSS file controls them</li>
 <li>Test changes incrementally - change one thing at a time to see the effect</li>
 </ul>
@@ -604,7 +627,12 @@ Your page content...
                       "defaultDescription": "Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.",
                       "defaultKeywords": "gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog",
                       "favicon": "favicon.ico",
-                      "appleTouchIcon": "apple-touch-icon.png"
+                      "appleTouchIcon": "apple-touch-icon.png",
+                      "goatCounterEnabled": false,
+                      "goatCounterCode": "yourcode",
+                      "allowLocal": false,
+                      "allowFrame": false,
+                      "noOnload": false
             };
         
         // ============================================================================
@@ -1297,6 +1325,13 @@ Your page content...
             }
             
             updateCanonicalURL();
+            
+            // Track pageview with GoatCounter for client-side routing
+            if (SITE_CONFIG.goatCounterEnabled && typeof goatcounter !== 'undefined') {
+                goatcounter.count({
+                    path: location.pathname + location.search
+                });
+            }
         }
         
         // ============================================================================
@@ -1388,6 +1423,30 @@ Your page content...
                     }
                 });
             });
+
+            // ============================================================================
+            // GOATCOUNTER ANALYTICS
+            // ============================================================================
+            
+            if (SITE_CONFIG.goatCounterEnabled && SITE_CONFIG.goatCounterCode) {
+                const goatCounterScript = document.createElement('script');
+                goatCounterScript.async = true;
+                goatCounterScript.setAttribute('data-goatcounter', `https://${SITE_CONFIG.goatCounterCode}.goatcounter.com/count`);
+                goatCounterScript.src = '//gc.zgo.at/count.js';
+                
+                // Add optional data attributes
+                if (SITE_CONFIG.allowLocal) {
+                    goatCounterScript.setAttribute('data-goatcounter-allow-local', 'true');
+                }
+                if (SITE_CONFIG.allowFrame) {
+                    goatCounterScript.setAttribute('data-goatcounter-allow-frame', 'true');
+                }
+                if (SITE_CONFIG.noOnload) {
+                    goatCounterScript.setAttribute('data-goatcounter-no-onload', 'true');
+                }
+                
+                document.body.appendChild(goatCounterScript);
+            }
         });
     </script>
 </body>
