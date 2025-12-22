@@ -16,13 +16,9 @@
 
 .main-content {
     flex: 1;
-    background-color: #ffffff;
     padding-top: 5rem;
-    padding-right: 20%;
     padding-bottom: 5rem;
-    padding-left: 20%;
     overflow-y: auto;
-    line-height: 1.8;
     transition: margin-left 0.3s ease;
 }
 
@@ -32,7 +28,6 @@
 
 .sidebar {
     width: 250px;
-    background-color: #f5f5f5;
     color: white;
     display: flex;
     flex-direction: column;
@@ -51,7 +46,6 @@
 .sidebar-header h1 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: rgb(0, 0, 0);
 }
 
 .sidebar-main-nav {
@@ -82,7 +76,6 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(0, 0, 0, 0.75);
     margin-bottom: 0.75rem;
     padding: 0 0.5rem;
 }

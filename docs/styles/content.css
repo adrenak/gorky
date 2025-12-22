@@ -73,7 +73,6 @@
     background-color: #f4f4f4;
     padding: 0.2rem 0.4rem;
     border-radius: 3px;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 0.9em;
 }
 
@@ -83,7 +82,6 @@
     border-radius: 5px;
     overflow-x: auto;
     margin-bottom: 1rem;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 #markdown-content pre code {
@@ -108,14 +106,11 @@
 }
 
 #markdown-content a {
-    color: #0066cc;
     text-decoration: none;
     transition: color 0.2s ease;
-    font-weight: 600;
 }
 
 #markdown-content a:hover {
-    color: #0052a3;
     text-decoration: underline;
 }
 
@@ -295,11 +290,9 @@
 }
 
 .post-tags .tag-link {
-    color: #0066cc;
     text-decoration: none;
     margin-left: 0.25rem;
     transition: text-decoration 0.2s ease;
-    font-weight: 600;
 }
 
 .post-tags .tag-link:hover {
@@ -347,15 +340,12 @@
 
 #tag-posts-list h2 a,
 .post-link {
-    color: #0066cc !important;
     text-decoration: none;
     transition: color 0.2s ease;
-    font-weight: 600;
 }
 
 #tag-posts-list h2 a:hover,
 .post-link:hover {
-    color: #0052a3 !important;
     text-decoration: underline;
 }
 
