@@ -27,7 +27,7 @@ gorky init my-site
 cd my-site
 ```
 
-This creates a new Gorky site with example content and templates.
+This creates a new Gorky site with example content and template files.
 
 ### 2. Customize your site
 

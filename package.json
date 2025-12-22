@@ -23,7 +23,7 @@
   "files": [
     "bin",
     "lib",
-    "templates",
+    "template",
     "_base",
     "README.md",
     "LICENSE"

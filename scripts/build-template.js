@@ -1,7 +1,7 @@
 // ============================================================================
 // BUILD-TEMPLATE.JS
 //
-// Syncs _base/index-template.html to templates/index-template.html
+// Syncs _base/index-template.html to template/index-template.html
 // This ensures the template used by gorky init stays in sync with the base template
 // ============================================================================
 
@@ -9,8 +9,8 @@ const fs = require('fs');
 const path = require('path');
 
 const baseTemplate = path.join(__dirname, '..', '_base', 'index-template.html');
-const templatesDir = path.join(__dirname, '..', 'templates');
-const templatesTemplate = path.join(templatesDir, 'index-template.html');
+const templateDir = path.join(__dirname, '..', 'template');
+const templateFile = path.join(templateDir, 'index-template.html');
 
 // Check if base template exists
 if (!fs.existsSync(baseTemplate)) {
@@ -18,15 +18,15 @@ if (!fs.existsSync(baseTemplate)) {
     process.exit(1);
 }
 
-// Ensure templates directory exists
-if (!fs.existsSync(templatesDir)) {
-    console.error('Error: templates directory not found');
+// Ensure template directory exists
+if (!fs.existsSync(templateDir)) {
+    console.error('Error: template directory not found');
     process.exit(1);
 }
 
-// Copy base template to templates
-fs.copyFileSync(baseTemplate, templatesTemplate);
-console.log('✓ Synced index-template.html from _base to templates/');
+// Copy base template to template
+fs.copyFileSync(baseTemplate, templateFile);
+console.log('✓ Synced index-template.html from _base to template/');
 
 console.log('\n✓ Template sync completed successfully!');
 
