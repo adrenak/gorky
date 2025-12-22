@@ -49,5 +49,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Tag Filtering**: Filter posts by tags with a simple URL parameter
 - ✅ **Client-Side Routing**: Fast navigation without page reloads
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
+- ✅ **Analytics Ready**: Built-in support for GoatCounter analytics
+- ✅ **Easy Theming**: Customize your site's appearance through `theme.css`
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
