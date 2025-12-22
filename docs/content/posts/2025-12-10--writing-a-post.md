@@ -3,6 +3,7 @@ slug: writing-a-post
 title: Writing a post
 date: 2025-12-10
 tags: tutorial, writing
+thumbnail: content/images/gorky.jpg
 description: Learn how to write posts in Gorky using markdown and HTML
 ---
 
