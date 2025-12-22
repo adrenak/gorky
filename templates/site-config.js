@@ -9,6 +9,12 @@ module.exports = {
     defaultDescription: 'A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
     defaultKeywords: 'blog, website, markdown, static site',
     favicon: 'favicon.ico',
-    appleTouchIcon: 'apple-touch-icon.png'
+    appleTouchIcon: 'apple-touch-icon.png',
+    // GoatCounter Analytics Configuration
+    goatCounterEnabled: false,
+    goatCounterCode: 'yourcode',
+    allowLocal: false,
+    allowFrame: false,
+    noOnload: false
 };
 

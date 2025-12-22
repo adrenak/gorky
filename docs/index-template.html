@@ -753,6 +753,13 @@
             }
             
             updateCanonicalURL();
+            
+            // Track pageview with GoatCounter for client-side routing
+            if (SITE_CONFIG.goatCounterEnabled && typeof goatcounter !== 'undefined') {
+                goatcounter.count({
+                    path: location.pathname + location.search
+                });
+            }
         }
         
         // ============================================================================
@@ -844,6 +851,30 @@
                     }
                 });
             });
+
+            // ============================================================================
+            // GOATCOUNTER ANALYTICS
+            // ============================================================================
+            
+            if (SITE_CONFIG.goatCounterEnabled && SITE_CONFIG.goatCounterCode) {
+                const goatCounterScript = document.createElement('script');
+                goatCounterScript.async = true;
+                goatCounterScript.setAttribute('data-goatcounter', `https://${SITE_CONFIG.goatCounterCode}.goatcounter.com/count`);
+                goatCounterScript.src = '//gc.zgo.at/count.js';
+                
+                // Add optional data attributes
+                if (SITE_CONFIG.allowLocal) {
+                    goatCounterScript.setAttribute('data-goatcounter-allow-local', 'true');
+                }
+                if (SITE_CONFIG.allowFrame) {
+                    goatCounterScript.setAttribute('data-goatcounter-allow-frame', 'true');
+                }
+                if (SITE_CONFIG.noOnload) {
+                    goatCounterScript.setAttribute('data-goatcounter-no-onload', 'true');
+                }
+                
+                document.body.appendChild(goatCounterScript);
+            }
         });
     </script>
 </body>
