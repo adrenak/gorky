@@ -31,15 +31,15 @@ if (fs.existsSync(packageStyles)) {
     console.warn('⚠️  Root styles directory not found');
 }
 
-// Always sync template from templates to docs (ensures it stays in sync)
-const packageTemplate = path.join(__dirname, '..', 'templates', 'index-template.html');
+// Always sync template from root to docs (ensures it stays in sync)
+const rootTemplate = path.join(__dirname, '..', 'index-template.html');
 const docsTemplate = path.join(docsDir, 'index-template.html');
 
-if (fs.existsSync(packageTemplate)) {
-    fs.copyFileSync(packageTemplate, docsTemplate);
-    console.log('✓ Synced index-template.html from templates to docs/');
+if (fs.existsSync(rootTemplate)) {
+    fs.copyFileSync(rootTemplate, docsTemplate);
+    console.log('✓ Synced index-template.html from root to docs/');
 } else {
-    console.warn('⚠️  Template file not found');
+    console.warn('⚠️  Root index-template.html not found');
 }
 
 // Sync site-config.js template (but keep docs-specific one if it exists)
