@@ -17,6 +17,8 @@ Markdown provides a simple way to format text with headers, lists, links, and mo
 - [Links](https://www.google.com) with `[text](url)`
 - Code blocks with triple backticks
 
+> Blockquotes are also handled
+
 [Here's a Markdown cheatsheet](https://www.markdownguide.org/cheat-sheet/)  
 
 ## Embedding YouTube Videos

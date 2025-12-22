@@ -69,6 +69,14 @@
     font-style: italic;
 }
 
+#markdown-content blockquote {
+    padding-left: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 #markdown-content code {
     background-color: #f4f4f4;
     padding: 0.2rem 0.4rem;

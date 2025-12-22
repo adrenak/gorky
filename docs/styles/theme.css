@@ -104,6 +104,12 @@ body {
     font-weight: 600;
 }
 
+/* Blockquote color and border */
+#markdown-content blockquote {
+    border-left: 4px solid #0066cc;
+    color: #666;
+}
+
 #markdown-content a:hover,
 #tag-posts-list h2 a:hover,
 .post-link:hover,
