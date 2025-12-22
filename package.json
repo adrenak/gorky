@@ -7,7 +7,7 @@
     "gorky": "./bin/gorky.js"
   },
   "scripts": {
-    "build:docs": "node docs/build.js",
+    "build:docs": "node scripts/build-docs.js",
     "prepublishOnly": "echo 'Ready to publish'"
   },
   "keywords": [

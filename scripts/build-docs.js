@@ -1,5 +1,5 @@
 // ============================================================================
-// BUILD.JS
+// BUILD-DOCS.JS
 //
 // Builds the showcase site directly in docs/ folder
 // ============================================================================
@@ -9,7 +9,7 @@ const path = require('path');
 const { buildSite } = require('../lib/build');
 const { loadConfig } = require('../lib/config');
 
-const docsDir = path.join(__dirname);
+const docsDir = path.join(__dirname, '..', 'docs');
 
 // Check if docs exists
 if (!fs.existsSync(docsDir)) {
