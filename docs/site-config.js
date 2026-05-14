@@ -33,6 +33,7 @@ module.exports = {
         ],
         sections: {
             'Documentation': {
+                // Use ?page= for internal links — converted to path URLs at build time
                 'Get Started': {
                     target: '?page=getstarted',
                     openInNewTab: false

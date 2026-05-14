@@ -1,6 +1,6 @@
 // Site Configuration for Gorky Documentation Site
 module.exports = {
-    baseUrl: 'https://www.github.com', // Enter your website URL here
+    baseUrl: 'https://yourusername.github.io/your-repo/deliver', // Include /deliver in the path
     siteName: 'Gorky',
     authorName: 'Your name',
     defaultDescription: 'Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.',
@@ -33,6 +33,7 @@ module.exports = {
         ],
         sections: {
             'Documentation': {
+                // Use ?page= for internal links — converted to path URLs at build time
                 'Get Started': {
                     target: '?page=getstarted',
                     openInNewTab: false

@@ -7,7 +7,7 @@
     <meta name="keywords" content="gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog" id="meta-keywords">
     <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/post/writing-a-post/" id="canonical-link">
     <title id="page-title">Writing a post</title>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Writing a post","description":"Learn how to write posts in Gorky using markdown and HTML","url":"https://adrenak.github.io/gorky/deliver/post/writing-a-post/","author":{"@type":"Person","name":"Vatsal Ambastha"},"image":"content/images/gorky.jpg","keywords":"tutorial,writing"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Writing a post","description":"Learn how to write posts in Gorky using markdown and HTML","url":"https://adrenak.github.io/gorky/deliver/post/writing-a-post/","author":{"@type":"Person","name":"Vatsal Ambastha"},"image":"https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg","keywords":"tutorial,writing"}</script>
     <script>
 (function () {
     var search = window.location.search;
@@ -152,7 +152,7 @@
 
 <p>You can see this image is floating to the right side of the text. This is useful when you want images to flow alongside your content rather than breaking into a new block. The HTML syntax gives you full control over styling, including margins, sizing, and positioning.</p>
 <p>Here&#39;s the HTML code to float an image to the right:</p>
-<pre><code class="language-html">&lt;img src=&quot;images/gorky.jpg&quot; alt=&quot;Gorky&quot; style=&quot;float: right; margin: 0 0 1rem 1rem; max-width: 300px;&quot;&gt;
+<pre><code class="language-html">&lt;img src=&quot;content/images/gorky.jpg&quot; alt=&quot;Gorky&quot; style=&quot;float: right; margin: 0 0 1rem 1rem; max-width: 300px;&quot;&gt;
 </code></pre>
 <p>The CSS properties used:</p>
 <ul>
@@ -162,7 +162,7 @@
 </ul>
 <p>You can adjust these values to suit your needs. For example, use <code>float: left</code> to float the image to the left side instead.</p>
 <h2>Archiving posts</h2>
-<p>Over time your <code>?page=posts</code> list can get crowded with older writing you no longer want front and center. Archiving lets you hide a post from that page (and from tag listings) while keeping its URL alive for anyone who still has the link.</p>
+<p>Over time your <code>posts/</code> list can get crowded with older writing you no longer want front and center. Archiving hides a post from that page and from tag listings while keeping its URL working.</p>
 <p>Add <code>archived: true</code> to a post&#39;s frontmatter:</p>
 <pre><code class="language-yaml">---
 slug: my-old-post
@@ -172,7 +172,7 @@ archived: true
 ---
 </code></pre>
 <p>If <code>archived:</code> is not set, the post is treated as not archived.</p>
-<p><a href="../archived-post/">Look at this archived sample post</a> — it won&#39;t show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.</p>
+<p><a href="../post/archived-post/">Look at this archived sample post</a> — it won&#39;t show up on the posts page, but the URL still works.</p>
 <h2>Collapsible sections</h2>
 <p>Use HTML <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> tags to create collapsible sections:</p>
 <details>

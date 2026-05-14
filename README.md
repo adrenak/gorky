@@ -51,8 +51,10 @@ npm run build
 
 1. Push your code to GitHub
 2. Go to Settings → Pages
-3. Select the branch with `deliver/`
-4. Your site is live!
+3. Select the branch that contains `deliver/`
+4. Your site is live at `https://yourusername.github.io/your-repo/deliver/`
+
+Set `baseUrl` in `site-config.js` to that URL (including `/deliver`).
 
 ## Why Gorky?
 
@@ -79,14 +81,27 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 
 - ✅ **Responsive Design**: Works beautifully on desktop, tablet, and mobile
 - ✅ **Syntax Highlighting**: Code blocks automatically highlighted with Prism.js
-- ✅ **Tag Filtering**: Filter posts by tags with a simple URL parameter
-- ✅ **Client-Side Routing**: Fast navigation without page reloads
+- ✅ **Tag Filtering**: Filter posts by tag at `posts/?tag=name`
+- ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
-- ✅ **Analytics Ready**: Built-in support for GoatCounter
-- ✅ **Easy Theming**: All theme properties in one `styles/theme.css` file
+- ✅ **Easy Theming**: Theme colors and fonts in `styles/theme.css`
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
-## CLI Commands
+## Repository layout
+
+This repo contains three parts:
+
+| Path | Role |
+|------|------|
+| `lib/`, `bin/` | The SSG engine published to npm |
+| `template/` | Canonical starter kit — styles, HTML shell, example content |
+| `docs/` | Showcase site; shared files are synced from `template/` on build |
+
+Edit shared styles, template, or docs pages in `template/`, then run `node scripts/build-docs.js` to update `docs/`.
+
+`docs/` keeps its own `site-config.js`, posts, and images.
+
+**Deploying:** After `gorky build`, upload only the **`deliver/`** folder to any static host — it includes HTML, `styles/`, and non-markdown files from `content/` (see `deliver/README.txt`).
 
 - `gorky init [project-name]` - Initialize a new Gorky site
 - `gorky build` - Build the static site
@@ -100,7 +115,7 @@ Edit `site-config.js` to customize site-wide settings, sidebar navigation, and a
 ```javascript
 module.exports = {
   // Basic site settings
-  baseUrl: 'https://yourusername.github.io/your-repo',
+  baseUrl: 'https://yourusername.github.io/your-repo/deliver',
   siteName: 'My Site',
   authorName: 'Your Name',
   defaultDescription: 'Your site description...',
@@ -142,7 +157,9 @@ The sidebar configuration includes:
 - `header`: Text displayed at the top of the sidebar
 - `homeDisplayName` / `postsDisplayName`: Display names for main navigation items
 - `footer`: Array of footer items (text or links)
-- `sections`: Navigation sections with items (`target` can be `?page=filename` for internal pages or full URLs for external links)
+- `sections`: Navigation sections with items. Use `?page=filename` for internal pages in `site-config.js` (resolved to path URLs at build time), or full URLs for external links.
+
+Published URLs use paths: `posts/`, `post/{slug}/`, and `{page}/` for custom markdown pages.
 
 ### Build Configuration
 

@@ -26,11 +26,10 @@ While `theme.css` handles most customization, the styles are organized into seve
 
 - **`styles/theme.css`** ⭐ - **Most important!** Contains fonts, colors, and theme properties
 - **`styles/base.css`** - CSS reset and container layout (rarely needs editing)
-- **`styles/layout.css`** - Layout structure, padding, margins (structural properties)
-- **`styles/navigation.css`** - Navigation structure and layout (not colors)
-- **`styles/content.css`** - Content structure, spacing, typography structure
-- **`styles/mobile.css`** - Mobile-specific styles
-- **`styles/responsive.css`** - Responsive breakpoints and adjustments
+- **`styles/layout.css`** - Layout structure, sidebar, navigation, and spacing
+- **`styles/content.css`** - Content structure and typography
+- **`styles/accordion.css`** - Collapsible `<details>` sections in markdown
+- **`styles/responsive.css`** - Responsive breakpoints and mobile menu
 
 ## Customizing Fonts
 
@@ -321,7 +320,7 @@ Edit `styles/theme.css`:
 
 4. **Keep it organized**: All theme-related properties are in `theme.css` - use that as your main customization file.
 
-5. **Check file comments**: Each CSS file has comments at the top explaining what it controls.
+4. **File layout**: Theme properties live in `theme.css`; layout, content, accordion, and responsive styles are in the other CSS files.
 
 ## Need Help?
 

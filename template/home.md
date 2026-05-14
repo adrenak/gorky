@@ -20,9 +20,9 @@ Gorky makes it incredibly simple to create and maintain a static website using *
 
 Gorky is optimized for GitHub Pages deployment. Simply:
 1. Write your content in markdown
-2. Run `gorky build`
+2. Run `gorky build` (output goes to `deliver/`)
 3. Push to GitHub
-4. Enable GitHub Pages
+4. Enable GitHub Pages and set `baseUrl` to include `/deliver`
 
 Your site is live!
 
@@ -47,7 +47,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Responsive Design**: Works beautifully on desktop, tablet, and mobile
 - ✅ **Syntax Highlighting**: Code blocks automatically highlighted with Prism.js
 - ✅ **Tag Filtering**: Filter posts by tags with a simple URL parameter
-- ✅ **Client-Side Routing**: Fast navigation without page reloads
+- ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Analytics Ready**: Built-in support for GoatCounter analytics
 - ✅ **Easy Theming**: Customize your site's appearance through `theme.css`

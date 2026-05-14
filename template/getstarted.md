@@ -52,7 +52,7 @@ Edit `site-config.js` in your project root to customize site-wide settings:
 
 ```javascript
 module.exports = {
-    baseUrl: 'https://yourusername.github.io/your-repo',  // Your GitHub Pages URL
+    baseUrl: 'https://yourusername.github.io/your-repo/deliver',  // Include /deliver
     siteName: 'My Site',                                   // Your site name
     authorName: 'Your Name',                               // Default author name
     defaultDescription: 'Your site description...',       // Default meta description
@@ -64,11 +64,12 @@ module.exports = {
 
 This configuration is automatically injected into your site during the build process.
 
-**Important:** Update `baseUrl` to match your GitHub Pages URL. For example:
-- If your repo is `username/my-site`, use: `https://username.github.io/my-site`
-- If your repo is `username/username.github.io`, use: `https://username.github.io`
+**Important:** Set `baseUrl` to your published site URL, including the `/deliver` path:
 
-These settings are also used for:
+- Repo `username/my-site`: `https://username.github.io/my-site/deliver`
+- User site repo `username.github.io`: `https://username.github.io/deliver`
+
+These settings are used for:
 - SEO meta tags (title, description, keywords)
 - Open Graph tags for social media sharing
 - Canonical URLs
@@ -118,13 +119,26 @@ module.exports = {
 };
 ```
 
-Navigation items in `sections` have the format: `label: { target: 'url', openInNewTab: boolean }`. Use `?page=filename` for internal pages (without .md extension) or full URLs for external links.
+Navigation items in `sections` have the format: `label: { target: 'url', openInNewTab: boolean }`. For internal pages, use `?page=filename` (without the `.md` extension). Gorky resolves these to the correct relative paths at build time. Use full URLs for external links.
+
+## Site URLs
+
+Gorky builds a multi-page site inside `deliver/`:
+
+| Page | URL path |
+|------|----------|
+| Home | `/` |
+| Posts list | `posts/` |
+| Single post | `post/{slug}/` |
+| Custom page (`content/about.md`) | `about/` |
+
+Filter posts by tag with `posts/?tag=tagname`.
+
+Legacy `?page=`, `?post=`, and `?tag=` URLs still redirect to these paths.
 
 ## Post Format
 
-Post files can have any filename you want. All metadata is defined in YAML frontmatter at the top of each markdown file.
-  
-Post metadata is defined in YAML frontmatter at the top of each markdown file:
+Post files can have any filename. All metadata is defined in YAML frontmatter at the top of each file:
 
 ```
 ---
@@ -144,7 +158,7 @@ Your content here...
 ```
 
 **Required fields:**
-- `slug` - Unique identifier for the post (used in URLs like `?post=my-first-post`)
+- `slug` - Unique identifier for the post (URL path: `post/my-first-post/`)
 - `title` - The post title
 - `date` - Publication date (format: YYYY-MM-DD or YYYY-M-D)
 
@@ -153,10 +167,11 @@ Your content here...
 - `description` - Description text shown in the posts listing (also used as meta description for SEO)
 - `thumbnail` - Thumbnail image path (relative to content root, e.g., `content/images/thumb.jpg`)
 - `keywords` - Comma-separated keywords for SEO meta tags
-- `author` - Author name for the post (falls back to `SITE_CONFIG.authorName` if not provided)
+- `author` - Author name for the post (falls back to `authorName` in `site-config.js` if not provided)
 - `published` - Set to `false` to hide a post (defaults to `true`)
+- `archived` - Set to `true` to hide from the posts list and tag views while keeping the post URL working
 
-> 💡 You can directly visit `<URL>?post=slug` to land on a specific post.
+> 💡 Open a post directly at `post/slug/` (for example `post/my-first-post/`).
 
 ## Favicon
 
@@ -170,10 +185,10 @@ Add a favicon to your site:
 To customize the favicon path, edit `site-config.js` in your project root:
 
 ```javascript
-const SITE_CONFIG = {
+module.exports = {
     // ... other config
-    favicon: 'favicon.ico',              // Path to favicon
-    appleTouchIcon: 'apple-touch-icon.png'  // Path to Apple touch icon
+    favicon: 'favicon.ico',
+    appleTouchIcon: 'apple-touch-icon.png',
 };
 ```
 
@@ -194,9 +209,19 @@ keywords: about, information
 Your page content...
 ```
 
-Link to custom pages from your sidebar by referencing them with `?page=filename` (without the `.md` extension). For example, to link to `content/about.md`, use `?page=about` in the sidebar configuration in `site-config.js`.
+Link to custom pages from your sidebar with `?page=filename` in `site-config.js` (for `content/about.md`, use `?page=about`). Visitors reach the page at `about/`.
 
-> 💡 You can also directly land on a page using `?page=filename` in the browser address bar.
+## Local preview
+
+After `gorky build`, `deliver/` includes generated HTML plus copied **`styles/`** and **`content/`** assets (images and other non-markdown files from your source `content/` folder). You can serve the project root or open `deliver/` directly:
+
+```bash
+cd deliver && python -m http.server 8000
+```
+
+Or serve the parent folder and browse to `/deliver/`.
+
+**Any static host:** After `gorky build`, upload the entire **`deliver/`** directory (everything inside it). No other project files are required on the server. Set `baseUrl` in `site-config.js` to match where that folder is served (site root vs subpath).
 
 ## Project Structure
 
@@ -204,6 +229,8 @@ Link to custom pages from your sidebar by referencing them with `?page=filename`
 my-site/
 ├── deliver/                 # Generated HTML (auto-generated, don't edit)
 │   ├── index.html           # Home page
+│   ├── styles/              # Copied from your styles/ at build time
+│   ├── content/             # Copied non-.md assets only (e.g. images)
 │   ├── posts/               # Posts listing
 │   ├── post/                # Individual posts
 │   └── {page}/              # Other content pages
@@ -229,6 +256,8 @@ my-site/
 4. Your site will be available at `https://yourusername.github.io/repository-name/deliver/`
 
 **Tip:** Set `baseUrl` in `site-config.js` to include the `/deliver` path (for example `https://yourusername.github.io/repository-name/deliver`).
+
+**Self-contained output:** The `deliver/` folder from `gorky build` is all you need to upload — HTML, `styles/`, and copied assets under `content/` (see `deliver/README.txt`).
 
 ## Optional Configuration
 

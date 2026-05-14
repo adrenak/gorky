@@ -60,7 +60,7 @@ You can see this image is floating to the right side of the text. This is useful
 Here's the HTML code to float an image to the right:
 
 ```html
-<img src="images/gorky.jpg" alt="Gorky" style="float: right; margin: 0 0 1rem 1rem; max-width: 300px;">
+<img src="content/images/gorky.jpg" alt="Gorky" style="float: right; margin: 0 0 1rem 1rem; max-width: 300px;">
 ```
 
 The CSS properties used:
@@ -69,6 +69,23 @@ The CSS properties used:
 - `max-width: 300px` - Limits the maximum width of the image
 
 You can adjust these values to suit your needs. For example, use `float: left` to float the image to the left side instead.
+
+## Archiving posts
+
+Over time your `posts/` list can get crowded with older writing you no longer want front and center. Archiving hides a post from that page and from tag listings while keeping its URL working.
+
+Add `archived: true` to a post's frontmatter:
+
+```yaml
+---
+slug: my-old-post
+title: My Old Post
+date: 2024-01-15
+archived: true
+---
+```
+
+If `archived:` is not set, the post is treated as not archived.
 
 ## Collapsible sections
 

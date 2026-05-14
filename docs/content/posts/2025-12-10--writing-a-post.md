@@ -61,7 +61,7 @@ You can see this image is floating to the right side of the text. This is useful
 Here's the HTML code to float an image to the right:
 
 ```html
-<img src="images/gorky.jpg" alt="Gorky" style="float: right; margin: 0 0 1rem 1rem; max-width: 300px;">
+<img src="content/images/gorky.jpg" alt="Gorky" style="float: right; margin: 0 0 1rem 1rem; max-width: 300px;">
 ```
 
 The CSS properties used:
@@ -73,7 +73,7 @@ You can adjust these values to suit your needs. For example, use `float: left` t
 
 ## Archiving posts
 
-Over time your `?page=posts` list can get crowded with older writing you no longer want front and center. Archiving lets you hide a post from that page (and from tag listings) while keeping its URL alive for anyone who still has the link.
+Over time your `posts/` list can get crowded with older writing you no longer want front and center. Archiving hides a post from that page and from tag listings while keeping its URL working.
 
 Add `archived: true` to a post's frontmatter:
 
@@ -88,7 +88,7 @@ archived: true
 
 If `archived:` is not set, the post is treated as not archived.
 
-[Look at this archived sample post](../archived-post/) — it won't show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.
+[Look at this archived sample post](../post/archived-post/) — it won't show up on the posts page, but the URL still works.
 
 ## Collapsible sections
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment." id="meta-description">
-    <meta name="keywords" content="gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog" id="meta-keywords">
+    <meta name="description" content="A lightweight, markdown-powered static site generator" id="meta-description">
+    <meta name="keywords" content="gorky, static site generator, markdown, blog" id="meta-keywords">
     <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/" id="canonical-link">
     <title id="page-title">Gorky</title>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Gorky","description":"Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.","url":"https://adrenak.github.io/gorky/deliver/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Gorky","description":"A lightweight, markdown-powered static site generator","url":"https://adrenak.github.io/gorky/deliver/"}</script>
     <script>
 (function () {
     var search = window.location.search;
@@ -123,9 +123,9 @@
 <p>Gorky is optimized for GitHub Pages deployment. Simply:</p>
 <ol>
 <li>Write your content in markdown</li>
-<li>Run <code>gorky build</code></li>
+<li>Run <code>gorky build</code> (output goes to <code>deliver/</code>)</li>
 <li>Push to GitHub</li>
-<li>Enable GitHub Pages</li>
+<li>Enable GitHub Pages and set <code>baseUrl</code> to include <code>/deliver</code></li>
 </ol>
 <p>Your site is live!</p>
 <h3>Markdown-First Approach</h3>
@@ -149,7 +149,7 @@
 <li>✅ <strong>Responsive Design</strong>: Works beautifully on desktop, tablet, and mobile</li>
 <li>✅ <strong>Syntax Highlighting</strong>: Code blocks automatically highlighted with Prism.js</li>
 <li>✅ <strong>Tag Filtering</strong>: Filter posts by tags with a simple URL parameter</li>
-<li>✅ <strong>Client-Side Routing</strong>: Fast navigation without page reloads</li>
+<li>✅ <strong>Multi-page URLs</strong>: Clean paths for home, posts, and individual posts</li>
 <li>✅ <strong>SEO Friendly</strong>: Meta tags and canonical URLs included</li>
 <li>✅ <strong>Analytics Ready</strong>: Built-in support for GoatCounter analytics</li>
 <li>✅ <strong>Easy Theming</strong>: Customize your site&#39;s appearance through <code>theme.css</code></li>
