@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to write posts in Gorky using markdown and HTML" id="meta-description">
+    <meta name="keywords" content="gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog" id="meta-keywords">
+    <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/post/writing-a-post/" id="canonical-link">
+    <title id="page-title">Writing a post</title>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Writing a post","description":"Learn how to write posts in Gorky using markdown and HTML","url":"https://adrenak.github.io/gorky/deliver/post/writing-a-post/","author":{"@type":"Person","name":"Vatsal Ambastha"},"image":"content/images/gorky.jpg","keywords":"tutorial,writing"}</script>
+    <script>
+(function () {
+    var search = window.location.search;
+    if (!search) return;
+
+    var params = new URLSearchParams(search);
+    var root = "../../";
+    var path = window.location.pathname;
+    var onPostsPage = /\/posts\/?$/.test(path) || /\/posts\/index\.html$/.test(path);
+    var target = null;
+
+    if (params.has('post')) {
+        target = root + 'post/' + encodeURIComponent(params.get('post')) + '/';
+    } else if (params.get('page') === 'posts') {
+        target = root + 'posts/';
+    } else if (params.get('page') === 'home') {
+        target = root || './';
+    } else if (params.has('page')) {
+        target = root + params.get('page') + '/';
+    } else if (params.has('tag') && !onPostsPage) {
+        target = root + 'posts/?tag=' + encodeURIComponent(params.get('tag'));
+    }
+
+    if (target) {
+        window.location.replace(target);
+    }
+})();
+</script>
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico" id="favicon-link">
+    <link rel="apple-touch-icon" href="../../apple-touch-icon.png" id="apple-touch-icon-link">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="../../styles/base.css">
+    <link rel="stylesheet" href="../../styles/theme.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/navigation.css">
+    <link rel="stylesheet" href="../../styles/mobile.css">
+    <link rel="stylesheet" href="../../styles/content.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-body">
+                <div class="sidebar-header">
+                    <h1>Gorky</h1>
+                </div>
+                <nav class="sidebar-main-nav">
+                    <a href="../../" class="nav-link">
+    <span class="nav-icon">🏠</span>
+    <span>Home</span>
+</a>
+<a href="../../posts/" class="nav-link">
+    <span class="nav-icon">✍️</span>
+    <span>Posts</span>
+</a>
+
+                </nav>
+                <nav class="sidebar-nav">
+                    <div class="sidebar-section">
+    <h3 class="section-title">Documentation</h3>
+    <ul class="section-list">
+        <li>
+            <a href="../../getstarted/" class="nav-link">
+                <span>Get Started</span>
+            </a>
+        </li>
+        <li>
+            <a href="../../customization/" class="nav-link">
+                <span>Customization</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="sidebar-section">
+    <h3 class="section-title">Links</h3>
+    <ul class="section-list">
+        <li>
+            <a href="https://github.com/adrenak/gorky" class="nav-link" target="_blank" rel="noopener noreferrer">
+                <span>GitHub</span>
+                <span class="external-icon">↗</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </nav>
+            </div>
+            <div class="sidebar-footer">
+    <a href="https://adrenak.github.io" class="footer-link">2025 © Vatsal Ambastha</a>
+    <a href="https://github.com/adrenak/gorky" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+</div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <main class="main-content">
+            <div id="markdown-content">
+                <div class="post-metadata">
+  <h1 class="post-title">Writing a post</h1>
+  <div class="post-date">10 Dec 2025</div>
+  <div class="post-tags">Tagged: <a href="../../posts/?tag=tutorial" class="tag-link">tutorial</a>, <a href="../../posts/?tag=writing" class="tag-link">writing</a></div>
+</div>
+
+                <p>Posts in Gorky are written in Markdown, which makes it easy to format your content with simple syntax. However, you can also use HTML tags when you need more control or want to embed rich content like videos or create advanced layouts.</p>
+<h2>Basic Markdown</h2>
+<p>Markdown provides a simple way to format text with headers, lists, links, and more. For example:</p>
+<ul>
+<li><strong>Bold text</strong> with <code>**bold**</code></li>
+<li><em>Italic text</em> with <code>*italic*</code></li>
+<li><a href="https://www.google.com">Links</a> with <code>[text](url)</code></li>
+<li>Code blocks with triple backticks</li>
+</ul>
+<blockquote>
+<p>Blockquotes are also handled</p>
+</blockquote>
+<p><a href="https://www.markdownguide.org/cheat-sheet/">Here&#39;s a Markdown cheatsheet</a>  </p>
+<h2>Embedding YouTube Videos</h2>
+<p>You can embed YouTube videos using HTML iframes. Here&#39;s an example:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aqz-KE-bpKQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>To embed a video, use this HTML format:</p>
+<pre><code class="language-html">&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/VIDEO_ID&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;
+</code></pre>
+<p>Replace <code>VIDEO_ID</code> with the video ID from the YouTube URL. For example, if the URL is <code>https://www.youtube.com/watch?v=aqz-KE-bpKQ</code>, the video ID is <code>aqz-KE-bpKQ</code>.</p>
+<h2>Adding Images with Markdown</h2>
+<p>You can add images using standard Markdown syntax:</p>
+<p><img src="../../content/images/gorky.jpg" alt="Gorky"></p>
+<p>The syntax is:</p>
+<pre><code class="language-markdown">![Alt text](path/to/image.jpg)
+</code></pre>
+<p>The alt text is displayed if the image can&#39;t be loaded and helps with accessibility.</p>
+<h2>Adding Images with HTML (Floating)</h2>
+<p>For more control over image positioning, you can use HTML tags. Here&#39;s how to float an image to the right:</p>
+<img src="../../content/images/gorky.jpg" alt="Gorky" style="float: right; margin: 0 0 1rem 1rem; max-width: 300px;">
+
+<p>You can see this image is floating to the right side of the text. This is useful when you want images to flow alongside your content rather than breaking into a new block. The HTML syntax gives you full control over styling, including margins, sizing, and positioning.</p>
+<p>Here&#39;s the HTML code to float an image to the right:</p>
+<pre><code class="language-html">&lt;img src=&quot;images/gorky.jpg&quot; alt=&quot;Gorky&quot; style=&quot;float: right; margin: 0 0 1rem 1rem; max-width: 300px;&quot;&gt;
+</code></pre>
+<p>The CSS properties used:</p>
+<ul>
+<li><code>float: right</code> - Floats the image to the right</li>
+<li><code>margin: 0 0 1rem 1rem</code> - Adds space around the image (top, right, bottom, left)</li>
+<li><code>max-width: 300px</code> - Limits the maximum width of the image</li>
+</ul>
+<p>You can adjust these values to suit your needs. For example, use <code>float: left</code> to float the image to the left side instead.</p>
+<h2>Archiving posts</h2>
+<p>Over time your <code>?page=posts</code> list can get crowded with older writing you no longer want front and center. Archiving lets you hide a post from that page (and from tag listings) while keeping its URL alive for anyone who still has the link.</p>
+<p>Add <code>archived: true</code> to a post&#39;s frontmatter:</p>
+<pre><code class="language-yaml">---
+slug: my-old-post
+title: My Old Post
+date: 2024-01-15
+archived: true
+---
+</code></pre>
+<p>If <code>archived:</code> is not set, the post is treated as not archived.</p>
+<p><a href="../archived-post/">Look at this archived sample post</a> — it won&#39;t show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.</p>
+<h2>Combining Markdown and HTML</h2>
+<p>Remember, you can freely mix Markdown and HTML in your posts. Use Markdown for simple formatting, and switch to HTML when you need more advanced features like videos, custom layouts, or specific styling.</p>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const SITE_CONFIG =             {
+                      "baseUrl": "https://adrenak.github.io/gorky/deliver",
+                      "siteName": "Gorky",
+                      "authorName": "Vatsal Ambastha",
+                      "defaultDescription": "Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.",
+                      "defaultKeywords": "gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog",
+                      "favicon": "favicon.ico",
+                      "appleTouchIcon": "apple-touch-icon.png",
+                      "goatCounterEnabled": false,
+                      "goatCounterCode": "yourcode",
+                      "allowLocal": false,
+                      "allowFrame": false,
+                      "noOnload": false,
+                      "sidebar": {
+                                "header": "Gorky",
+                                "homeDisplayName": "🏠 Home",
+                                "postsDisplayName": "✍️ Posts",
+                                "footer": [
+                                          {
+                                                    "text": "2025 © Vatsal Ambastha",
+                                                    "target": "https://adrenak.github.io"
+                                          },
+                                          {
+                                                    "text": "GitHub",
+                                                    "target": "https://github.com/adrenak/gorky",
+                                                    "openInNewTab": true
+                                          }
+                                ],
+                                "sections": {
+                                          "Documentation": {
+                                                    "Get Started": {
+                                                              "target": "?page=getstarted",
+                                                              "openInNewTab": false
+                                                    },
+                                                    "Customization": {
+                                                              "target": "?page=customization",
+                                                              "openInNewTab": false
+                                                    }
+                                          },
+                                          "Links": {
+                                                    "GitHub": {
+                                                              "target": "https://github.com/adrenak/gorky",
+                                                              "openInNewTab": true
+                                                    }
+                                          }
+                                }
+                      }
+            };
+        const ASSET_PREFIX = "../../";
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+
+            if (SITE_CONFIG.favicon) {
+                const faviconLink = document.getElementById('favicon-link');
+                if (faviconLink) {
+                    const faviconPath = SITE_CONFIG.favicon.startsWith('http')
+                        ? SITE_CONFIG.favicon
+                        : ASSET_PREFIX + SITE_CONFIG.favicon.replace(/^\//, '');
+                    faviconLink.setAttribute('href', faviconPath);
+                }
+            }
+            if (SITE_CONFIG.appleTouchIcon) {
+                const appleIconLink = document.getElementById('apple-touch-icon-link');
+                if (appleIconLink) {
+                    const iconPath = SITE_CONFIG.appleTouchIcon.startsWith('http')
+                        ? SITE_CONFIG.appleTouchIcon
+                        : ASSET_PREFIX + SITE_CONFIG.appleTouchIcon.replace(/^\//, '');
+                    appleIconLink.setAttribute('href', iconPath);
+                }
+            }
+
+            const markdownContent = document.getElementById('markdown-content');
+            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
+                const tagParam = new URLSearchParams(window.location.search).get('tag');
+                if (tagParam) {
+                    const normalizedTag = tagParam.toLowerCase();
+                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
+                    let visibleCount = 0;
+
+                    entries.forEach(function (entry) {
+                        const tags = (entry.getAttribute('data-tags') || '')
+                            .split(',')
+                            .map(function (tag) { return tag.trim().toLowerCase(); });
+                        const matches = tags.includes(normalizedTag);
+                        entry.style.display = matches ? '' : 'none';
+                        if (matches) visibleCount += 1;
+                    });
+
+                    if (visibleCount === 0) {
+                        const notice = document.createElement('p');
+                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
+                        markdownContent.appendChild(notice);
+                    }
+                }
+            }
+
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', toggleSidebar);
+            }
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+
+            document.querySelectorAll('.nav-link').forEach(function (link) {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            if (SITE_CONFIG.goatCounterEnabled && typeof goatcounter !== 'undefined') {
+                goatcounter.count({
+                    path: location.pathname + location.search
+                });
+            }
+        });
+    </script>
+
+    <script>
+        if (SITE_CONFIG.goatCounterEnabled) {
+            const script = document.createElement('script');
+            script.async = true;
+            script.setAttribute('data-goatcounter', 'https://' + SITE_CONFIG.goatCounterCode + '.goatcounter.com/count');
+            if (SITE_CONFIG.allowLocal) script.setAttribute('data-goatcounter-settings', 'allow_local:true');
+            if (SITE_CONFIG.allowFrame) script.setAttribute('data-goatcounter-settings', 'allow_frame:true');
+            if (SITE_CONFIG.noOnload) script.setAttribute('data-goatcounter-settings', 'no_onload:true');
+            script.src = 'https://gc.zgo.at/count.js';
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>

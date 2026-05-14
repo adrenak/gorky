@@ -315,7 +315,7 @@ Edit `styles/theme.css`:
 
 1. **Start with `theme.css`**: This file contains 90% of what you'll want to customize. Edit this first!
 
-2. **Test your changes**: After modifying CSS, run `gorky build` and check `index.html` in your browser.
+2. **Test your changes**: After modifying CSS, run `gorky build` and check pages in `deliver/`.
 
 3. **Browser DevTools**: Use your browser's developer tools (F12) to inspect elements and test color changes in real-time before editing files.
 

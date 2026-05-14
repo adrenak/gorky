@@ -5,7 +5,10 @@ module.exports = {
   // Content directory where your markdown files are stored
   contentDir: 'content',
   
-  // Output file name
+  // Output directory for generated HTML pages
+  outputDir: 'deliver',
+  
+  // Home page file name inside the output directory
   outputFile: 'index.html',
   
   // Template file name

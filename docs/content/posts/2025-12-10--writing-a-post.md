@@ -88,7 +88,7 @@ archived: true
 
 If `archived:` is not set, the post is treated as not archived.
 
-[Look at this archived sample post](?post=archived-post) — it won't show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.
+[Look at this archived sample post](../archived-post/) — it won't show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.
 
 ## Combining Markdown and HTML
 

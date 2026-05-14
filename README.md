@@ -51,7 +51,7 @@ npm run build
 
 1. Push your code to GitHub
 2. Go to Settings → Pages
-3. Select the branch with `index.html`
+3. Select the branch with `deliver/`
 4. Your site is live!
 
 ## Why Gorky?
@@ -151,6 +151,7 @@ Create a `gorky.config.js` file to customize paths (optional):
 ```javascript
 module.exports = {
   contentDir: 'content',
+  outputDir: 'deliver',
   outputFile: 'index.html',
   templateFile: 'index-template.html',
   stylesDir: 'styles'

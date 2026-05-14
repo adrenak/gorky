@@ -28,7 +28,8 @@ program
   .command('build')
   .description('Build the static site')
   .option('-c, --content <path>', 'Content directory')
-  .option('-o, --output <path>', 'Output file')
+  .option('-o, --output <path>', 'Output file name (inside output directory)')
+  .option('--output-dir <path>', 'Output directory for generated site')
   .option('-t, --template <path>', 'Template file')
   .option('--styles <path>', 'Styles directory')
   .action((options) => {
@@ -38,6 +39,7 @@ program
     // Override with CLI options if provided
     const buildOptions = {
       contentDir: options.content || config.contentDir,
+      outputDir: options.outputDir || config.outputDir,
       outputFile: options.output || config.outputFile,
       templateFile: options.template || config.templateFile,
       stylesDir: options.styles || config.stylesDir,

@@ -42,7 +42,7 @@ Or use npm:
 npm run build
 ```
 
-This generates `index.html` from your markdown files.
+This generates HTML pages in the `deliver/` directory from your markdown files.
 
 ## Configuration
 
@@ -178,6 +178,11 @@ Link to custom pages from your sidebar by referencing them with `?page=filename`
 
 ```
 my-site/
+├── deliver/                 # Generated HTML (auto-generated, don't edit)
+│   ├── index.html           # Home page
+│   ├── posts/               # Posts listing
+│   ├── post/                # Individual posts
+│   └── {page}/              # Other content pages
 ├── content/
 │   ├── home.md              # Your home page content
 │   ├── posts/               # Blog posts directory
@@ -185,8 +190,8 @@ my-site/
 │   ├── images/              # Images directory
 │   └── posts.md             # Auto-generated posts listing (don't edit)
 ├── styles/                  # CSS styling files
-├── index-template.html      # HTML template (don't edit, auto-generated from site-config.js)
-├── index.html               # Generated HTML (auto-generated, don't edit)
+├── index-template.html      # HTML template
+├── site-config.js           # Site settings and navigation
 ├── gorky.config.js          # Optional configuration file
 ├── package.json             # Node.js dependencies
 └── README.md                # Documentation
@@ -196,10 +201,10 @@ my-site/
 
 1. Push your code to a GitHub repository
 2. Go to your repository Settings → Pages
-3. Select the branch that contains your `index.html` (usually `main` or `gh-pages`)
-4. Your site will be available at `https://yourusername.github.io/repository-name`
+3. Select the branch that contains your site (usually `main` or `gh-pages`)
+4. Your site will be available at `https://yourusername.github.io/repository-name/deliver/`
 
-**Tip:** If you want your site at `username.github.io`, create a repository named exactly `username.github.io` and set `baseUrl` in `site-config.js` to `https://username.github.io`.
+**Tip:** Set `baseUrl` in `site-config.js` to include the `/deliver` path (for example `https://yourusername.github.io/repository-name/deliver`).
 
 ## Optional Configuration
 
@@ -208,6 +213,7 @@ Create a `gorky.config.js` file to customize paths:
 ```javascript
 module.exports = {
   contentDir: 'content',
+  outputDir: 'deliver',
   outputFile: 'index.html',
   templateFile: 'index-template.html',
   stylesDir: 'styles'

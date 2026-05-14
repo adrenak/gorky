@@ -20,7 +20,7 @@ Or use npm:
 npm run build
 ```
 
-Your site will be generated as `index.html`. 
+Your site will be generated in the `deliver/` directory.
 
 If you want to rename or move some things, look at `gorky.config.js`
 
@@ -29,6 +29,6 @@ If you want to rename or move some things, look at `gorky.config.js`
 This site is ready to deploy to GitHub Pages. Simply:
 
 1. Push your code to GitHub
-2. Enable GitHub Pages in your repository settings on a branch with index.html
+2. Enable GitHub Pages in your repository settings (serve from the branch that contains `deliver/`)
 3. Your site will be live!
 

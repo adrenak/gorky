@@ -60,7 +60,7 @@ buildSite({
 });
 
 console.log('\n✓ Docs site built successfully!');
-console.log('  Output: docs/index.html');
+console.log(`  Output: docs/${config.outputDir || 'deliver'}/`);
 console.log('  Ready for GitHub Pages deployment from /docs folder');
 
 /**
