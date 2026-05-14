@@ -630,6 +630,8 @@
             const matchingPosts = [];
             
             allPosts.forEach(post => {
+                if (post.getAttribute('data-archived') === 'true') return;
+
                 const tags = post.getAttribute('data-tags');
                 if (!tags) return;
                 

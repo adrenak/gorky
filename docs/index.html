@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A lightweight, markdown-powered static site generator" id="meta-description">
-    <meta name="keywords" content="gorky, static site generator, markdown, blog" id="meta-keywords">
+    <meta name="description" content="Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment." id="meta-description">
+    <meta name="keywords" content="gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog" id="meta-keywords">
     <link rel="canonical" href="https://adrenak.github.io/gorky?page=home" id="canonical-link">
     <title id="page-title">Gorky</title>
     <!-- Favicon -->
@@ -538,7 +538,7 @@ Your page content...
 <li>✅ Build and test locally with <code>gorky build</code></li>
 </ul>
 </div>
-<div id="content-content/home-md" class="content-section" data-title="Gorky" data-description="A lightweight, markdown-powered static site generator" data-keywords="gorky, static site generator, markdown, blog" style="display: block;">
+<div id="content-content/home-md" class="content-section" style="display: block;">
 <h1>Gorky</h1>
 <p><strong>Gorky</strong> is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.</p>
 <p>Gorky is named after <a href="https://en.wikipedia.org/wiki/Maxim_Gorky">Maxim Gorky</a></p>
@@ -582,7 +582,7 @@ Your page content...
 <li>✅ <strong>Lightweight</strong>: Minimal dependencies, fast load times</li>
 </ul>
 </div>
-<div id="content-content/posts/2025-12-10--writing-a-post-md" class="content-section" data-slug="writing-a-post" data-date="10 Dec 2025" data-tags="tutorial,writing" data-title="Writing a post" data-description="Learn how to write posts in Gorky using markdown and HTML" style="display: none;">
+<div id="content-content/posts/2025-12-10--writing-a-post-md" class="content-section" data-slug="writing-a-post" data-date="10 Dec 2025" data-tags="tutorial,writing" data-title="Writing a post" data-description="Learn how to write posts in Gorky using markdown and HTML" data-thumbnail="content/images/gorky.jpg" style="display: none;">
 <p>Posts in Gorky are written in Markdown, which makes it easy to format your content with simple syntax. However, you can also use HTML tags when you need more control or want to embed rich content like videos or create advanced layouts.</p>
 <h2>Basic Markdown</h2>
 <p>Markdown provides a simple way to format text with headers, lists, links, and more. For example:</p>
@@ -626,16 +626,39 @@ Your page content...
 <li><code>max-width: 300px</code> - Limits the maximum width of the image</li>
 </ul>
 <p>You can adjust these values to suit your needs. For example, use <code>float: left</code> to float the image to the left side instead.</p>
+<h2>Archiving posts</h2>
+<p>Over time your <code>?page=posts</code> list can get crowded with older writing you no longer want front and center. Archiving lets you hide a post from that page (and from tag listings) while keeping its URL alive for anyone who still has the link.</p>
+<p>Add <code>archived: true</code> to a post&#39;s frontmatter:</p>
+<pre><code class="language-yaml">---
+slug: my-old-post
+title: My Old Post
+date: 2024-01-15
+archived: true
+---
+</code></pre>
+<p>If <code>archived:</code> is not set, the post is treated as not archived.</p>
+<p><a href="?post=archived-post">Look at this archived sample post</a> — it won&#39;t show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.</p>
 <h2>Combining Markdown and HTML</h2>
 <p>Remember, you can freely mix Markdown and HTML in your posts. Use Markdown for simple formatting, and switch to HTML when you need more advanced features like videos, custom layouts, or specific styling.</p>
+</div>
+<div id="content-content/posts/archived-post-md" class="content-section" data-slug="archived-post" data-date="1 Jun 2024" data-tags="tutorial,archive" data-title="Archived Post (Sample)" data-description="A sample archived post — hidden from the posts list but still reachable by direct link" data-archived="true" style="display: none;">
+<p>This post is <strong>archived</strong>. It does not appear on <code>?page=posts</code> or in tag listings, but you can still open it directly:</p>
+<p><code>?post=archived-post</code></p>
+<p>Use <code>archived: true</code> in frontmatter when you want to retire a post from your public index while keeping old links working.</p>
 </div>
 <div id="content-content/posts-md" class="content-section" style="display: none;">
 <h1>Posts</h1>
 <h2>Tags</h2>
 <p><a href="?tag=tutorial">tutorial (1)</a> • <a href="?tag=writing">writing (1)</a></p>
 <hr>
+<div class="post-entry">
+<img src="content/images/gorky.jpg" alt="Writing a post" class="post-thumbnail" />
+<div class="post-content">
 <h2><a href="?post=writing-a-post">Writing a post</a></h2>
 <p>Learn how to write posts in Gorky using markdown and HTML</p>
+</div>
+</div>
+
 </div>
 
             </div>
@@ -1262,6 +1285,8 @@ Your page content...
             const matchingPosts = [];
             
             allPosts.forEach(post => {
+                if (post.getAttribute('data-archived') === 'true') return;
+
                 const tags = post.getAttribute('data-tags');
                 if (!tags) return;
                 

@@ -71,6 +71,25 @@ The CSS properties used:
 
 You can adjust these values to suit your needs. For example, use `float: left` to float the image to the left side instead.
 
+## Archiving posts
+
+Over time your `?page=posts` list can get crowded with older writing you no longer want front and center. Archiving lets you hide a post from that page (and from tag listings) while keeping its URL alive for anyone who still has the link.
+
+Add `archived: true` to a post's frontmatter:
+
+```yaml
+---
+slug: my-old-post
+title: My Old Post
+date: 2024-01-15
+archived: true
+---
+```
+
+If `archived:` is not set, the post is treated as not archived.
+
+[Look at this archived sample post](?post=archived-post) — it won't show up on the posts page, but the URL still works. Use archiving to keep your posts page clean without breaking old links.
+
 ## Combining Markdown and HTML
 
 Remember, you can freely mix Markdown and HTML in your posts. Use Markdown for simple formatting, and switch to HTML when you need more advanced features like videos, custom layouts, or specific styling.
