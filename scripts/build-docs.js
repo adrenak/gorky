@@ -25,6 +25,9 @@ const baseStyles = path.join(__dirname, '..', '_base', 'styles');
 const docsStyles = path.join(docsDir, 'styles');
 
 if (fs.existsSync(baseStyles)) {
+    if (fs.existsSync(docsStyles)) {
+        fs.rmSync(docsStyles, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
+    }
     copyDirectory(baseStyles, docsStyles);
     console.log('✓ Synced styles from _base to docs/');
 } else {

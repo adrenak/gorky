@@ -1,23 +1,41 @@
-/* ============================================
-   THEME.CSS
-   
-   This file contains all theme-related CSS properties for easy customization:
-   
-   - Sidebar background and text colors (idle, hovered, selected states)
-   - Content background color and text color
-   - Content link colors and weights
-   - Content line spacing
-   - Fonts (for all types of text)
-   
-   To customize the theme, simply modify the values below.
-   ============================================ */
+/* Theme: edit :root for colors/fonts; layout properties live in layout.css */
 
-/* ============================================
-   FONTS
-   ============================================ */
+:root {
+    /* Font weights */
+    --font-weight-body: 400;           /* Paragraphs and default text */
+    --font-weight-nav-active: 500;       /* Selected sidebar nav link */
+    --font-weight-heading: 600;          /* Content headings, bold text, links, sidebar site title */
+    --font-weight-section-label: 750;    /* Uppercase sidebar section labels (e.g. POSTS) */
+
+    /* Content area — main reading pane behind markdown */
+    --color-content-bg: #ECE3D4; /* Background of the main content column */
+    --color-text: #000;          /* Primary text (sidebar site title, icons) */
+
+    /* Links and accents — content links, blockquotes, accordion highlights */
+    --color-link: #006703;       /* Links, blockquote border, open accordion border */
+    --color-link-hover: #005503; /* Link hover state */
+    --color-muted: #666;         /* Secondary text: blockquotes, post dates, accordion arrows */
+
+    /* Shared UI — borders and code blocks used across content and components */
+    --color-border: #7b7b7b;     /* Accordion borders, post thumbnail borders */
+    --color-code-bg: #eeeae6;    /* Inline code and code block backgrounds */
+
+    /* Sidebar — left navigation panel */
+    --color-sidebar-bg: rgb(225, 214, 194);       /* Sidebar and hamburger button background */
+    --color-sidebar-active: #846e4c;      /* Active nav item and footer bar background */
+    --color-nav-idle: rgba(0, 0, 0, 0.6);       /* Default nav link text */
+    --color-nav-hover-bg: #ccbfa9;     /* Nav link background on hover */
+    --color-nav-hover-text: rgba(0, 0, 0, 0.8);    /* Nav link text on hover */
+    --color-section-title: rgba(0, 0, 0, 0.75);   /* Uppercase section labels in sidebar */
+
+    /* Sidebar footer — bottom bar with template link */
+    --color-footer-text: rgba(255, 255, 255, 0.6);    /* Footer text and links */
+    --color-footer-hover: rgba(184, 184, 184, 0.8);   /* Footer link hover */
+}
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-weight: var(--font-weight-body);
 }
 
 #markdown-content code,
@@ -25,95 +43,71 @@ body {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
 
-/* ============================================
-   SIDEBAR THEME
-   ============================================ */
-
-/* Sidebar background color */
 .sidebar {
-    background-color: #f5f5f5;
+    background-color: var(--color-sidebar-bg);
 }
 
-/* Sidebar text colors - idle state */
 .sidebar-header h1 {
-    color: rgb(0, 0, 0);
+    color: var(--color-text);
 }
 
 .nav-link {
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--color-nav-idle);
 }
 
 .external-icon {
-    color: rgba(0, 0, 0, 1);
+    color: var(--color-text);
 }
 
 .section-title {
-    color: rgba(0, 0, 0, 0.75);
+    color: var(--color-section-title);
 }
 
 .sidebar-footer {
-    background-color: #000000;
+    background-color: var(--color-sidebar-active);
 }
 
 .footer-text,
 .footer-link {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-footer-text);
 }
 
-/* Sidebar text colors - hovered state */
 .nav-link:hover {
-    background-color: rgb(188, 188, 188);
-    color: rgba(0, 0, 0, 0.8);
+    background-color: var(--color-nav-hover-bg);
+    color: var(--color-nav-hover-text);
 }
 
 .footer-link:hover {
-    color: rgba(184, 184, 184, 0.8);
+    color: var(--color-footer-hover);
 }
 
-/* Sidebar text colors - selected/active state */
 .nav-link.active {
-    background-color: #000000;
-    color: rgb(255, 255, 255);
+    background-color: var(--color-sidebar-active);
+    color: #fff;
 }
 
-.nav-link.active:hover {
-    background-color: #000000;
-}
-
-/* ============================================
-   CONTENT THEME
-   ============================================ */
-
-/* Content background color, line spacing, and width */
+/* Colors and line-height; padding/overflow in layout.css */
 .main-content {
-    background-color: #ffffff;
+    background-color: var(--color-content-bg);
     line-height: 1.7;
 }
 
-/* Content text color (defaults to browser default if not specified) */
-#markdown-content {
-    color: inherit;
-}
-
-/* Content link color (all links in content area use the same color and weight) */
 #markdown-content a,
 #tag-posts-list h2 a,
 .post-link,
 .post-tags .tag-link {
-    color: #0066cc;
-    font-weight: 600;
+    color: var(--color-link);
+    font-weight: var(--font-weight-heading);
 }
 
-/* Blockquote color and border */
 #markdown-content blockquote {
-    border-left: 4px solid #0066cc;
-    color: #666;
+    border-left: 4px solid var(--color-link);
+    color: var(--color-muted);
 }
 
 #markdown-content a:hover,
 #tag-posts-list h2 a:hover,
 .post-link:hover,
 .post-tags .tag-link:hover {
-    color: #0052a3;
+    color: var(--color-link-hover);
 }
-

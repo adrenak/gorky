@@ -70,6 +70,17 @@ The CSS properties used:
 
 You can adjust these values to suit your needs. For example, use `float: left` to float the image to the left side instead.
 
+## Collapsible sections
+
+Use HTML `<details>` and `<summary>` tags to create collapsible sections:
+
+<details>
+<summary>Click to expand</summary>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+</details>
+
 ## Combining Markdown and HTML
 
 Remember, you can freely mix Markdown and HTML in your posts. Use Markdown for simple formatting, and switch to HTML when you need more advanced features like videos, custom layouts, or specific styling.
