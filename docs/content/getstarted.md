@@ -178,6 +178,7 @@ Your content here...
 - `author` - Author name for the post (falls back to `authorName` in `site-config.js` if not provided)
 - `published` - Set to `false` to hide a post (defaults to `true`)
 - `archived` - Set to `true` to hide from the posts list and tag views while keeping the post URL working
+- `priority` - Number; higher values sort first on the posts list and when filtering by tag (default `0` if omitted)
 
 > 💡 Open a post directly at `post/slug/` (for example `post/my-first-post/`).
 
