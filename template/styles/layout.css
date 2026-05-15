@@ -18,6 +18,16 @@
     overflow: hidden;
 }
 
+/* Scroll header + nav together; footer stays fixed to bottom of viewport */
+.sidebar-body {
+    flex: 1;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Same vertical space as between Home / Posts (.sidebar-main-nav gap) */
+    padding-bottom: 0.25rem;
+}
+
 .sidebar-header {
     padding: 0 1.5rem 1.5rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -42,10 +52,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: 0;
+    flex-shrink: 0;
 }
 
 .sidebar-section {
@@ -102,7 +109,7 @@
 }
 
 .sidebar-footer {
-    margin-top: auto;
+    flex-shrink: 0;
     padding: 1.5rem 1rem 1rem 1rem;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
