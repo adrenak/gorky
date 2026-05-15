@@ -104,6 +104,7 @@ Edit shared styles, template, or docs pages in `template/`, then run `node scrip
 **Deploying:** After `gorky build`, upload only the **`deliver/`** folder to any static host — it includes HTML, `styles/`, and non-markdown files from `content/` (see `deliver/README.txt`).
 
 - `gorky init [project-name]` - Initialize a new Gorky site
+- `gorky upgrade [project-name]` - Refresh `base.html` and `styles/` from the Gorky template (leaves README, configs, and `content/` untouched). By default your current template and `styles/` are moved into `backup_<timestamp>/` first; use `--no-backup` to overwrite in place. Use `--to <version>` to pull the template from a specific npm version or tag (e.g. `latest`, `1.0.0`) via a temporary install.
 - `gorky build` - Build the static site
 
 ## Configuration
@@ -170,7 +171,7 @@ module.exports = {
   contentDir: 'content',
   outputDir: 'deliver',
   outputFile: 'index.html',
-  templateFile: 'index-template.html',
+  templateFile: 'base.html',
   stylesDir: 'styles'
 };
 ```

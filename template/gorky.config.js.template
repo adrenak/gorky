@@ -12,7 +12,7 @@ module.exports = {
   outputFile: 'index.html',
   
   // Template file name
-  templateFile: 'index-template.html',
+  templateFile: 'base.html',
   
   // Styles directory
   stylesDir: 'styles'

@@ -3,7 +3,7 @@ module.exports = {
   contentDir: 'content',
   outputDir: 'deliver',
   outputFile: 'index.html',
-  templateFile: 'index-template.html',
+  templateFile: 'base.html',
   stylesDir: 'styles'
 };
 

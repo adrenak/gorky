@@ -241,7 +241,7 @@ my-site/
 │   ├── images/              # Images directory
 │   └── posts.md             # Auto-generated posts listing (don't edit)
 ├── styles/                  # CSS styling files
-├── index-template.html      # HTML template
+├── base.html                # HTML template
 ├── site-config.js           # Site settings and navigation
 ├── gorky.config.js          # Optional configuration file
 ├── package.json             # Node.js dependencies
@@ -268,7 +268,7 @@ module.exports = {
   contentDir: 'content',
   outputDir: 'deliver',
   outputFile: 'index.html',
-  templateFile: 'index-template.html',
+  templateFile: 'base.html',
   stylesDir: 'styles'
 };
 ```

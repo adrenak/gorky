@@ -53,7 +53,7 @@ body {
 
 **Using Google Fonts:**
 
-1. Add the font link in `index-template.html` (in the `<head>` section):
+1. Add the font link in `base.html` (in the `<head>` section):
    ```html
    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
    ```

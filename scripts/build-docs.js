@@ -35,10 +35,10 @@ replaceDirectory(
 console.log('✓ Synced styles from template/ to docs/');
 
 fs.copyFileSync(
-    path.join(templateDir, 'index-template.html'),
-    path.join(docsDir, 'index-template.html')
+    path.join(templateDir, 'base.html'),
+    path.join(docsDir, 'base.html')
 );
-console.log('✓ Synced index-template.html from template/ to docs/');
+console.log('✓ Synced base.html from template/ to docs/');
 
 // Shared markdown pages: template → docs/content
 const sharedPages = ['home.md', 'getstarted.md', 'customization.md'];

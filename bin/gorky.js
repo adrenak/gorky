@@ -4,6 +4,7 @@ const { program } = require('commander');
 const path = require('path');
 const { initProject } = require('../lib/init');
 const { buildSite } = require('../lib/build');
+const { upgradeProject } = require('../lib/upgrade');
 const { loadConfig } = require('../lib/config');
 
 const packageJson = require('../package.json');
@@ -47,6 +48,30 @@ program
     };
     
     buildSite(buildOptions);
+  });
+
+program
+  .command('upgrade [project-name]')
+  .description(
+    'Replace base.html and styles/ with the bundled template (preserves README, configs, and content/)'
+  )
+  .option('-d, --dir <directory>', 'Parent directory when using project-name', process.cwd())
+  .option(
+    '--no-backup',
+    'Replace styles and template in place (default: move existing ones to backup_<timestamp>/ first)'
+  )
+  .option(
+    '--to <version>',
+    'npm version, dist-tag, or range for the gorky package template (e.g. 1.0.0, latest); uses a temporary npm install'
+  )
+  .action((projectName, options) => {
+    const targetDir = projectName
+      ? path.join(options.dir, projectName)
+      : options.dir;
+    upgradeProject(targetDir, {
+      backup: options.backup,
+      toVersion: options.to || null,
+    });
   });
 
 program.parse();
