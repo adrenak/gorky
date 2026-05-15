@@ -1,9 +1,9 @@
 // ============================================================================
 // BUILD-DOCS.JS
 //
-// Syncs shared files from template/ into docs/, then builds the showcase site.
-// template/ is the single source of truth for styles, HTML shell, and shared
-// markdown pages. docs/ keeps its own site-config, posts, and images.
+// Builds the showcase site from docs/ into docs/deliver/ (or outputDir in
+// gorky.config.js). Does not modify docs/styles, docs/content, base.html,
+// site-config.js, or gorky.config.js — keep those under version control in docs/.
 // ============================================================================
 
 const fs = require('fs');
@@ -12,7 +12,6 @@ const { buildSite } = require('../lib/build');
 const { loadConfig } = require('../lib/config');
 
 const rootDir = path.join(__dirname, '..');
-const templateDir = path.join(rootDir, 'template');
 const docsDir = path.join(rootDir, 'docs');
 
 if (!fs.existsSync(docsDir)) {
@@ -20,37 +19,7 @@ if (!fs.existsSync(docsDir)) {
     process.exit(1);
 }
 
-if (!fs.existsSync(templateDir)) {
-    console.error('Error: template directory not found');
-    process.exit(1);
-}
-
 const config = loadConfig(docsDir);
-
-// Shared assets: template → docs
-replaceDirectory(
-    path.join(templateDir, 'styles'),
-    path.join(docsDir, 'styles')
-);
-console.log('✓ Synced styles from template/ to docs/');
-
-fs.copyFileSync(
-    path.join(templateDir, 'base.html'),
-    path.join(docsDir, 'base.html')
-);
-console.log('✓ Synced base.html from template/ to docs/');
-
-// Shared markdown pages: template/content → docs/content
-const templateContentDir = path.join(templateDir, 'content');
-const sharedPages = ['home.md', 'getstarted.md', 'customization.md', 'posts-intro.md'];
-sharedPages.forEach((file) => {
-    const src = path.join(templateContentDir, file);
-    const dest = path.join(docsDir, 'content', file);
-    if (fs.existsSync(src)) {
-        fs.copyFileSync(src, dest);
-        console.log(`✓ Synced content/${file} from template/content/`);
-    }
-});
 
 console.log('Building docs site...');
 buildSite({
@@ -61,31 +30,3 @@ buildSite({
 console.log('\n✓ Docs site built successfully!');
 console.log(`  Output: docs/${config.outputDir || 'deliver'}/`);
 console.log('  Ready for GitHub Pages deployment from /docs folder');
-
-function replaceDirectory(src, dest) {
-    if (!fs.existsSync(src)) {
-        console.warn(`⚠️  ${src} not found`);
-        return;
-    }
-
-    if (fs.existsSync(dest)) {
-        fs.rmSync(dest, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
-    }
-
-    copyDirectory(src, dest);
-}
-
-function copyDirectory(src, dest) {
-    fs.mkdirSync(dest, { recursive: true });
-
-    fs.readdirSync(src, { withFileTypes: true }).forEach((entry) => {
-        const srcPath = path.join(src, entry.name);
-        const destPath = path.join(dest, entry.name);
-
-        if (entry.isDirectory()) {
-            copyDirectory(srcPath, destPath);
-        } else {
-            fs.copyFileSync(srcPath, destPath);
-        }
-    });
-}

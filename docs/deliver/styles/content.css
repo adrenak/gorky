@@ -173,3 +173,38 @@
 .post-link:hover {
     text-decoration: underline;
 }
+
+/* Splide image carousels: use .splide.gorky-carousel in post HTML */
+#markdown-content .gorky-carousel.splide {
+    margin: 1.5rem 0;
+    background-color: var(--color-carousel-bg);
+}
+
+#markdown-content .gorky-carousel .splide__list {
+    align-items: center;
+}
+
+#markdown-content .gorky-carousel .splide__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#markdown-content .gorky-carousel .splide__slide img {
+    width: 100%;
+    max-height: min(70vh, 28rem);
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+}
+
+#markdown-content .gorky-carousel .splide__arrow {
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0.9;
+}
+
+#markdown-content .gorky-carousel .splide__pager .splide__pagination__page.is-active {
+    background: var(--color-link);
+}

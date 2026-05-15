@@ -20,6 +20,9 @@
     --color-border: #7b7b7b;     /* Accordion borders, post thumbnail borders */
     --color-code-bg: #eeeae6;    /* Inline code and code block backgrounds */
 
+    /* Splide carousels (.splide.gorky-carousel) in posts */
+    --color-carousel-bg: #ffffff00;
+
     /* Sidebar — left navigation panel */
     --color-sidebar-bg: rgb(225, 214, 194);       /* Sidebar and hamburger button background */
     --color-sidebar-active: #846e4c;      /* Active nav item and footer bar background */

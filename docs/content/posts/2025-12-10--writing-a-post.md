@@ -50,6 +50,40 @@ The syntax is:
 
 The alt text is displayed if the image can't be loaded and helps with accessibility.
 
+## Image carousel (Splide)
+
+Gorky loads **Splide** site-wide. Add a carousel with HTML and the classes **`splide`** **`gorky-carousel`** (initialized automatically inside the article):
+
+```html
+<section class="splide gorky-carousel" aria-label="Example image carousel">
+  <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide">
+        <img src="content/images/gorky.jpg" alt="Gorky site screenshot (JPEG)" loading="lazy" />
+      </li>
+      <li class="splide__slide">
+        <img src="content/images/gorky2.webp" alt="Gorky site screenshot (WebP)" loading="lazy" />
+      </li>
+    </ul>
+  </div>
+</section>
+```
+
+<section class="splide gorky-carousel" aria-label="Example image carousel">
+  <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide">
+        <img src="content/images/gorky.jpg" alt="Gorky site screenshot (JPEG)" loading="lazy" />
+      </li>
+      <li class="splide__slide">
+        <img src="content/images/gorky2.webp" alt="Gorky site screenshot (WebP)" loading="lazy" />
+      </li>
+    </ul>
+  </div>
+</section>
+
+Use any number of `<li class="splide__slide">` items. Paths follow the same `content/images/…` rules as other images.
+
 ## Adding Images with HTML (Floating)
 
 For more control over image positioning, you can use HTML tags. Here's how to float an image to the right:
