@@ -10,20 +10,19 @@
 }
 
 #markdown-content details:hover {
-    border-color: #c0c0c0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-color: var(--color-border);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);
 }
 
 #markdown-content details[open] {
-    border-color: var(--color-link);
-    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 #markdown-content summary {
     cursor: pointer;
     font-weight: var(--font-weight-heading);
     padding: 0.875rem 1rem;
-    background-color: #f8f9fa;
     user-select: none;
     list-style: none;
     position: relative;
@@ -33,38 +32,61 @@
     justify-content: space-between;
 }
 
+#markdown-content details:not([open]) > summary {
+    background-color: var(--color-sidebar-active);
+    color: var(--color-nav-active-text);
+}
+
 #markdown-content summary::-webkit-details-marker,
 #markdown-content summary::marker {
     display: none;
 }
 
-#markdown-content summary::after {
+#markdown-content details:not([open]) > summary::after {
     content: '▶';
     font-size: 0.75rem;
-    color: var(--color-muted);
-    transition: transform 0.2s ease, color 0.2s ease;
+    color: var(--color-nav-active-text);
+    opacity: 0.88;
+    transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
     margin-left: 0.5rem;
     flex-shrink: 0;
 }
 
-#markdown-content details[open] summary::after {
+#markdown-content details[open] > summary::after {
+    content: '▶';
+    display: block;
+    font-size: 0.75rem;
     transform: rotate(90deg);
-    color: var(--color-link);
+    color: var(--color-accent);
+    opacity: 1;
+    transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
 }
 
-#markdown-content summary:hover {
-    background-color: #f0f0f0;
-    color: var(--color-link);
+#markdown-content details:not([open]) > summary:hover {
+    background-color: var(--color-nav-hover-bg);
+    color: var(--color-nav-hover-text);
 }
 
-#markdown-content details[open] summary {
-    background-color: #f0f4ff;
-    color: var(--color-link);
+#markdown-content details:not([open]) > summary:hover::after {
+    color: var(--color-nav-hover-text);
+    opacity: 0.95;
+}
+
+#markdown-content details[open] > summary {
+    background-color: var(--color-code-bg);
+    color: var(--color-accent);
     border-bottom: 1px solid var(--color-border);
 }
 
-#markdown-content details[open] summary:hover {
-    background-color: #e6f0ff;
+#markdown-content details[open] > summary:hover {
+    background-color: var(--color-nav-hover-bg);
+    color: var(--color-accent-hover);
+}
+
+#markdown-content details[open] > summary:hover::after {
+    color: var(--color-accent-hover);
 }
 
 #markdown-content details > *:not(summary) {
@@ -132,14 +154,13 @@
 #markdown-content details details {
     margin-top: 0.75rem;
     margin-bottom: 0.75rem;
-    border-color: #d0d0d0;
+    border-color: var(--color-border);
 }
 
-#markdown-content details details summary {
-    background-color: #fafafa;
+#markdown-content details details > summary {
     font-size: 0.95em;
 }
 
 #markdown-content details details[open] {
-    border-color: var(--color-link);
+    border-color: var(--color-accent);
 }

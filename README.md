@@ -80,7 +80,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Tag Filtering**: Filter posts by tag at `posts/?tag=name`
 - ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
-- ✅ **Easy Theming**: Theme colors and fonts in `styles/theme.css`
+- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` and `theme` / optional `themeOptions` in `site-config.js` (visitor picks persist in `localStorage` as `gorky-theme`; carousel & code colors use `--color-*` variables in each palette)
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
 ## Repository layout
@@ -91,11 +91,9 @@ This repo contains three parts:
 |------|------|
 | `lib/`, `bin/` | The SSG engine published to npm |
 | `template/` | Canonical starter kit — same shape as a site root: `content/`, `styles/`, `base.html`, configs |
-| `docs/` | Showcase site; shared files are synced from `template/` on build |
+| `docs/` | Showcase site — its own `content/`, `base.html`, configs; **`npm run build:docs`** copies **`template/styles` → `docs/styles`**, then writes **`docs/deliver/`** |
 
-Edit shared pages under `template/content/`, styles under `template/styles/`, and `template/base.html`, then run `node scripts/build-docs.js` to update `docs/`.
-
-`docs/` keeps its own `site-config.js` and extra posts/images beyond the shared starter pages.
+Edit the canonical starter under **`template/`** for `gorky init` / upgrades. For shared CSS, change **`template/styles/`** and run **`npm run build:docs`** so both the published template and the docs site stay in sync (**`docs/styles/`** is overwritten by that step). Edit **`docs/content/`** and **`docs/site-config.js`** for showcase-only text and navigation.
 
 **Deploying:** After `gorky build`, upload only the **`deliver/`** folder to any static host — it includes HTML, `styles/`, and non-markdown files from `content/` (see `deliver/README.txt`).
 
@@ -121,6 +119,13 @@ module.exports = {
   appleTouchIcon: 'apple-touch-icon.png',
   // Optional portrait (og:image when a page has no thumbnail). Root-relative or https URL.
   avatar: '',
+
+  // Built-in color palette (files in styles/themes/): default, thematrix, desert, candy, simple-light, simple-dark, hacker, dollhouse, pulpfiction, earthy, typewriter, magazine, frost, forest, futurism, cyberpunk, fallout, rustpunk, utopia, hellhole, vicecity, ocean, underwater, coralreef, finding-nemo
+  theme: 'default',
+
+  // Optional: sidebar theme dropdown (above footer). Same ids as `styles/themes/<id>.css`.
+  // Choice stored in localStorage key `gorky-theme` when the visitor changes the select.
+  themeOptions: ['default', 'simple-dark', 'ocean'],
 
   // GoatCounter Analytics (optional)
   goatCounterEnabled: false,

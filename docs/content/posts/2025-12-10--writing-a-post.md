@@ -84,6 +84,8 @@ Gorky loads **Splide** site-wide. Add a carousel with HTML and the classes **`sp
 
 Use any number of `<li class="splide__slide">` items. Paths follow the same `content/images/…` rules as other images.
 
+Carousel chrome (arrows, dots, panel background) is themed from your active palette: **`--color-carousel-bg`**, **`--color-carousel-arrow-*`**, **`--color-carousel-pagination-dot`**, and **`--color-accent`** for the active pagination dot. Adjust those in `styles/themes/<your-theme>.css` if controls are hard to see on certain backgrounds.
+
 ## Adding Images with HTML (Floating)
 
 For more control over image positioning, you can use HTML tags. Here's how to float an image to the right:

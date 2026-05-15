@@ -64,6 +64,13 @@ module.exports = {
 
 This configuration is automatically injected into your site during the build process.
 
+### Theming
+
+- Set **`theme`** in `site-config.js` to a palette id: the file **`styles/themes/<theme>.css`** (no `.css` suffix in config). Gorky ships many built‑in palettes; you can add your own `.css` file next to them.
+- Optional **`themeOptions`**: an array of palette ids. When set, a **Theme** dropdown appears above the sidebar footer. The visitor’s choice is stored in **`localStorage`** under **`gorky-theme`** and reapplied on later visits if that id is still allowed (see the Customization guide for rules).
+
+For carousel/code palette variables, Prism behaviour, and (in the Gorky source repo) **`npm run build:docs`** / **`template/styles`**, read **[Customization](customization/)**.
+
 **Important:** Set `baseUrl` to your published site URL, including the `/deliver` path:
 
 - Repo `username/my-site`: `https://username.github.io/my-site/deliver`

@@ -1,0 +1,45 @@
+/* The Matrix — terminal green on near-black (high contrast) */
+
+:root {
+    --font-weight-body: 400;
+    --font-weight-nav-active: 500;
+    --font-weight-heading: 600;
+    --font-weight-section-label: 750;
+
+    --color-content-bg: #070b07;
+    --color-text: #d9ffd9;
+
+    --color-accent: #5dff7a;
+    --color-accent-hover: #9effb0;
+    --color-muted: #8fbc9a;
+
+    --color-border: #1f5c28;
+    --color-code-bg: #0d160f;
+    --color-code-comment: #94a3b8;
+    --color-code-punctuation: #cbd5e1;
+    --color-code-property: #f87171;
+    --color-code-string: #86efac;
+    --color-code-operator: #facc15;
+    --color-code-keyword: #7dd3fc;
+    --color-code-function: #e879f9;
+    --color-code-variable: #fde047;
+
+    --color-carousel-bg: #0a130c;
+
+    --color-carousel-arrow-bg: rgba(255, 255, 255, 0.26);
+    --color-carousel-arrow-bg-hover: rgba(255, 255, 255, 0.42);
+    --color-carousel-arrow-icon: #ffffff;
+    --color-carousel-arrow-shadow: rgba(0, 0, 0, 0.5);
+    --color-carousel-pagination-dot: rgba(255, 255, 255, 0.45);
+
+    --color-sidebar-bg: #040804;
+    --color-sidebar-active: #0d4d24;
+    --color-nav-active-text: #f6fff8;
+    --color-nav-idle: rgba(200, 255, 210, 0.88);
+    --color-nav-hover-bg: #123218;
+    --color-nav-hover-text: #f0fff4;
+    --color-section-title: rgba(160, 255, 180, 0.78);
+
+    --color-footer-text: rgba(210, 255, 220, 0.82);
+    --color-footer-hover: #b4ffc4;
+}

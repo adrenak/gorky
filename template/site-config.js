@@ -10,6 +10,26 @@ module.exports = {
     /** Optional portrait for link previews (og:image fallback when page has no thumbnail). Root-relative or https URL. */
     avatar: '',
 
+    /**
+     * Color palette: `styles/themes/<theme>.css` (only :root variables).
+     * Try: default, thematrix, desert, candy, simple-light, simple-dark, hacker, dollhouse, pulpfiction, earthy, typewriter, magazine, frost, forest, futurism, cyberpunk, fallout, rustpunk, utopia, hellhole, vicecity, ocean, underwater, coralreef, finding-nemo
+     */
+    theme: 'default',
+
+    /**
+     * Optional: theme ids shown in a sidebar dropdown (above the footer). Visitors can switch
+     * palettes live; choice is stored in localStorage (`gorky-theme`) when they change the select.
+     * Only basenames already valid for `theme` (letters, digits, `-`, `_`) are used; the built
+     * `theme` value is always allowed as well.
+     */
+    themeOptions: [
+        'default',
+        'simple-dark',
+        'ocean',
+        'magazine',
+        'cyberpunk',
+    ],
+
     // GoatCounter Analytics Configuration
     goatCounterEnabled: false,
     goatCounterCode: 'yourcode',

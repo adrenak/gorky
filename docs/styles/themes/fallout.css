@@ -1,0 +1,45 @@
+/* Fallout — Pip-Boy phosphor green on vault-tinted black */
+
+:root {
+    --font-weight-body: 400;
+    --font-weight-nav-active: 500;
+    --font-weight-heading: 600;
+    --font-weight-section-label: 750;
+
+    --color-content-bg: #0f160f;
+    --color-text: #b4ffb4;
+
+    --color-accent: #39ff14;
+    --color-accent-hover: #8fffa0;
+    --color-muted: #5e8f5e;
+
+    --color-border: #2d5a35;
+    --color-code-bg: #0c1a10;
+    --color-code-comment: #94a3b8;
+    --color-code-punctuation: #cbd5e1;
+    --color-code-property: #f87171;
+    --color-code-string: #86efac;
+    --color-code-operator: #facc15;
+    --color-code-keyword: #7dd3fc;
+    --color-code-function: #e879f9;
+    --color-code-variable: #fde047;
+
+    --color-carousel-bg: #101f12;
+
+    --color-carousel-arrow-bg: rgba(255, 255, 255, 0.26);
+    --color-carousel-arrow-bg-hover: rgba(255, 255, 255, 0.42);
+    --color-carousel-arrow-icon: #ffffff;
+    --color-carousel-arrow-shadow: rgba(0, 0, 0, 0.5);
+    --color-carousel-pagination-dot: rgba(255, 255, 255, 0.45);
+
+    --color-sidebar-bg: #080c08;
+    --color-sidebar-active: #1faa35;
+    --color-nav-active-text: #061206;
+    --color-nav-idle: rgba(180, 255, 180, 0.82);
+    --color-nav-hover-bg: #152818;
+    --color-nav-hover-text: #e8fff0;
+    --color-section-title: rgba(150, 255, 170, 0.65);
+
+    --color-footer-text: rgba(6, 18, 6, 0.9);
+    --color-footer-hover: #dfffdd;
+}

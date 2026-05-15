@@ -61,6 +61,8 @@
 #markdown-content pre,
 #markdown-content pre[class*="language-"] {
     background-color: var(--color-code-bg);
+    /* Prism default theme: text-shadow for light code boxes; remove on dark themes */
+    text-shadow: none;
 }
 
 #markdown-content code {
@@ -81,6 +83,73 @@
     background-color: transparent;
     padding: 0;
     font-size: 0.9em;
+}
+
+/*
+ * Prism's default theme loads after this file and forces `color: #000` plus light-theme
+ * token hues. On dark `--color-code-bg` that hides plain text and weakens tokens.
+ * Higher specificity + optional `--color-code-*` tokens in dark themes fixes contrast.
+ */
+#markdown-content pre[class*="language-"],
+#markdown-content code[class*="language-"] {
+    color: var(--color-code-foreground, var(--color-text));
+    text-shadow: none;
+}
+
+#markdown-content .token.comment,
+#markdown-content .token.prolog,
+#markdown-content .token.doctype,
+#markdown-content .token.cdata {
+    color: var(--color-code-comment, #708090);
+}
+
+#markdown-content .token.punctuation {
+    color: var(--color-code-punctuation, #999);
+}
+
+#markdown-content .token.property,
+#markdown-content .token.tag,
+#markdown-content .token.boolean,
+#markdown-content .token.number,
+#markdown-content .token.constant,
+#markdown-content .token.symbol,
+#markdown-content .token.deleted {
+    color: var(--color-code-property, #905);
+}
+
+#markdown-content .token.selector,
+#markdown-content .token.attr-name,
+#markdown-content .token.string,
+#markdown-content .token.char,
+#markdown-content .token.builtin,
+#markdown-content .token.inserted {
+    color: var(--color-code-string, #690);
+}
+
+#markdown-content .token.operator,
+#markdown-content .token.entity,
+#markdown-content .token.url,
+#markdown-content .language-css .token.string,
+#markdown-content .style .token.string {
+    color: var(--color-code-operator, #9a6e3a);
+    background: transparent;
+}
+
+#markdown-content .token.atrule,
+#markdown-content .token.attr-value,
+#markdown-content .token.keyword {
+    color: var(--color-code-keyword, #07a);
+}
+
+#markdown-content .token.function,
+#markdown-content .token.class-name {
+    color: var(--color-code-function, #dd4a68);
+}
+
+#markdown-content .token.regex,
+#markdown-content .token.variable,
+#markdown-content .token.important {
+    color: var(--color-code-variable, #e90);
 }
 
 #markdown-content img {
@@ -201,10 +270,29 @@
 }
 
 #markdown-content .gorky-carousel .splide__arrow {
-    background: rgba(0, 0, 0, 0.45);
-    opacity: 0.9;
+    background: var(--color-carousel-arrow-bg, rgba(80, 80, 80, 0.55));
+    box-shadow: 0 1px 4px var(--color-carousel-arrow-shadow, rgba(0, 0, 0, 0.25));
+    opacity: 1;
 }
 
-#markdown-content .gorky-carousel .splide__pager .splide__pagination__page.is-active {
-    background: var(--color-link);
+#markdown-content .gorky-carousel .splide__arrow:hover:not(:disabled) {
+    background: var(--color-carousel-arrow-bg-hover, rgba(100, 100, 100, 0.65));
+    opacity: 1;
+}
+
+#markdown-content .gorky-carousel .splide__arrow:disabled {
+    opacity: 0.35;
+}
+
+#markdown-content .gorky-carousel .splide__arrow svg {
+    fill: var(--color-carousel-arrow-icon, #ffffff);
+}
+
+#markdown-content .gorky-carousel .splide__pagination .splide__pagination__page {
+    background: var(--color-carousel-pagination-dot, rgba(0, 0, 0, 0.35));
+    opacity: 1;
+}
+
+#markdown-content .gorky-carousel .splide__pagination .splide__pagination__page.is-active {
+    background: var(--color-accent);
 }

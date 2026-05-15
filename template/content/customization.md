@@ -6,7 +6,7 @@ keywords: customization, styling, fonts, colors, CSS, theme
 
 # Customization Guide
 
-This guide will help you customize the look and feel of your Gorky website. **Most customization is done through `styles/theme.css`** - this is where you'll find all the important theme-related properties like colors, fonts, and spacing.
+This guide will help you customize the look and feel of your Gorky website. **Colors** are driven by CSS variables in `styles/themes/<palette>.css`; **`theme`** in **`site-config.js`** selects which palette loads. **Typography and layout hooks** that consume those variables live in `styles/theme-shell.css`.
 
 ## Link previews when sharing URLs
 
@@ -18,34 +18,89 @@ All generated pages include **Open Graph** and **Twitter Card** meta tags for Di
 
 Set **`baseUrl`** to your deployed site (including `/deliver` when needed) so image URLs resolve correctly for crawlers.
 
-## The Most Important File: `theme.css`
+## Theming: palettes and `site-config.js`
 
-**`styles/theme.css` is where most customization happens.** This file contains all theme-related CSS properties organized for easy customization:
+**Switch built-in palettes** by setting `theme` in `site-config.js` (no `.css` suffix):
 
-- **Fonts** (body, code)
-- **Sidebar** background and text colors (idle, hovered, selected states)
-- **Content** background color, text color, link colors
-- **Content** line spacing
-- **Blockquote** colors and borders
+- `default` — warm paper / stone sidebar  
+- `thematrix`, `hacker` — terminal / phosphor  
+- `desert`, `earthy`, `candy`, `dollhouse` — earthy or playful  
+- `simple-light`, `simple-dark` — minimal  
+- `pulpfiction` — bold retro contrast  
+- `typewriter` — aged paper & ribbon red  
+- `magazine` — editorial black rail & red accent  
+- `frost` — cool ice & teal  
+- `forest` — evergreen rail & moss  
+- `futurism` — art deco gold & espresso  
+- `cyberpunk` — neon on violet black  
+- `fallout` — Pip-Boy green phosphor on vault black  
+- `rustpunk` — copper, rust, industrial smoke  
+- `utopia` — bright white-sky calm  
+- `hellhole` — ember reds on scorched black  
+- `vicecity` — 80s Miami neon dusk  
+- `ocean` — bright surface sea & teal rail  
+- `underwater` — deep blue abyss & cyan glow  
+- `coralreef` — sand shoal, reef teal, coral pink  
+- `finding-nemo` — playful reef blue, orange & purple pop  
 
-Simply edit `styles/theme.css` to change your site's appearance. Most users won't need to touch the other CSS files.
+Each palette file under **`styles/themes/`** contains **only** a `:root { ... }` block (font weights and `--color-*` variables). **`styles/theme-shell.css`** applies those variables to the sidebar, content area, links, and blockquotes.
+
+To add your own palette, copy **`styles/themes/default.css`** to **`styles/themes/mybrand.css`** (use letters, digits, hyphen, underscore only in the filename), and set **`theme: 'mybrand'`** in **`site-config.js`**. It loads automatically at build time.
+
+Set optional **`themeOptions`** to an array of theme ids (strings). When present, a **Theme** dropdown appears **above the sidebar footer** so visitors can switch `styles/themes/<id>.css` in the browser.
+
+- The choice is saved in **`localStorage`** under the key **`gorky-theme`** and reapplied on the next visit **only if** that id is still allowed.
+- **Allowed ids** are every entry in **`themeOptions`** (after normalisation: trimmed, optional `.css` stripped, letters / digits / `-` / `_` only), **plus** the built‑in **`theme`** value from config—which is always permitted even if omitted from the array.
+- If `localStorage` is unavailable or the stored id is no longer allowed, the page keeps the stylesheet from the last build (`theme` in `site-config.js`).
+
+### Palette variables for carousels and code
+
+Besides layout colors, palette files can define tokens used in **`styles/content.css`**:
+
+**Image carousels** (HTML `splide` + `gorky-carousel`; see *Writing a post*):
+
+| Variable | Role |
+|----------|------|
+| `--color-carousel-bg` | Carousel panel background |
+| `--color-carousel-arrow-bg` | Prev/next button background |
+| `--color-carousel-arrow-bg-hover` | Arrow hover background |
+| `--color-carousel-arrow-icon` | Chevron `fill` (SVG) |
+| `--color-carousel-arrow-shadow` | Arrow `box-shadow` color |
+| `--color-carousel-pagination-dot` | Inactive Splide pagination dots |
+
+The **active** dot uses **`--color-accent`** (not a separate variable).
+
+**Code blocks** (Prism + `--color-code-bg`):
+
+- Gorky loads Prism’s default CSS, then overrides it so fenced blocks use your palette’s **`--color-text`** as the base foreground (Prism otherwise forces near‑black text, which disappears on dark `--color-code-bg`).
+- Prism’s light‑theme **`text-shadow`** on code is removed so it doesn’t create a halo on dark panels.
+- **Syntax highlighting** still uses Prism’s token classes. Default token hues match **light** code backgrounds. **Dark** built‑in palettes therefore add explicit token variables (copy from e.g. `simple-dark` or `hellhole` if you build a custom dark theme):
+
+  `--color-code-comment`, `--color-code-punctuation`, `--color-code-property`, `--color-code-string`, `--color-code-operator`, `--color-code-keyword`, `--color-code-function`, `--color-code-variable`
+
+- Optionally set **`--color-code-foreground`** if code text should differ from body **`--color-text`**; otherwise the base code color follows **`--color-text`**.
+
+### Upstream Gorky repository vs a `gorky init` project
+
+**If you cloned the Gorky source repo:** `npm run build:docs` copies **`template/styles` → `docs/styles`** before building **`docs/deliver/`**. To change CSS that ships with **`gorky init`**, edit **`template/styles/`**, then run **`npm run build:docs`** to refresh the showcase. Do not rely on editing **`docs/styles/`** by itself—it is overwritten by that sync.
+
+**If you created a site with `gorky init`:** your project only has **`styles/`** at the site root. There is no `template/` → `docs/` sync; run **`gorky build`** as usual.
 
 ## CSS File Structure
 
-While `theme.css` handles most customization, the styles are organized into several files:
-
-- **`styles/theme.css`** ⭐ - **Most important!** Contains fonts, colors, and theme properties
-- **`styles/base.css`** - CSS reset and container layout (rarely needs editing)
-- **`styles/layout.css`** - Layout structure, sidebar, navigation, and spacing
-- **`styles/content.css`** - Content structure and typography
-- **`styles/accordion.css`** - Collapsible `<details>` sections in markdown
-- **`styles/responsive.css`** - Responsive breakpoints and mobile menu
+- **`styles/themes/<palette>.css`** ⭐ — Color and weight variables (`:root`) for the active `theme`
+- **`styles/theme-shell.css`** — Rules that use those variables (body font, sidebar, links, etc.)
+- **`styles/base.css`** — CSS reset and container layout (rarely needs editing)
+- **`styles/layout.css`** — Layout structure, sidebar, navigation, and spacing
+- **`styles/content.css`** — Article typography, posts list, Splide carousels, Prism/code overrides, images, blockquotes in `#markdown-content`
+- **`styles/accordion.css`** — Collapsible `<details>` sections in markdown
+- **`styles/responsive.css`** — Responsive breakpoints and mobile menu
 
 ## Customizing Fonts
 
 ### Main Body Font
 
-The main font for all content is set in `styles/theme.css`:
+The main font for all content is set in `styles/theme-shell.css`:
 
 ```css
 body {
@@ -53,7 +108,7 @@ body {
 }
 ```
 
-**To change it**, edit `styles/theme.css` and replace with your preferred font:
+**To change it**, edit `styles/theme-shell.css` and replace with your preferred font:
 
 ```css
 body {
@@ -68,7 +123,7 @@ body {
    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
    ```
 
-2. Update `styles/theme.css`:
+2. Update `styles/theme-shell.css`:
    ```css
    body {
        font-family: 'Inter', sans-serif;
@@ -82,7 +137,7 @@ body {
 
 ### Code Font
 
-Code blocks and inline code use a monospace font. Edit `styles/theme.css`:
+Code blocks and inline code use a monospace font. Edit `styles/theme-shell.css`:
 
 ```css
 #markdown-content code,
@@ -98,243 +153,60 @@ Code blocks and inline code use a monospace font. Edit `styles/theme.css`:
 
 ## Customizing Colors
 
-All color customization happens in `styles/theme.css`. This is much simpler than before!
+Palette files only define **CSS variables** on `:root`. Set **`theme`** in **`site-config.js`** to the filename without `.css` (e.g. `simple-dark`).
 
-### Sidebar Colors
+**Built-in values:** `default`, `thematrix`, `desert`, `candy`, `simple-light`, `simple-dark`, `hacker`, `dollhouse`, `pulpfiction`, `earthy`, `typewriter`, `magazine`, `frost`, `forest`, `futurism`, `cyberpunk`, `fallout`, `rustpunk`, `utopia`, `hellhole`, `vicecity`, `ocean`, `underwater`, `coralreef`, `finding-nemo`.
 
-**Sidebar background:**
+Edit the corresponding file under **`styles/themes/`** (for example **`styles/themes/default.css`**) to change `--color-sidebar-bg`, `--color-accent`, `--color-content-bg`, `--color-code-bg`, `--color-carousel-bg`, carousel arrow / pagination variables, and (on dark themes) **`--color-code-*`** syntax tokens. **`--font-weight-*`** entries control heading/nav weights. Layout components read most colors in **`styles/theme-shell.css`**; carousels, code/Prism overrides, and article typography use **`styles/content.css`** — edit **`theme-shell.css`** / **`content.css`** when you need different selectors or structure, not just different color values.
+
+Example (abbreviated):
+
 ```css
-.sidebar {
-    background-color: #f5f5f5;
+:root {
+    --color-content-bg: #ECE3D4;
+    --color-text: #000;
+    --color-accent: #006703;
+    --color-sidebar-bg: rgb(225, 214, 194);
+    --color-sidebar-active: #846e4c;
+    /* ... see styles/themes/default.css for the full set */
 }
 ```
 
-**Sidebar text colors (idle state):**
-```css
-.sidebar-header h1 {
-    color: rgb(0, 0, 0);
-}
+## Quick theme switching
 
-.nav-link {
-    color: rgba(0, 0, 0, 0.6);
-}
+In `site-config.js`:
 
-.section-title {
-    color: rgba(0, 0, 0, 0.75);
-}
+```js
+theme: 'simple-dark',
 ```
 
-**Sidebar text colors (hovered state):**
-```css
-.nav-link:hover {
-    background-color: rgb(188, 188, 188);
-    color: rgba(0, 0, 0, 0.8);
-}
-```
+Other one-line tries: `'ocean'`, `'underwater'`, `'coralreef'`, `'finding-nemo'`, `'fallout'`, etc. Rebuild with `gorky build` and open `deliver/` to preview.
 
-**Sidebar text colors (selected/active state):**
-```css
-.nav-link.active {
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-}
-```
+Themes are **not** whitelisted in Gorky: any safe basename maps to **`styles/themes/<theme>.css`**. Use letters, digits, **`-`**, **`_`** only; invalid values fall back to **`default`**.
 
-### Content Colors
+## Content spacing
 
-**Content background:**
-```css
-.main-content {
-    background-color: #ffffff;
-}
-```
+### Line spacing
 
-**Content text color:**
-```css
-#markdown-content {
-    color: inherit;  /* Uses default browser text color */
-}
-```
-
-**Content links:**
-```css
-#markdown-content a,
-#tag-posts-list h2 a,
-.post-link,
-.post-tags .tag-link {
-    color: #0066cc;
-    font-weight: 600;
-}
-
-#markdown-content a:hover,
-#tag-posts-list h2 a:hover,
-.post-link:hover,
-.post-tags .tag-link:hover {
-    color: #0052a3;
-}
-```
-
-All links in your content (blog posts, tag links, post list links) use the same color and weight for consistency.
-
-### Blockquote Colors
-
-Blockquotes are styled in `styles/theme.css`:
-
-```css
-#markdown-content blockquote {
-    border-left: 4px solid #0066cc;
-    color: #666;
-}
-```
-
-The border color matches your link color by default, but you can customize it.
-
-### Sidebar Footer
-
-Footer colors are also in `styles/theme.css`:
-
-```css
-.sidebar-footer {
-    background-color: #000000;
-}
-
-.footer-text,
-.footer-link {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.footer-link:hover {
-    color: rgba(0, 0, 0, 0.8);
-}
-```
-
-## Content Spacing
-
-### Line Spacing
-
-Content line spacing is controlled in `styles/theme.css`:
-
-```css
-.main-content {
-    line-height: 1.7;
-}
-```
-
-Adjust this value to make text more or less spaced. Common values:
-- `1.5` - Tighter spacing
-- `1.7` - Default (comfortable reading)
-- `1.8` - More breathing room
-- `2.0` - Very spacious
-
-## Quick Theme Examples
-
-### Light Theme (Default)
-
-All in `styles/theme.css`:
-```css
-.sidebar {
-    background-color: #f5f5f5;
-}
-
-.main-content {
-    background-color: #ffffff;
-}
-
-#markdown-content a {
-    color: #0066cc;
-}
-
-.nav-link.active {
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-}
-```
-
-### Dark Theme
-
-Edit `styles/theme.css`:
-
-```css
-.sidebar {
-    background-color: #1a202c;
-}
-
-.main-content {
-    background-color: #2d3748;
-}
-
-#markdown-content {
-    color: #e2e8f0;
-}
-
-.nav-link {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.nav-link:hover {
-    background-color: #4a5568;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.nav-link.active {
-    background-color: #4a5568;
-    color: rgb(255, 255, 255);
-}
-
-#markdown-content a {
-    color: #63b3ed;
-}
-
-.sidebar-footer {
-    background-color: #1a202c;
-}
-
-.footer-text,
-.footer-link {
-    color: rgba(255, 255, 255, 0.6);
-}
-```
-
-### Blue Theme
-
-```css
-.sidebar {
-    background-color: #e3f2fd;
-}
-
-.nav-link.active {
-    background-color: #1976d2;
-    color: rgb(255, 255, 255);
-}
-
-.nav-link:hover {
-    background-color: #bbdefb;
-}
-
-#markdown-content a {
-    color: #1565c0;
-}
-
-#markdown-content blockquote {
-    border-left: 4px solid #1976d2;
-}
-```
+Line height for the reading column is set in `styles/theme-shell.css` on `.main-content` (default `1.7`). Increase or decrease for tighter or roomier paragraphs.
 
 ## Tips
 
-1. **Start with `theme.css`**: This file contains 90% of what you'll want to customize. Edit this first!
+1. **Start with `theme` and a palette file** — pick a built-in `theme`, then tweak variables in the matching `styles/themes/<theme>.css` before editing `theme-shell.css`.
 
 2. **Test your changes**: After modifying CSS, run `gorky build` and check pages in `deliver/`.
 
 3. **Browser DevTools**: Use your browser's developer tools (F12) to inspect elements and test color changes in real-time before editing files.
 
-4. **Keep it organized**: All theme-related properties are in `theme.css` - use that as your main customization file.
+4. **Keep it organized**: Colors and weights belong in palette CSS; shared rules belong in `theme-shell.css`.
 
-4. **File layout**: Theme properties live in `theme.css`; layout, content, accordion, and responsive styles are in the other CSS files.
+5. **Other files**: Layout, content, accordion, and responsive styles live in their named CSS files under `styles/`.
 
 ## Need Help?
 
-- **Check `styles/theme.css` first** - most customization is there
-- Read the comments in each CSS file - they describe what each section controls
-- Use browser DevTools to inspect elements and see which CSS file controls them
+- **Colors** — your active `styles/themes/<theme>.css` and `site-config.js` `theme`  
+- **Carousels / fenced code (Prism)** — `styles/content.css` + variables in `styles/themes/<theme>.css`  
+- **Fonts / layout shell** — `styles/theme-shell.css` first  
+- Read the comments in each CSS file - they describe what each section controls  
+- Use browser DevTools to inspect elements and see which CSS file controls them  
 - Test changes incrementally - change one thing at a time to see the effect
