@@ -7,7 +7,9 @@ module.exports = {
     defaultKeywords: 'gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog',
     favicon: 'favicon.ico',
     appleTouchIcon: 'apple-touch-icon.png',
-    
+    /** Optional portrait for link previews (og:image fallback when page has no thumbnail). Root-relative or https URL. */
+    avatar: 'content/images/gorky.jpg',
+
     // GoatCounter Analytics Configuration
     goatCounterEnabled: false,
     goatCounterCode: 'yourcode',

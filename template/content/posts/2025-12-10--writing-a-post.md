@@ -4,6 +4,7 @@ title: Writing a post
 date: 2025-12-10
 tags: tutorial, writing
 description: Learn how to write posts in Gorky using markdown and HTML
+thumbnail: content/images/gorky.jpg
 ---
 
 Posts in Gorky are written in Markdown, which makes it easy to format your content with simple syntax. However, you can also use HTML tags when you need more control or want to embed rich content like videos or create advanced layouts.

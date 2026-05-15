@@ -8,6 +8,16 @@ keywords: customization, styling, fonts, colors, CSS, theme
 
 This guide will help you customize the look and feel of your Gorky website. **Most customization is done through `styles/theme.css`** - this is where you'll find all the important theme-related properties like colors, fonts, and spacing.
 
+## Link previews when sharing URLs
+
+All generated pages include **Open Graph** and **Twitter Card** meta tags for Discord, X/Twitter, Slack, etc.:
+
+- **`title`** and **`description`** come from each page’s markdown frontmatter when set, otherwise from `site-config.js`.
+- **`thumbnail`** in frontmatter (optional on posts/pages that support YAML) sets the preview image (`og:image`).
+- If there is no thumbnail, previews use **`site-config.js`** **`avatar`** (your portrait/site image), then **`favicon`**, then **`appleTouchIcon`**.
+
+Set **`baseUrl`** to your deployed site (including `/deliver` when needed) so image URLs resolve correctly for crawlers.
+
 ## The Most Important File: `theme.css`
 
 **`styles/theme.css` is where most customization happens.** This file contains all theme-related CSS properties organized for easy customization:

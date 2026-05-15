@@ -119,7 +119,9 @@ module.exports = {
   defaultKeywords: 'keyword1, keyword2',
   favicon: 'favicon.ico',
   appleTouchIcon: 'apple-touch-icon.png',
-  
+  // Optional portrait (og:image when a page has no thumbnail). Root-relative or https URL.
+  avatar: '',
+
   // GoatCounter Analytics (optional)
   goatCounterEnabled: false,
   goatCounterCode: 'yourcode',
@@ -149,6 +151,8 @@ module.exports = {
   }
 };
 ```
+
+Configure **avatar** in `site-config.js` with a root-relative image path or a full `https://` URL. Link previews use each page’s **`thumbnail`** frontmatter when set; otherwise they use **avatar**, then favicon, then Apple touch icon. This applies to every page type (home, posts list, markdown pages, and posts).
 
 The sidebar configuration includes:
 - `header`: Text displayed at the top of the sidebar

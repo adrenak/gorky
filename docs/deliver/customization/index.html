@@ -6,8 +6,18 @@
     <meta name="description" content="Learn how to customize fonts, colors, and styling to make your website unique" id="meta-description">
     <meta name="keywords" content="customization, styling, fonts, colors, CSS, theme" id="meta-keywords">
     <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/customization/" id="canonical-link">
+    <meta property="og:title" content="Customization">
+    <meta property="og:description" content="Learn how to customize fonts, colors, and styling to make your website unique">
+    <meta property="og:url" content="https://adrenak.github.io/gorky/deliver/customization/">
+    <meta property="og:site_name" content="Gorky">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Customization">
+    <meta name="twitter:description" content="Learn how to customize fonts, colors, and styling to make your website unique">
+    <meta name="twitter:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
     <title id="page-title">Customization</title>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Customization","description":"Learn how to customize fonts, colors, and styling to make your website unique","url":"https://adrenak.github.io/gorky/deliver/customization/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Customization","description":"Learn how to customize fonts, colors, and styling to make your website unique","url":"https://adrenak.github.io/gorky/deliver/customization/","image":"https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg"}</script>
     <script>
 (function () {
     var search = window.location.search;
@@ -115,6 +125,14 @@
                 
                 <h1>Customization Guide</h1>
 <p>This guide will help you customize the look and feel of your Gorky website. <strong>Most customization is done through <code>styles/theme.css</code></strong> - this is where you&#39;ll find all the important theme-related properties like colors, fonts, and spacing.</p>
+<h2>Link previews when sharing URLs</h2>
+<p>All generated pages include <strong>Open Graph</strong> and <strong>Twitter Card</strong> meta tags for Discord, X/Twitter, Slack, etc.:</p>
+<ul>
+<li><strong><code>title</code></strong> and <strong><code>description</code></strong> come from each page’s markdown frontmatter when set, otherwise from <code>site-config.js</code>.</li>
+<li><strong><code>thumbnail</code></strong> in frontmatter (optional on posts/pages that support YAML) sets the preview image (<code>og:image</code>).</li>
+<li>If there is no thumbnail, previews use <strong><code>site-config.js</code></strong> <strong><code>avatar</code></strong> (your portrait/site image), then <strong><code>favicon</code></strong>, then <strong><code>appleTouchIcon</code></strong>.</li>
+</ul>
+<p>Set <strong><code>baseUrl</code></strong> to your deployed site (including <code>/deliver</code> when needed) so image URLs resolve correctly for crawlers.</p>
 <h2>The Most Important File: <code>theme.css</code></h2>
 <p><strong><code>styles/theme.css</code> is where most customization happens.</strong> This file contains all theme-related CSS properties organized for easy customization:</p>
 <ul>
@@ -394,6 +412,7 @@
                       "defaultKeywords": "gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog",
                       "favicon": "favicon.ico",
                       "appleTouchIcon": "apple-touch-icon.png",
+                      "avatar": "content/images/gorky.jpg",
                       "goatCounterEnabled": false,
                       "goatCounterCode": "yourcode",
                       "allowLocal": false,
