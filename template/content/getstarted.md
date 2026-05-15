@@ -132,7 +132,15 @@ Gorky builds a multi-page site inside `deliver/`:
 | Single post | `post/{slug}/` |
 | Custom page (`content/about.md`) | `about/` |
 
-Filter posts by tag with `posts/?tag=tagname`.
+Filter posts by tag on the posts listing: **`posts/?tag=your-tag`** (same path with a query string).
+
+Example if your published site lives at `https://username.github.io/repo/deliver/`:
+
+```text
+https://username.github.io/repo/deliver/posts/?tag=tutorial
+```
+
+Tag names use the lowercase form for matching (`tutorial` matches `Tutorial` in frontmatter). Share that full URL to open the posts page already filtered.
 
 Legacy `?page=`, `?post=`, and `?tag=` URLs still redirect to these paths.
 
