@@ -236,6 +236,7 @@ my-site/
 │   └── {page}/              # Other content pages
 ├── content/
 │   ├── home.md              # Your home page content
+│   ├── posts-intro.md       # Optional intro for the posts listing (YAML + markdown)
 │   ├── posts/               # Blog posts directory
 │   │   └── *.md             # Posts with YAML frontmatter (any filename)
 │   ├── images/              # Images directory
@@ -244,8 +245,8 @@ my-site/
 ├── base.html                # HTML template
 ├── site-config.js           # Site settings and navigation
 ├── gorky.config.js          # Optional configuration file
-├── package.json             # Node.js dependencies
-└── README.md                # Documentation
+├── package.json             # Optional (add your own for npm scripts / dependencies)
+└── README.md                # Optional (your repo documentation)
 ```
 
 ## Deployment to GitHub Pages

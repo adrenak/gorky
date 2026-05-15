@@ -17,13 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
       
       - name: Build site
-        run: npm run build
+        run: npx --yes gorky build
       
       - name: Commit and push changes
         run: |
@@ -32,4 +28,3 @@ jobs:
           git add deliver/
           git diff --staged --quiet || git commit -m "Build: regenerate deliver/"
           git push
-

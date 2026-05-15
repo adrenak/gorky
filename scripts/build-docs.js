@@ -40,14 +40,15 @@ fs.copyFileSync(
 );
 console.log('✓ Synced base.html from template/ to docs/');
 
-// Shared markdown pages: template → docs/content
-const sharedPages = ['home.md', 'getstarted.md', 'customization.md'];
+// Shared markdown pages: template/content → docs/content
+const templateContentDir = path.join(templateDir, 'content');
+const sharedPages = ['home.md', 'getstarted.md', 'customization.md', 'posts-intro.md'];
 sharedPages.forEach((file) => {
-    const src = path.join(templateDir, file);
+    const src = path.join(templateContentDir, file);
     const dest = path.join(docsDir, 'content', file);
     if (fs.existsSync(src)) {
         fs.copyFileSync(src, dest);
-        console.log(`✓ Synced content/${file} from template/`);
+        console.log(`✓ Synced content/${file} from template/content/`);
     }
 });
 

@@ -41,11 +41,7 @@ This creates a new Gorky site with example content and template files.
 gorky build
 ```
 
-Or use npm:
-
-```bash
-npm run build
-```
+If you add your own `package.json` with a `"build": "gorky build"` script, you can use `npm run build` instead.
 
 ### 4. Deploy to GitHub Pages
 
@@ -94,12 +90,12 @@ This repo contains three parts:
 | Path | Role |
 |------|------|
 | `lib/`, `bin/` | The SSG engine published to npm |
-| `template/` | Canonical starter kit — styles, HTML shell, example content |
+| `template/` | Canonical starter kit — same shape as a site root: `content/`, `styles/`, `base.html`, configs |
 | `docs/` | Showcase site; shared files are synced from `template/` on build |
 
-Edit shared styles, template, or docs pages in `template/`, then run `node scripts/build-docs.js` to update `docs/`.
+Edit shared pages under `template/content/`, styles under `template/styles/`, and `template/base.html`, then run `node scripts/build-docs.js` to update `docs/`.
 
-`docs/` keeps its own `site-config.js`, posts, and images.
+`docs/` keeps its own `site-config.js` and extra posts/images beyond the shared starter pages.
 
 **Deploying:** After `gorky build`, upload only the **`deliver/`** folder to any static host — it includes HTML, `styles/`, and non-markdown files from `content/` (see `deliver/README.txt`).
 
