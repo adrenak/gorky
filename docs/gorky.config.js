@@ -1,7 +1,7 @@
 // Gorky Configuration for docs-site
 module.exports = {
   contentDir: 'content',
-  outputDir: 'deliver',
+  outputDir: '',
   outputFile: 'index.html',
   templateFile: 'base.html',
   stylesDir: 'styles'

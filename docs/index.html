@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A lightweight, markdown-powered static site generator" id="meta-description">
+    <meta name="keywords" content="gorky, static site generator, markdown, blog" id="meta-keywords">
+    <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/" id="canonical-link">
+    <meta property="og:title" content="Gorky">
+    <meta property="og:description" content="A lightweight, markdown-powered static site generator">
+    <meta property="og:url" content="https://adrenak.github.io/gorky/deliver/">
+    <meta property="og:site_name" content="Gorky">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Gorky">
+    <meta name="twitter:description" content="A lightweight, markdown-powered static site generator">
+    <meta name="twitter:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <title id="page-title">Gorky</title>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Gorky","description":"A lightweight, markdown-powered static site generator","url":"https://adrenak.github.io/gorky/deliver/","image":"https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg"}</script>
+    <script>
+(function () {
+    var search = window.location.search;
+    if (!search) return;
+
+    var params = new URLSearchParams(search);
+    var root = "";
+    var path = window.location.pathname;
+    var onPostsPage = /\/posts\/?$/.test(path) || /\/posts\/index\.html$/.test(path);
+    var target = null;
+
+    if (params.has('post')) {
+        target = root + 'post/' + encodeURIComponent(params.get('post')) + '/';
+    } else if (params.get('page') === 'posts') {
+        target = root + 'posts/';
+    } else if (params.get('page') === 'home') {
+        target = root || './';
+    } else if (params.has('page')) {
+        target = root + params.get('page') + '/';
+    } else if (params.has('tag') && !onPostsPage) {
+        target = root + 'posts/?tag=' + encodeURIComponent(params.get('tag'));
+    }
+
+    if (target) {
+        window.location.replace(target);
+    }
+})();
+</script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" id="favicon-link">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" id="apple-touch-icon-link">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/theme-shell.css">
+    <link rel="stylesheet" href="styles/themes/default.css" id="theme-palette-stylesheet">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/content.css">
+    <link rel="stylesheet" href="styles/accordion.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-body">
+                <div class="sidebar-header">
+                    <h1>Gorky</h1>
+                </div>
+                <nav class="sidebar-main-nav">
+                    <a href="./" class="nav-link active">
+    <span class="nav-icon">🏠</span>
+    <span>Home</span>
+</a>
+<a href="posts/" class="nav-link">
+    <span class="nav-icon">✍️</span>
+    <span>Posts</span>
+</a>
+
+                </nav>
+                <nav class="sidebar-nav">
+                    <div class="sidebar-section">
+    <h3 class="section-title">Documentation</h3>
+    <ul class="section-list">
+        <li>
+            <a href="getstarted/" class="nav-link">
+                <span>Get Started</span>
+            </a>
+        </li>
+        <li>
+            <a href="customization/" class="nav-link">
+                <span>Customization</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="sidebar-section">
+    <h3 class="section-title">Links</h3>
+    <ul class="section-list">
+        <li>
+            <a href="https://github.com/adrenak/gorky" class="nav-link" target="_blank" rel="noopener noreferrer">
+                <span>GitHub</span>
+                <span class="external-icon">↗</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </nav>
+            </div>
+            <div class="sidebar-theme-switcher">
+  <label class="theme-switcher-label" for="gorky-theme-select">Theme</label>
+  <select id="gorky-theme-select" class="theme-select" aria-label="Color theme">
+    <option value="default" selected>default</option>
+    <option value="candy">candy</option>
+    <option value="coralreef">coralreef</option>
+    <option value="cyberpunk">cyberpunk</option>
+    <option value="desert">desert</option>
+    <option value="dollhouse">dollhouse</option>
+    <option value="earthy">earthy</option>
+    <option value="finding-nemo">finding-nemo</option>
+    <option value="forest">forest</option>
+    <option value="frost">frost</option>
+    <option value="futurism">futurism</option>
+    <option value="hacker">hacker</option>
+    <option value="hellhole">hellhole</option>
+    <option value="magazine">magazine</option>
+    <option value="ocean">ocean</option>
+    <option value="pulpfiction">pulpfiction</option>
+    <option value="rustpunk">rustpunk</option>
+    <option value="simple-dark">simple-dark</option>
+    <option value="simple-light">simple-light</option>
+    <option value="thematrix">thematrix</option>
+    <option value="typewriter">typewriter</option>
+    <option value="underwater">underwater</option>
+    <option value="utopia">utopia</option>
+    <option value="vicecity">vicecity</option>
+  </select>
+</div>
+
+            <div class="sidebar-footer">
+    <a href="https://adrenak.github.io" class="footer-link">2025 © Vatsal Ambastha</a>
+    <a href="https://github.com/adrenak/gorky" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+</div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <main class="main-content">
+            <div id="markdown-content">
+                
+                <h1>Gorky</h1>
+<p><strong>Gorky</strong> is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.</p>
+<p>Gorky is named after <a href="https://en.wikipedia.org/wiki/Maxim_Gorky">Maxim Gorky</a></p>
+<p>The layout and design is inspired from <a href="https://garry.net">garry.net</a>  </p>
+<h2>Why Gorky?</h2>
+<p>Gorky makes it incredibly simple to create and maintain a static website using <strong>markdown files</strong>. No complex build tools, no database setup, just write your content in markdown and Gorky handles the rest.</p>
+<h3>Perfect for GitHub Pages</h3>
+<p>Gorky is optimized for GitHub Pages deployment. Simply:</p>
+<ol>
+<li>Write your content in markdown</li>
+<li>Run <code>gorky build</code> (output goes to <code>deliver/</code>)</li>
+<li>Push to GitHub</li>
+<li>Enable GitHub Pages and set <code>baseUrl</code> to include <code>/deliver</code></li>
+</ol>
+<p>Your site is live!</p>
+<h3>Markdown-First Approach</h3>
+<p>All your content lives in markdown files. Whether it&#39;s blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. Gorky automatically:</p>
+<ul>
+<li>Converts markdown to beautiful HTML</li>
+<li>Generates navigation from your sidebar configuration</li>
+<li>Creates a posts listing page</li>
+<li>Handles tags and filtering</li>
+<li>Provides syntax highlighting for code blocks</li>
+</ul>
+<h3>Flexible Content Management</h3>
+<ul>
+<li><strong>Blog Posts</strong>: Create posts in the <code>content/posts/</code> folder with YAML frontmatter for metadata</li>
+<li><strong>Custom Pages</strong>: Add any markdown file and link to it from your sidebar</li>
+<li><strong>Dynamic Navigation</strong>: Configure your sidebar through a simple JSON file</li>
+<li><strong>Tag System</strong>: Organize posts with tags and filter by them</li>
+</ul>
+<h3>Features</h3>
+<ul>
+<li>✅ <strong>Responsive Design</strong>: Works beautifully on desktop, tablet, and mobile</li>
+<li>✅ <strong>Syntax Highlighting</strong>: Code blocks automatically highlighted with Prism.js</li>
+<li>✅ <strong>Tag Filtering</strong>: Filter posts by tags with a simple URL parameter</li>
+<li>✅ <strong>Multi-page URLs</strong>: Clean paths for home, posts, and individual posts</li>
+<li>✅ <strong>SEO Friendly</strong>: Meta tags and canonical URLs included</li>
+<li>✅ <strong>Analytics Ready</strong>: Built-in support for GoatCounter analytics</li>
+<li>✅ <strong>Easy Theming</strong>: Palettes in <code>styles/themes/*.css</code> via <code>theme</code> in <code>site-config.js</code>; optional visitor <strong>Theme</strong> dropdown (<code>themeOptions</code>) with choice persisted in <strong><code>localStorage</code></strong> (<code>gorky-theme</code>). Carousel and code-block colors are driven by <strong><code>--color-*</code></strong> variables in each palette.</li>
+<li>✅ <strong>Lightweight</strong>: Minimal dependencies, fast load times</li>
+</ul>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script>
+        const SITE_CONFIG =             {
+                      "baseUrl": "https://adrenak.github.io/gorky/deliver",
+                      "siteName": "Gorky",
+                      "authorName": "Vatsal Ambastha",
+                      "defaultDescription": "Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.",
+                      "defaultKeywords": "gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog",
+                      "favicon": "favicon.ico",
+                      "appleTouchIcon": "apple-touch-icon.png",
+                      "avatar": "content/images/gorky.jpg",
+                      "theme": "default",
+                      "themeOptions": [
+                                "default",
+                                "candy",
+                                "coralreef",
+                                "cyberpunk",
+                                "desert",
+                                "dollhouse",
+                                "earthy",
+                                "finding-nemo",
+                                "forest",
+                                "frost",
+                                "futurism",
+                                "hacker",
+                                "hellhole",
+                                "magazine",
+                                "ocean",
+                                "pulpfiction",
+                                "rustpunk",
+                                "simple-dark",
+                                "simple-light",
+                                "thematrix",
+                                "typewriter",
+                                "underwater",
+                                "utopia",
+                                "vicecity"
+                      ],
+                      "goatCounterEnabled": false,
+                      "goatCounterCode": "yourcode",
+                      "allowLocal": false,
+                      "allowFrame": false,
+                      "noOnload": false,
+                      "sidebar": {
+                                "header": "Gorky",
+                                "homeDisplayName": "🏠 Home",
+                                "postsDisplayName": "✍️ Posts",
+                                "footer": [
+                                          {
+                                                    "text": "2025 © Vatsal Ambastha",
+                                                    "target": "https://adrenak.github.io"
+                                          },
+                                          {
+                                                    "text": "GitHub",
+                                                    "target": "https://github.com/adrenak/gorky",
+                                                    "openInNewTab": true
+                                          }
+                                ],
+                                "sections": {
+                                          "Documentation": {
+                                                    "Get Started": {
+                                                              "target": "?page=getstarted",
+                                                              "openInNewTab": false
+                                                    },
+                                                    "Customization": {
+                                                              "target": "?page=customization",
+                                                              "openInNewTab": false
+                                                    }
+                                          },
+                                          "Links": {
+                                                    "GitHub": {
+                                                              "target": "https://github.com/adrenak/gorky",
+                                                              "openInNewTab": true
+                                                    }
+                                          }
+                                }
+                      }
+            };
+        const ASSET_PREFIX = "";
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const markdownContent = document.getElementById('markdown-content');
+
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+
+            if (typeof Splide !== 'undefined' && markdownContent) {
+                markdownContent.querySelectorAll('.splide.gorky-carousel').forEach(function (carouselRoot) {
+                    new Splide(carouselRoot, {
+                        type: 'loop',
+                        perPage: 1,
+                        gap: '1rem',
+                        pagination: true,
+                        arrows: true,
+                    }).mount();
+                });
+            }
+
+            if (SITE_CONFIG.favicon) {
+                const faviconLink = document.getElementById('favicon-link');
+                if (faviconLink) {
+                    const faviconPath = SITE_CONFIG.favicon.startsWith('http')
+                        ? SITE_CONFIG.favicon
+                        : ASSET_PREFIX + SITE_CONFIG.favicon.replace(/^\//, '');
+                    faviconLink.setAttribute('href', faviconPath);
+                }
+            }
+            if (SITE_CONFIG.appleTouchIcon) {
+                const appleIconLink = document.getElementById('apple-touch-icon-link');
+                if (appleIconLink) {
+                    const iconPath = SITE_CONFIG.appleTouchIcon.startsWith('http')
+                        ? SITE_CONFIG.appleTouchIcon
+                        : ASSET_PREFIX + SITE_CONFIG.appleTouchIcon.replace(/^\//, '');
+                    appleIconLink.setAttribute('href', iconPath);
+                }
+            }
+
+            (function initThemeSwitcher() {
+                var opts = SITE_CONFIG.themeOptions;
+                if (!Array.isArray(opts) || opts.length === 0) return;
+                var select = document.getElementById('gorky-theme-select');
+                var link = document.getElementById('theme-palette-stylesheet');
+                if (!select || !link) return;
+
+                function safeName(v) {
+                    v = String(v || '').trim();
+                    if (v.endsWith('.css')) v = v.slice(0, -4).trim();
+                    if (!v || v.length > 96 || !/^[a-zA-Z0-9_-]+$/.test(v)) return '';
+                    return v;
+                }
+
+                var allowed = {};
+                opts.forEach(function (o) {
+                    var s = safeName(o);
+                    if (s) allowed[s] = true;
+                });
+                var buildTheme = safeName(SITE_CONFIG.theme) || 'default';
+                allowed[buildTheme] = true;
+
+                function applyTheme(name) {
+                    var n = safeName(name);
+                    if (!n || !allowed[n]) return;
+                    link.setAttribute('href', ASSET_PREFIX + 'styles/themes/' + n + '.css');
+                    try { localStorage.setItem('gorky-theme', n); } catch (err) {}
+                    select.value = n;
+                }
+
+                var stored = '';
+                try { stored = localStorage.getItem('gorky-theme') || ''; } catch (err) {}
+                if (stored && allowed[stored]) {
+                    applyTheme(stored);
+                }
+
+                select.addEventListener('change', function () {
+                    applyTheme(select.value);
+                });
+            })();
+
+            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
+                const tagParam = new URLSearchParams(window.location.search).get('tag');
+                if (tagParam) {
+                    const normalizedTag = tagParam.toLowerCase();
+                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
+                    let visibleCount = 0;
+
+                    entries.forEach(function (entry) {
+                        const tags = (entry.getAttribute('data-tags') || '')
+                            .split(',')
+                            .map(function (tag) { return tag.trim().toLowerCase(); });
+                        const matches = tags.includes(normalizedTag);
+                        entry.style.display = matches ? '' : 'none';
+                        if (matches) visibleCount += 1;
+                    });
+
+                    if (visibleCount === 0) {
+                        const notice = document.createElement('p');
+                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
+                        markdownContent.appendChild(notice);
+                    }
+                }
+            }
+
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', toggleSidebar);
+            }
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+
+            document.querySelectorAll('.nav-link').forEach(function (link) {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            if (SITE_CONFIG.goatCounterEnabled && typeof goatcounter !== 'undefined') {
+                goatcounter.count({
+                    path: location.pathname + location.search
+                });
+            }
+        });
+    </script>
+
+    <script>
+        if (SITE_CONFIG.goatCounterEnabled) {
+            const script = document.createElement('script');
+            script.async = true;
+            script.setAttribute('data-goatcounter', 'https://' + SITE_CONFIG.goatCounterCode + '.goatcounter.com/count');
+            if (SITE_CONFIG.allowLocal) script.setAttribute('data-goatcounter-settings', 'allow_local:true');
+            if (SITE_CONFIG.allowFrame) script.setAttribute('data-goatcounter-settings', 'allow_frame:true');
+            if (SITE_CONFIG.noOnload) script.setAttribute('data-goatcounter-settings', 'no_onload:true');
+            script.src = 'https://gc.zgo.at/count.js';
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>
