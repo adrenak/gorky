@@ -49,7 +49,7 @@ To add your own palette, copy **`styles/themes/default.css`** to **`styles/theme
 
 Set optional **`themeOptions`** to an array of theme ids (strings). When present, a **Theme** dropdown appears **above the sidebar footer** so visitors can switch `styles/themes/<id>.css` in the browser.
 
-- The choice is saved in **`localStorage`** under the key **`gorky-theme`** and reapplied on the next visit **only if** that id is still allowed.
+- The choice is saved in **`localStorage`** under a **per-site key** (`gorky-theme:<id>`) so two Gorky sites on the same domain (e.g. `example.com` and `example.com/gorky`) do not overwrite each other. Set **`themeStorageId`** in `site-config.js` (recommended), or Gorky derives a key from **`baseUrl`**, then **`siteName`**, then the page path.
 - **Allowed ids** are every entry in **`themeOptions`** (after normalisation: trimmed, optional `.css` stripped, letters / digits / `-` / `_` only), **plus** the built‑in **`theme`** value from config—which is always permitted even if omitted from the array.
 - If `localStorage` is unavailable or the stored id is no longer allowed, the page keeps the stylesheet from the last build (`theme` in `site-config.js`).
 

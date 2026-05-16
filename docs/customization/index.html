@@ -365,6 +365,7 @@
                       "appleTouchIcon": "apple-touch-icon.png",
                       "avatar": "content/images/gorky.jpg",
                       "theme": "default",
+                      "themeStorageId": "gorky-docs",
                       "themeOptions": [
                                 "default",
                                 "candy",
@@ -493,18 +494,57 @@
                 var buildTheme = safeName(SITE_CONFIG.theme) || 'default';
                 allowed[buildTheme] = true;
 
-                function applyTheme(name) {
+                function themeStorageKey() {
+                    var id = SITE_CONFIG.themeStorageId;
+                    if (typeof id === 'string') {
+                        id = id.trim();
+                        if (id && id.length <= 96 && /^[a-zA-Z0-9_-]+$/.test(id)) {
+                            return 'gorky-theme:' + id;
+                        }
+                    }
+                    var base = SITE_CONFIG.baseUrl;
+                    if (base && typeof base === 'string') {
+                        try {
+                            var u = new URL(base, window.location.href);
+                            var pathKey = u.pathname.replace(/^\/+|\/+$/g, '').replace(/\//g, '--') || 'root';
+                            return 'gorky-theme:' + pathKey;
+                        } catch (err) {}
+                    }
+                    if (SITE_CONFIG.siteName) {
+                        var slug = String(SITE_CONFIG.siteName).trim().toLowerCase()
+                            .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                        if (slug) return 'gorky-theme:' + slug;
+                    }
+                    var pagePath = window.location.pathname.replace(/\/index\.html$/i, '')
+                        .replace(/^\/+|\/+$/g, '').replace(/\//g, '--') || 'root';
+                    return 'gorky-theme:' + pagePath;
+                }
+
+                var storageKey = themeStorageKey();
+
+                function applyTheme(name, persist) {
                     var n = safeName(name);
                     if (!n || !allowed[n]) return;
                     link.setAttribute('href', ASSET_PREFIX + 'styles/themes/' + n + '.css');
-                    try { localStorage.setItem('gorky-theme', n); } catch (err) {}
+                    if (persist !== false) {
+                        try { localStorage.setItem(storageKey, n); } catch (err) {}
+                    }
                     select.value = n;
                 }
 
                 var stored = '';
-                try { stored = localStorage.getItem('gorky-theme') || ''; } catch (err) {}
+                try {
+                    stored = localStorage.getItem(storageKey) || '';
+                    if (!stored) {
+                        var legacy = localStorage.getItem('gorky-theme') || '';
+                        if (legacy && allowed[legacy]) {
+                            stored = legacy;
+                            localStorage.setItem(storageKey, legacy);
+                        }
+                    }
+                } catch (err) {}
                 if (stored && allowed[stored]) {
-                    applyTheme(stored);
+                    applyTheme(stored, false);
                 }
 
                 select.addEventListener('change', function () {

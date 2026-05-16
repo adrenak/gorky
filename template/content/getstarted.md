@@ -67,7 +67,7 @@ This configuration is automatically injected into your site during the build pro
 ### Theming
 
 - Set **`theme`** in `site-config.js` to a palette id: the file **`styles/themes/<theme>.css`** (no `.css` suffix in config). Gorky ships many built‑in palettes; you can add your own `.css` file next to them.
-- Optional **`themeOptions`**: an array of palette ids. When set, a **Theme** dropdown appears above the sidebar footer. The visitor’s choice is stored in **`localStorage`** under **`gorky-theme`** and reapplied on later visits if that id is still allowed (see the Customization guide for rules).
+- Optional **`themeOptions`**: an array of palette ids. When set, a **Theme** dropdown appears above the sidebar footer. The visitor’s choice is stored in **`localStorage`** per site (**`themeStorageId`** in `site-config.js`, or derived from **`baseUrl`**) and reapplied on later visits if that id is still allowed (see the Customization guide for rules).
 
 For carousel/code palette variables, Prism behaviour, and (in the Gorky source repo) **`npm run build:docs`** / **`template/styles`**, read **[Customization](customization/)**.
 

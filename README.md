@@ -80,7 +80,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Tag Filtering**: Filter posts by tag at `posts/?tag=name`
 - ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
-- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` and `theme` / optional `themeOptions` in `site-config.js` (visitor picks persist in `localStorage` as `gorky-theme`; carousel & code colors use `--color-*` variables in each palette)
+- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` and `theme` / optional `themeOptions` in `site-config.js` (visitor picks persist in `localStorage` per site via `themeStorageId` or `baseUrl`; carousel & code colors use `--color-*` variables in each palette)
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
 ## Repository layout
@@ -124,7 +124,8 @@ module.exports = {
   theme: 'default',
 
   // Optional: sidebar theme dropdown (above footer). Same ids as `styles/themes/<id>.css`.
-  // Choice stored in localStorage key `gorky-theme` when the visitor changes the select.
+  themeStorageId: 'my-site', // scopes localStorage so / and /gorky on one domain stay independent
+  // Choice stored per site when the visitor changes the theme select.
   themeOptions: ['default', 'simple-dark', 'ocean'],
 
   // GoatCounter Analytics (optional)

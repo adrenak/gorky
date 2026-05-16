@@ -17,8 +17,16 @@ module.exports = {
     theme: 'default',
 
     /**
+     * Scopes the visitor's theme choice in localStorage so multiple Gorky sites on the same
+     * domain (e.g. example.com and example.com/gorky) do not share one preference.
+     * Use letters, digits, hyphen, underscore only. If omitted, derived from baseUrl pathname,
+     * then siteName, then the current page path.
+     */
+    themeStorageId: '',
+
+    /**
      * Optional: theme ids shown in a sidebar dropdown (above the footer). Visitors can switch
-     * palettes live; choice is stored in localStorage (`gorky-theme`) when they change the select.
+     * palettes live; choice is stored in localStorage (per themeStorageId / site) when they change the select.
      * Only basenames already valid for `theme` (letters, digits, `-`, `_`) are used; the built
      * `theme` value is always allowed as well.
      */

@@ -16,9 +16,12 @@ module.exports = {
      */
     theme: 'default',
 
+    /** Isolates theme preference from other sites on the same origin (see template site-config). */
+    themeStorageId: 'gorky-docs',
+
     /**
      * Optional: theme ids for a sidebar dropdown (above the footer). Live palette switch.
-     * Choice is stored in localStorage as `gorky-theme` if the visitor changes the select;
+     * Choice is stored in localStorage per site if the visitor changes the select;
      * only ids in this array (after normalisation) plus the configured `theme` are allowed.
      */
     themeOptions: [

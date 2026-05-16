@@ -50,6 +50,6 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Analytics Ready**: Built-in support for GoatCounter analytics
-- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` via `theme` in `site-config.js`; each palette sets **`--color-*`**, **fonts**, and **font sizes**. Optional visitor **Theme** dropdown (`themeOptions`) with choice persisted in **`localStorage`** (`gorky-theme`).
+- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` via `theme` in `site-config.js`; each palette sets **`--color-*`**, **fonts**, and **font sizes**. Optional visitor **Theme** dropdown (`themeOptions`) with choice persisted in **`localStorage`** per site (`themeStorageId` / `baseUrl`).
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
