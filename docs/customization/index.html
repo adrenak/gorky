@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Learn how to customize fonts, colors, and styling to make your website unique" id="meta-description">
     <meta name="keywords" content="customization, styling, fonts, colors, CSS, theme" id="meta-keywords">
-    <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/customization/" id="canonical-link">
+    <link rel="canonical" href="https://adrenak.github.io/gorky/customization/" id="canonical-link">
     <meta property="og:title" content="Customization">
     <meta property="og:description" content="Learn how to customize fonts, colors, and styling to make your website unique">
-    <meta property="og:url" content="https://adrenak.github.io/gorky/deliver/customization/">
+    <meta property="og:url" content="https://adrenak.github.io/gorky/customization/">
     <meta property="og:site_name" content="Gorky">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta property="og:image" content="https://adrenak.github.io/gorky/content/images/gorky.jpg">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Customization">
     <meta name="twitter:description" content="Learn how to customize fonts, colors, and styling to make your website unique">
-    <meta name="twitter:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta name="twitter:image" content="https://adrenak.github.io/gorky/content/images/gorky.jpg">
     <title id="page-title">Customization</title>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Customization","description":"Learn how to customize fonts, colors, and styling to make your website unique","url":"https://adrenak.github.io/gorky/deliver/customization/","image":"https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Customization","description":"Learn how to customize fonts, colors, and styling to make your website unique","url":"https://adrenak.github.io/gorky/customization/","image":"https://adrenak.github.io/gorky/content/images/gorky.jpg"}</script>
     <script>
 (function () {
     var search = window.location.search;
@@ -165,7 +165,7 @@
 <li><strong><code>thumbnail</code></strong> in frontmatter (optional on posts/pages that support YAML) sets the preview image (<code>og:image</code>).</li>
 <li>If there is no thumbnail, previews use <strong><code>site-config.js</code></strong> <strong><code>avatar</code></strong> (your portrait/site image), then <strong><code>favicon</code></strong>, then <strong><code>appleTouchIcon</code></strong>.</li>
 </ul>
-<p>Set <strong><code>baseUrl</code></strong> to your deployed site (including <code>/deliver</code> when needed) so image URLs resolve correctly for crawlers.</p>
+<p>Set <strong><code>baseUrl</code></strong> to your deployed site’s public URL (the path GitHub Pages or your host serves—usually <strong>no</strong> <code>/deliver</code> suffix) so image URLs resolve correctly for crawlers.</p>
 <h2>Theming: palettes and <code>site-config.js</code></h2>
 <p><strong>Switch built-in palettes</strong> by setting <code>theme</code> in <code>site-config.js</code> (no <code>.css</code> suffix):</p>
 <ul>
@@ -190,11 +190,11 @@
 <li><code>coralreef</code> — sand shoal, reef teal, coral pink  </li>
 <li><code>finding-nemo</code> — playful reef blue, orange &amp; purple pop</li>
 </ul>
-<p>Each palette file under <strong><code>styles/themes/</code></strong> contains <strong>only</strong> a <code>:root { ... }</code> block (font weights and <code>--color-*</code> variables). <strong><code>styles/theme-shell.css</code></strong> applies those variables to the sidebar, content area, links, and blockquotes.</p>
+<p>Each palette file under <strong><code>styles/themes/</code></strong> is a <code>:root { ... }</code> block plus an optional <strong><code>@import</code></strong> for Google Fonts. Variables include <strong><code>--font-weight-*</code></strong>, <strong><code>--font-family-*</code></strong>, <strong><code>--font-size-*</code></strong>, <strong><code>--line-height-body</code></strong>, and <strong><code>--color-*</code></strong>. <strong><code>styles/theme-shell.css</code></strong>, <strong><code>layout.css</code></strong>, and <strong><code>content.css</code></strong> consume those tokens for typography and layout.</p>
 <p>To add your own palette, copy <strong><code>styles/themes/default.css</code></strong> to <strong><code>styles/themes/mybrand.css</code></strong> (use letters, digits, hyphen, underscore only in the filename), and set <strong><code>theme: &#39;mybrand&#39;</code></strong> in <strong><code>site-config.js</code></strong>. It loads automatically at build time.</p>
 <p>Set optional <strong><code>themeOptions</code></strong> to an array of theme ids (strings). When present, a <strong>Theme</strong> dropdown appears <strong>above the sidebar footer</strong> so visitors can switch <code>styles/themes/&lt;id&gt;.css</code> in the browser.</p>
 <ul>
-<li>The choice is saved in <strong><code>localStorage</code></strong> under the key <strong><code>gorky-theme</code></strong> and reapplied on the next visit <strong>only if</strong> that id is still allowed.</li>
+<li>The choice is saved in <strong><code>localStorage</code></strong> under a <strong>per-site key</strong> (<code>gorky-theme:&lt;id&gt;</code>) so two Gorky sites on the same domain (e.g. <code>example.com</code> and <code>example.com/gorky</code>) do not overwrite each other. Set <strong><code>themeStorageId</code></strong> in <code>site-config.js</code> (recommended), or Gorky derives a key from <strong><code>baseUrl</code></strong>, then <strong><code>siteName</code></strong>, then the page path.</li>
 <li><strong>Allowed ids</strong> are every entry in <strong><code>themeOptions</code></strong> (after normalisation: trimmed, optional <code>.css</code> stripped, letters / digits / <code>-</code> / <code>_</code> only), <strong>plus</strong> the built‑in <strong><code>theme</code></strong> value from config—which is always permitted even if omitted from the array.</li>
 <li>If <code>localStorage</code> is unavailable or the stored id is no longer allowed, the page keeps the stylesheet from the last build (<code>theme</code> in <code>site-config.js</code>).</li>
 </ul>
@@ -247,12 +247,12 @@
 </li>
 </ul>
 <h3>Upstream Gorky repository vs a <code>gorky init</code> project</h3>
-<p><strong>If you cloned the Gorky source repo:</strong> <code>npm run build:docs</code> copies <strong><code>template/styles</code> → <code>docs/styles</code></strong> before building <strong><code>docs/deliver/</code></strong>. To change CSS that ships with <strong><code>gorky init</code></strong>, edit <strong><code>template/styles/</code></strong>, then run <strong><code>npm run build:docs</code></strong> to refresh the showcase. Do not rely on editing <strong><code>docs/styles/</code></strong> by itself—it is overwritten by that sync.</p>
+<p><strong>If you cloned the Gorky source repo:</strong> <code>npm run build:docs</code> copies <strong><code>template/styles</code> → <code>docs/styles</code></strong>, then runs <strong><code>gorky build</code></strong> inside <strong><code>docs/</code></strong> with <strong><code>outputDir: &#39;&#39;</code></strong> so the showcase is written into <strong><code>docs/</code></strong> for GitHub Pages (<strong>Settings → Pages → <code>/docs</code></strong>). To change CSS that ships with <strong><code>gorky init</code></strong>, edit <strong><code>template/styles/</code></strong>, then run <strong><code>npm run build:docs</code></strong>. Do not rely on editing <strong><code>docs/styles/</code></strong> by itself—it is overwritten by that sync.</p>
 <p><strong>If you created a site with <code>gorky init</code>:</strong> your project only has <strong><code>styles/</code></strong> at the site root. There is no <code>template/</code> → <code>docs/</code> sync; run <strong><code>gorky build</code></strong> as usual.</p>
 <h2>CSS File Structure</h2>
 <ul>
-<li><strong><code>styles/themes/&lt;palette&gt;.css</code></strong> ⭐ — Color and weight variables (<code>:root</code>) for the active <code>theme</code></li>
-<li><strong><code>styles/theme-shell.css</code></strong> — Rules that use those variables (body font, sidebar, links, etc.)</li>
+<li><strong><code>styles/themes/&lt;palette&gt;.css</code></strong> ⭐ — Palette variables (<code>:root</code>) and optional <code>@import</code> for fonts</li>
+<li><strong><code>styles/theme-shell.css</code></strong> — Rules that use those variables (body, sidebar, links, etc.)</li>
 <li><strong><code>styles/base.css</code></strong> — CSS reset and container layout (rarely needs editing)</li>
 <li><strong><code>styles/layout.css</code></strong> — Layout structure, sidebar, navigation, and spacing</li>
 <li><strong><code>styles/content.css</code></strong> — Article typography, posts list, Splide carousels, Prism/code overrides, images, blockquotes in <code>#markdown-content</code></li>
@@ -260,53 +260,63 @@
 <li><strong><code>styles/responsive.css</code></strong> — Responsive breakpoints and mobile menu</li>
 </ul>
 <h2>Customizing Fonts</h2>
-<h3>Main Body Font</h3>
-<p>The main font for all content is set in <code>styles/theme-shell.css</code>:</p>
-<pre><code class="language-css">body {
-    font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+<p>Built-in palettes ship with <strong>font families and sizes</strong> tuned to each look (e.g. <strong>magazine</strong> uses Playfair Display + Source Sans 3; <strong>hacker</strong> uses Share Tech Mono throughout). Set them in your active <strong><code>styles/themes/&lt;theme&gt;.css</code></strong> file—<strong>not</strong> in <code>theme-shell.css</code>.</p>
+<h3>Typography variables (per theme)</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--font-family-body</code></td>
+<td>Body, nav, and paragraphs</td>
+</tr>
+<tr>
+<td><code>--font-family-heading</code></td>
+<td>Sidebar title and article <code>h1</code>–<code>h3</code> (often matches body or a display face)</td>
+</tr>
+<tr>
+<td><code>--font-family-mono</code></td>
+<td>Inline code and fenced blocks</td>
+</tr>
+<tr>
+<td><code>--font-size-body</code></td>
+<td>Base text size (default <code>1rem</code>)</td>
+</tr>
+<tr>
+<td><code>--font-size-h1</code>, <code>--font-size-h2</code>, <code>--font-size-h3</code></td>
+<td>Article headings</td>
+</tr>
+<tr>
+<td><code>--font-size-sidebar-title</code>, <code>--font-size-nav</code>, <code>--font-size-footer</code>, …</td>
+<td>Chrome sizes (see <code>default.css</code>)</td>
+</tr>
+<tr>
+<td><code>--line-height-body</code></td>
+<td>Reading column line height (<code>.main-content</code>)</td>
+</tr>
+<tr>
+<td><code>--font-weight-*</code></td>
+<td>Body, heading, nav, and section-label weights</td>
+</tr>
+</tbody></table>
+<p><strong>Google Fonts:</strong> add an <code>@import</code> at the top of your palette file (built-in themes already do this when needed):</p>
+<pre><code class="language-css">@import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap&#39;);
+
+:root {
+    --font-family-body: &#39;Inter&#39;, -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, sans-serif;
+    --font-family-heading: var(--font-family-body);
+    --font-family-mono: &#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace;
+    /* --font-size-* and --color-* … */
 }
 </code></pre>
-<p><strong>To change it</strong>, edit <code>styles/theme-shell.css</code> and replace with your preferred font:</p>
-<pre><code class="language-css">body {
-    font-family: &#39;Your Font Name&#39;, sans-serif;
-}
-</code></pre>
-<p><strong>Using Google Fonts:</strong></p>
-<ol>
-<li><p>Add the font link in <code>base.html</code> (in the <code>&lt;head&gt;</code> section):</p>
-<pre><code class="language-html">&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
-</code></pre>
-</li>
-<li><p>Update <code>styles/theme-shell.css</code>:</p>
-<pre><code class="language-css">body {
-    font-family: &#39;Inter&#39;, sans-serif;
-}
-</code></pre>
-</li>
-</ol>
-<p><strong>Popular font choices:</strong></p>
-<ul>
-<li><code>&#39;Inter&#39;, sans-serif</code> - Modern, clean sans-serif</li>
-<li><code>&#39;Merriweather&#39;, serif</code> - Readable serif font</li>
-<li><code>&#39;Playfair Display&#39;, serif</code> - Elegant serif</li>
-</ul>
-<h3>Code Font</h3>
-<p>Code blocks and inline code use a monospace font. Edit <code>styles/theme-shell.css</code>:</p>
-<pre><code class="language-css">#markdown-content code,
-#markdown-content pre {
-    font-family: &#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace;
-}
-</code></pre>
-<p><strong>Popular monospace fonts:</strong></p>
-<ul>
-<li><code>&#39;JetBrains Mono&#39;</code> - Modern monospace (already included via Google Fonts)</li>
-<li><code>&#39;Fira Code&#39;</code> - Programming font with ligatures</li>
-<li><code>&#39;Source Code Pro&#39;</code> - Clean code font</li>
-</ul>
+<p>When a visitor switches themes in the sidebar dropdown, the new palette stylesheet loads and fonts update with it. You do <strong>not</strong> need a global font <code>&lt;link&gt;</code> in <code>base.html</code>.</p>
 <h2>Customizing Colors</h2>
 <p>Palette files only define <strong>CSS variables</strong> on <code>:root</code>. Set <strong><code>theme</code></strong> in <strong><code>site-config.js</code></strong> to the filename without <code>.css</code> (e.g. <code>simple-dark</code>).</p>
 <p><strong>Built-in values:</strong> <code>default</code>, <code>thematrix</code>, <code>desert</code>, <code>candy</code>, <code>simple-light</code>, <code>simple-dark</code>, <code>hacker</code>, <code>dollhouse</code>, <code>pulpfiction</code>, <code>earthy</code>, <code>typewriter</code>, <code>magazine</code>, <code>frost</code>, <code>forest</code>, <code>futurism</code>, <code>cyberpunk</code>, <code>fallout</code>, <code>rustpunk</code>, <code>utopia</code>, <code>hellhole</code>, <code>vicecity</code>, <code>ocean</code>, <code>underwater</code>, <code>coralreef</code>, <code>finding-nemo</code>.</p>
-<p>Edit the corresponding file under <strong><code>styles/themes/</code></strong> (for example <strong><code>styles/themes/default.css</code></strong>) to change <code>--color-sidebar-bg</code>, <code>--color-accent</code>, <code>--color-content-bg</code>, <code>--color-code-bg</code>, <code>--color-carousel-bg</code>, carousel arrow / pagination variables, and (on dark themes) <strong><code>--color-code-*</code></strong> syntax tokens. <strong><code>--font-weight-*</code></strong> entries control heading/nav weights. Layout components read most colors in <strong><code>styles/theme-shell.css</code></strong>; carousels, code/Prism overrides, and article typography use <strong><code>styles/content.css</code></strong> — edit <strong><code>theme-shell.css</code></strong> / <strong><code>content.css</code></strong> when you need different selectors or structure, not just different color values.</p>
+<p>Edit the corresponding file under <strong><code>styles/themes/</code></strong> (for example <strong><code>styles/themes/default.css</code></strong>) to change colors, typography tokens, and weights. Layout components read most colors in <strong><code>styles/theme-shell.css</code></strong>; carousels, code/Prism overrides, and article typography use <strong><code>styles/content.css</code></strong> — edit those only when you need different selectors or structure, not just different token values.</p>
 <p>Example (abbreviated):</p>
 <pre><code class="language-css">:root {
     --color-content-bg: #ECE3D4;
@@ -321,16 +331,16 @@
 <p>In <code>site-config.js</code>:</p>
 <pre><code class="language-js">theme: &#39;simple-dark&#39;,
 </code></pre>
-<p>Other one-line tries: <code>&#39;ocean&#39;</code>, <code>&#39;underwater&#39;</code>, <code>&#39;coralreef&#39;</code>, <code>&#39;finding-nemo&#39;</code>, <code>&#39;fallout&#39;</code>, etc. Rebuild with <code>gorky build</code> and open <code>deliver/</code> to preview.</p>
+<p>Other one-line tries: <code>&#39;ocean&#39;</code>, <code>&#39;underwater&#39;</code>, <code>&#39;coralreef&#39;</code>, <code>&#39;finding-nemo&#39;</code>, <code>&#39;fallout&#39;</code>, etc. Rebuild with <code>gorky build</code> and preview your output folder (site root or <code>deliver/</code>, per <code>outputDir</code>).</p>
 <p>Themes are <strong>not</strong> whitelisted in Gorky: any safe basename maps to <strong><code>styles/themes/&lt;theme&gt;.css</code></strong>. Use letters, digits, <strong><code>-</code></strong>, <strong><code>_</code></strong> only; invalid values fall back to <strong><code>default</code></strong>.</p>
 <h2>Content spacing</h2>
 <h3>Line spacing</h3>
-<p>Line height for the reading column is set in <code>styles/theme-shell.css</code> on <code>.main-content</code> (default <code>1.7</code>). Increase or decrease for tighter or roomier paragraphs.</p>
+<p>Line height for the reading column is <strong><code>--line-height-body</code></strong> in your palette (default <code>1.7</code>).</p>
 <h2>Tips</h2>
 <ol>
 <li><p><strong>Start with <code>theme</code> and a palette file</strong> — pick a built-in <code>theme</code>, then tweak variables in the matching <code>styles/themes/&lt;theme&gt;.css</code> before editing <code>theme-shell.css</code>.</p>
 </li>
-<li><p><strong>Test your changes</strong>: After modifying CSS, run <code>gorky build</code> and check pages in <code>deliver/</code>.</p>
+<li><p><strong>Test your changes</strong>: After modifying CSS, run <code>gorky build</code> and check the generated HTML in your configured output directory.</p>
 </li>
 <li><p><strong>Browser DevTools</strong>: Use your browser&#39;s developer tools (F12) to inspect elements and test color changes in real-time before editing files.</p>
 </li>
@@ -343,7 +353,7 @@
 <ul>
 <li><strong>Colors</strong> — your active <code>styles/themes/&lt;theme&gt;.css</code> and <code>site-config.js</code> <code>theme</code>  </li>
 <li><strong>Carousels / fenced code (Prism)</strong> — <code>styles/content.css</code> + variables in <code>styles/themes/&lt;theme&gt;.css</code>  </li>
-<li><strong>Fonts / layout shell</strong> — <code>styles/theme-shell.css</code> first  </li>
+<li><strong>Fonts / sizes</strong> — <code>styles/themes/&lt;theme&gt;.css</code> typography variables; shared rules in <code>theme-shell.css</code> / <code>content.css</code>  </li>
 <li>Read the comments in each CSS file - they describe what each section controls  </li>
 <li>Use browser DevTools to inspect elements and see which CSS file controls them  </li>
 <li>Test changes incrementally - change one thing at a time to see the effect</li>
@@ -356,7 +366,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script>
         const SITE_CONFIG =             {
-                      "baseUrl": "https://adrenak.github.io/gorky/deliver",
+                      "baseUrl": "https://adrenak.github.io/gorky",
                       "siteName": "Gorky",
                       "authorName": "Vatsal Ambastha",
                       "defaultDescription": "Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.",

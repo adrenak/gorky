@@ -16,7 +16,7 @@ All generated pages include **Open Graph** and **Twitter Card** meta tags for Di
 - **`thumbnail`** in frontmatter (optional on posts/pages that support YAML) sets the preview image (`og:image`).
 - If there is no thumbnail, previews use **`site-config.js`** **`avatar`** (your portrait/site image), then **`favicon`**, then **`appleTouchIcon`**.
 
-Set **`baseUrl`** to your deployed site (including `/deliver` when needed) so image URLs resolve correctly for crawlers.
+Set **`baseUrl`** to your deployed site’s public URL (the path GitHub Pages or your host serves—usually **no** `/deliver` suffix) so image URLs resolve correctly for crawlers.
 
 ## Theming: palettes and `site-config.js`
 
@@ -82,7 +82,7 @@ The **active** dot uses **`--color-accent`** (not a separate variable).
 
 ### Upstream Gorky repository vs a `gorky init` project
 
-**If you cloned the Gorky source repo:** `npm run build:docs` copies **`template/styles` → `docs/styles`** before building **`docs/deliver/`**. To change CSS that ships with **`gorky init`**, edit **`template/styles/`**, then run **`npm run build:docs`** to refresh the showcase. Do not rely on editing **`docs/styles/`** by itself—it is overwritten by that sync.
+**If you cloned the Gorky source repo:** `npm run build:docs` copies **`template/styles` → `docs/styles`**, then runs **`gorky build`** inside **`docs/`** with **`outputDir: ''`** so the showcase is written into **`docs/`** for GitHub Pages (**Settings → Pages → `/docs`**). To change CSS that ships with **`gorky init`**, edit **`template/styles/`**, then run **`npm run build:docs`**. Do not rely on editing **`docs/styles/`** by itself—it is overwritten by that sync.
 
 **If you created a site with `gorky init`:** your project only has **`styles/`** at the site root. There is no `template/` → `docs/` sync; run **`gorky build`** as usual.
 
@@ -157,7 +157,7 @@ In `site-config.js`:
 theme: 'simple-dark',
 ```
 
-Other one-line tries: `'ocean'`, `'underwater'`, `'coralreef'`, `'finding-nemo'`, `'fallout'`, etc. Rebuild with `gorky build` and open `deliver/` to preview.
+Other one-line tries: `'ocean'`, `'underwater'`, `'coralreef'`, `'finding-nemo'`, `'fallout'`, etc. Rebuild with `gorky build` and preview your output folder (site root or `deliver/`, per `outputDir`).
 
 Themes are **not** whitelisted in Gorky: any safe basename maps to **`styles/themes/<theme>.css`**. Use letters, digits, **`-`**, **`_`** only; invalid values fall back to **`default`**.
 
@@ -171,7 +171,7 @@ Line height for the reading column is **`--line-height-body`** in your palette (
 
 1. **Start with `theme` and a palette file** — pick a built-in `theme`, then tweak variables in the matching `styles/themes/<theme>.css` before editing `theme-shell.css`.
 
-2. **Test your changes**: After modifying CSS, run `gorky build` and check pages in `deliver/`.
+2. **Test your changes**: After modifying CSS, run `gorky build` and check the generated HTML in your configured output directory.
 
 3. **Browser DevTools**: Use your browser's developer tools (F12) to inspect elements and test color changes in real-time before editing files.
 

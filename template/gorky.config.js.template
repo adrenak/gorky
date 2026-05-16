@@ -4,17 +4,18 @@
 module.exports = {
   // Content directory where your markdown files are stored
   contentDir: 'content',
-  
-  // Output directory for generated HTML pages
+
+  // Where generated HTML is written:
+  //   'deliver' — subfolder (default; good for local preview)
+  //   '' or '.' — project root (use for GitHub Pages /docs or branch root)
   outputDir: 'deliver',
-  
+
   // Home page file name inside the output directory
   outputFile: 'index.html',
-  
+
   // Template file name
   templateFile: 'base.html',
-  
+
   // Styles directory
   stylesDir: 'styles'
 };
-

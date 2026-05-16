@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Learn how to set up and customize your Gorky website" id="meta-description">
     <meta name="keywords" content="getting started, setup, configuration, tutorial, guide" id="meta-keywords">
-    <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/getstarted/" id="canonical-link">
+    <link rel="canonical" href="https://adrenak.github.io/gorky/getstarted/" id="canonical-link">
     <meta property="og:title" content="Get Started">
     <meta property="og:description" content="Learn how to set up and customize your Gorky website">
-    <meta property="og:url" content="https://adrenak.github.io/gorky/deliver/getstarted/">
+    <meta property="og:url" content="https://adrenak.github.io/gorky/getstarted/">
     <meta property="og:site_name" content="Gorky">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta property="og:image" content="https://adrenak.github.io/gorky/content/images/gorky.jpg">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Get Started">
     <meta name="twitter:description" content="Learn how to set up and customize your Gorky website">
-    <meta name="twitter:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta name="twitter:image" content="https://adrenak.github.io/gorky/content/images/gorky.jpg">
     <title id="page-title">Get Started</title>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Get Started","description":"Learn how to set up and customize your Gorky website","url":"https://adrenak.github.io/gorky/deliver/getstarted/","image":"https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Get Started","description":"Learn how to set up and customize your Gorky website","url":"https://adrenak.github.io/gorky/getstarted/","image":"https://adrenak.github.io/gorky/content/images/gorky.jpg"}</script>
     <script>
 (function () {
     var search = window.location.search;
@@ -170,6 +170,15 @@
 <p>Or install locally in your project:</p>
 <pre><code class="language-bash">npm install --save-dev gorky
 </code></pre>
+<h3>Create a new site</h3>
+<p>Scaffold a project with example content, styles, and config files:</p>
+<pre><code class="language-bash">gorky init my-site
+cd my-site
+</code></pre>
+<p>That creates a folder with <code>content/</code>, <code>styles/</code>, <code>base.html</code>, <code>site-config.js</code>, <code>gorky.config.js</code>, and optional GitHub Actions workflow. To initialize in the current directory instead:</p>
+<pre><code class="language-bash">gorky init
+</code></pre>
+<p>Skip this step if you already have a Gorky project (for example you cloned a repo that already contains those files).</p>
 <h3>Building Your Site</h3>
 <p>Build your site using the Gorky CLI:</p>
 <pre><code class="language-bash">gorky build
@@ -177,32 +186,174 @@
 <p>Or use npm:</p>
 <pre><code class="language-bash">npm run build
 </code></pre>
-<p>This generates HTML pages in the <code>deliver/</code> directory from your markdown files.</p>
+<p>This generates HTML from your markdown. Paths and output location come from <strong><code>gorky.config.js</code></strong> (see below).</p>
 <h2>Configuration</h2>
-<h3>Site-Wide Configuration</h3>
+<p>Gorky uses two config files at your site root:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>gorky.config.js</code></strong></td>
+<td>Build paths — where sources live and where HTML is written</td>
+</tr>
+<tr>
+<td><strong><code>site-config.js</code></strong></td>
+<td>Site identity — <code>baseUrl</code>, navigation, themes, analytics</td>
+</tr>
+</tbody></table>
+<p>Both are created by <strong><code>gorky init</code></strong>. You can omit <code>gorky.config.js</code>; Gorky then uses built-in defaults.</p>
+<h3>Build configuration (<code>gorky.config.js</code>)</h3>
+<p>Controls how <strong><code>gorky build</code></strong> finds your template, content, and styles, and where it writes the static site.</p>
+<pre><code class="language-javascript">module.exports = {
+  contentDir: &#39;content&#39;,      // Markdown pages and posts
+  outputDir: &#39;deliver&#39;,       // &#39;&#39; or &#39;.&#39; = build into site root (GitHub Pages)
+  outputFile: &#39;index.html&#39;,     // Home page filename inside outputDir
+  templateFile: &#39;base.html&#39;,    // HTML shell with {{placeholders}}
+  stylesDir: &#39;styles&#39;           // CSS directory (copied into output)
+};
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>contentDir</code></td>
+<td><code>&#39;content&#39;</code></td>
+<td>Folder with <code>home.md</code>, custom pages, and <code>posts/</code></td>
+</tr>
+<tr>
+<td><code>outputDir</code></td>
+<td><code>&#39;deliver&#39;</code></td>
+<td>Folder for generated HTML, or <code>&#39;&#39;</code> / <code>&#39;.&#39;</code> for site root</td>
+</tr>
+<tr>
+<td><code>outputFile</code></td>
+<td><code>&#39;index.html&#39;</code></td>
+<td>Home page filename (inside <code>outputDir</code>, or at root when <code>outputDir</code> is empty)</td>
+</tr>
+<tr>
+<td><code>templateFile</code></td>
+<td><code>&#39;base.html&#39;</code></td>
+<td>Page template at the site root</td>
+</tr>
+<tr>
+<td><code>stylesDir</code></td>
+<td><code>&#39;styles&#39;</code></td>
+<td>Stylesheets; theme palettes live in <code>styles/themes/</code></td>
+</tr>
+</tbody></table>
+<p><strong>CLI overrides</strong> (useful in CI or one-off builds; otherwise <code>gorky.config.js</code> wins):</p>
+<pre><code class="language-bash">gorky build -c content -d &#39;&#39; -o index.html -t base.html -s styles
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Config key</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-c, --content</code></td>
+<td><code>contentDir</code></td>
+</tr>
+<tr>
+<td><code>-d, --output-dir</code></td>
+<td><code>outputDir</code></td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td><code>outputFile</code></td>
+</tr>
+<tr>
+<td><code>-t, --template</code></td>
+<td><code>templateFile</code></td>
+</tr>
+<tr>
+<td><code>-s, --styles</code></td>
+<td><code>stylesDir</code></td>
+</tr>
+</tbody></table>
+<p>Run <strong><code>gorky build</code></strong> from the directory that contains <code>gorky.config.js</code> (your site root, or <code>docs/</code> if the site lives there).</p>
+<h4>Output directory</h4>
+<table>
+<thead>
+<tr>
+<th><code>outputDir</code></th>
+<th>Build writes to</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&#39;deliver&#39;</code></td>
+<td><code>deliver/index.html</code>, …</td>
+<td>Local preview; upload <strong><code>deliver/</code></strong> to hosts that accept a publish subfolder</td>
+</tr>
+<tr>
+<td><code>&#39;&#39;</code> or <code>&#39;.&#39;</code></td>
+<td><code>index.html</code> next to <code>content/</code></td>
+<td><strong>GitHub Pages</strong> from <strong><code>/docs</code></strong> or <strong>branch root</strong></td>
+</tr>
+</tbody></table>
+<p>When <code>outputDir</code> is empty, Gorky only removes previous <strong>generated</strong> files (HTML routes, <code>README.txt</code>), not your source <code>content/</code> or config files.</p>
+<p><strong>GitHub Pages example</strong> — site under <code>docs/</code>:</p>
+<pre><code class="language-javascript">// docs/gorky.config.js
+module.exports = {
+  contentDir: &#39;content&#39;,
+  outputDir: &#39;&#39;,
+  outputFile: &#39;index.html&#39;,
+  templateFile: &#39;base.html&#39;,
+  stylesDir: &#39;styles&#39;
+};
+</code></pre>
+<p>Then from <code>docs/</code>: <code>gorky build</code>. Enable <strong>Settings → Pages → <code>/docs</code></strong>.</p>
+<h3>Site-wide configuration (<code>site-config.js</code>)</h3>
 <p>Edit <code>site-config.js</code> in your project root to customize site-wide settings:</p>
 <pre><code class="language-javascript">module.exports = {
-    baseUrl: &#39;https://yourusername.github.io/your-repo/deliver&#39;,  // Include /deliver
-    siteName: &#39;My Site&#39;,                                   // Your site name
-    authorName: &#39;Your Name&#39;,                               // Default author name
-    defaultDescription: &#39;Your site description...&#39;,       // Default meta description
-    defaultKeywords: &#39;keyword1, keyword2&#39;,                 // Default meta keywords
-    favicon: &#39;favicon.ico&#39;,                                // Optional: path to favicon
-    appleTouchIcon: &#39;apple-touch-icon.png&#39;                 // Optional: path to Apple touch icon
+    baseUrl: &#39;https://yourusername.github.io/your-repo&#39;,  // Public URL of the built site (no /deliver)
+    siteName: &#39;My Site&#39;,
+    authorName: &#39;Your Name&#39;,
+    defaultDescription: &#39;Your site description...&#39;,
+    defaultKeywords: &#39;keyword1, keyword2&#39;,
+    favicon: &#39;favicon.ico&#39;,
+    appleTouchIcon: &#39;apple-touch-icon.png&#39;
 };
 </code></pre>
 <p>This configuration is automatically injected into your site during the build process.</p>
 <h3>Theming</h3>
 <ul>
 <li>Set <strong><code>theme</code></strong> in <code>site-config.js</code> to a palette id: the file <strong><code>styles/themes/&lt;theme&gt;.css</code></strong> (no <code>.css</code> suffix in config). Gorky ships many built‑in palettes; you can add your own <code>.css</code> file next to them.</li>
-<li>Optional <strong><code>themeOptions</code></strong>: an array of palette ids. When set, a <strong>Theme</strong> dropdown appears above the sidebar footer. The visitor’s choice is stored in <strong><code>localStorage</code></strong> under <strong><code>gorky-theme</code></strong> and reapplied on later visits if that id is still allowed (see the Customization guide for rules).</li>
+<li>Optional <strong><code>themeOptions</code></strong>: an array of palette ids. When set, a <strong>Theme</strong> dropdown appears above the sidebar footer. The visitor’s choice is stored in <strong><code>localStorage</code></strong> per site (<strong><code>themeStorageId</code></strong> in <code>site-config.js</code>, or derived from <strong><code>baseUrl</code></strong>) and reapplied on later visits if that id is still allowed (see the Customization guide for rules).</li>
 </ul>
-<p>For carousel/code palette variables, Prism behaviour, and <strong><code>npm run build:docs</code></strong> / <strong><code>template/styles</code></strong> in the Gorky repo, read <strong><a href="customization/">Customization</a></strong>.</p>
-<p><strong>Important:</strong> Set <code>baseUrl</code> to your published site URL, including the <code>/deliver</code> path:</p>
-<ul>
-<li>Repo <code>username/my-site</code>: <code>https://username.github.io/my-site/deliver</code></li>
-<li>User site repo <code>username.github.io</code>: <code>https://username.github.io/deliver</code></li>
-</ul>
+<p>For carousel/code palette variables, Prism behaviour, and (in the Gorky source repo) <strong><code>npm run build:docs</code></strong> / <strong><code>template/styles</code></strong>, read <strong><a href="customization/">Customization</a></strong>.</p>
+<p><strong>Important:</strong> Set <strong><code>baseUrl</code></strong> to the URL where visitors open your <strong>built</strong> site—the path GitHub Pages (or your host) actually serves. Do <strong>not</strong> append <code>/deliver</code> unless that folder is literally your public root (unusual on GitHub Pages).</p>
+<table>
+<thead>
+<tr>
+<th>Hosting</th>
+<th>Example <code>baseUrl</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Project repo, Pages from <strong><code>/docs</code></strong></td>
+<td><code>https://yourusername.github.io/your-repo</code></td>
+</tr>
+<tr>
+<td>Project repo, Pages from <strong>branch root</strong></td>
+<td><code>https://yourusername.github.io/your-repo</code></td>
+</tr>
+<tr>
+<td>User/org site repo <code>username.github.io</code></td>
+<td><code>https://yourusername.github.io</code></td>
+</tr>
+</tbody></table>
 <p>These settings are used for:</p>
 <ul>
 <li>SEO meta tags (title, description, keywords)</li>
@@ -216,24 +367,16 @@
 <pre><code class="language-javascript">module.exports = {
     // ... other config ...
     sidebar: {
-        // Sidebar header text (displayed at top of sidebar)
         header: &#39;My Site&#39;,
-        
-        // Display names for main navigation items
         homeDisplayName: &#39;🏠 Home&#39;,
         postsDisplayName: &#39;✍️ Posts&#39;,
-        
-        // Sidebar footer items (array of text items or links)
         footer: [
             {
                 text: &#39;2025 © Your Name&#39;,
                 target: &#39;https://yourusername.github.io&#39;
             }
         ],
-        
-        // Navigation sections (object where keys are section titles, values are navigation items)
         sections: {
-            // Empty section name creates items without a section header
             &#39;&#39;: {
                 &#39;📝 About&#39;: {
                     target: &#39;?page=about&#39;,
@@ -251,8 +394,37 @@
 };
 </code></pre>
 <p>Navigation items in <code>sections</code> have the format: <code>label: { target: &#39;url&#39;, openInNewTab: boolean }</code>. For internal pages, use <code>?page=filename</code> (without the <code>.md</code> extension). Gorky resolves these to the correct relative paths at build time. Use full URLs for external links.</p>
+<h2>Output directory</h2>
+<p>Configure where <code>gorky build</code> writes HTML in <strong><code>gorky.config.js</code></strong>:</p>
+<pre><code class="language-javascript">module.exports = {
+  outputDir: &#39;deliver&#39;,  // default: subfolder (handy for local preview)
+  // outputDir: &#39;&#39;,       // build into project root (GitHub Pages /docs or root)
+  // outputDir: &#39;.&#39;,      // same as &#39;&#39;
+};
+</code></pre>
+<table>
+<thead>
+<tr>
+<th><code>outputDir</code></th>
+<th>Build writes to</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&#39;deliver&#39;</code></td>
+<td><code>deliver/index.html</code>, …</td>
+<td>Local preview; upload <strong><code>deliver/</code></strong> to hosts that let you pick a publish folder</td>
+</tr>
+<tr>
+<td><code>&#39;&#39;</code> or <code>&#39;.&#39;</code></td>
+<td><code>index.html</code> next to <code>content/</code></td>
+<td><strong>GitHub Pages</strong> from <strong><code>/docs</code></strong> or from <strong>repository root</strong></td>
+</tr>
+</tbody></table>
+<p>CLI flags override config: <code>gorky build -d deliver</code> or <code>gorky build -d &#39;&#39;</code>.</p>
+<p>When <code>outputDir</code> is empty, Gorky only removes previous <strong>generated</strong> files (HTML routes, <code>README.txt</code>), not your source <code>content/</code> or configs.</p>
 <h2>Site URLs</h2>
-<p>Gorky builds a multi-page site inside <code>deliver/</code>:</p>
+<p>Gorky builds a multi-page static site. URL paths are always relative to wherever you published the build (site root):</p>
 <table>
 <thead>
 <tr>
@@ -278,8 +450,8 @@
 </tr>
 </tbody></table>
 <p>Filter posts by tag on the posts listing: <strong><code>posts/?tag=your-tag</code></strong> (same path with a query string).</p>
-<p>Example if your published site lives at <code>https://username.github.io/repo/deliver/</code>:</p>
-<pre><code class="language-text">https://username.github.io/repo/deliver/posts/?tag=tutorial
+<p>Example if your site is <code>https://username.github.io/my-repo/</code>:</p>
+<pre><code class="language-text">https://username.github.io/my-repo/posts/?tag=tutorial
 </code></pre>
 <p>Tag names use the lowercase form for matching (<code>tutorial</code> matches <code>Tutorial</code> in frontmatter). Share that full URL to open the posts page already filtered.</p>
 <p>Legacy <code>?page=</code>, <code>?post=</code>, and <code>?tag=</code> URLs still redirect to these paths.</p>
@@ -324,7 +496,7 @@ Your content here...
 <p>Add a favicon to your site:</p>
 <ol>
 <li>Create or obtain a <code>favicon.ico</code> file (16x16 or 32x32 pixels)</li>
-<li>Place it in your site root (same directory as <code>deliver/</code>)</li>
+<li>Place it in your <strong>site root</strong> (same directory as <code>base.html</code> / <code>gorky.config.js</code>)</li>
 <li>Optionally create <code>apple-touch-icon.png</code> (180x180 pixels) for iOS devices</li>
 <li>The favicon will be automatically used (defaults to <code>favicon.ico</code>)</li>
 </ol>
@@ -350,48 +522,77 @@ Your page content...
 </code></pre>
 <p>Link to custom pages from your sidebar with <code>?page=filename</code> in <code>site-config.js</code> (for <code>content/about.md</code>, use <code>?page=about</code>). Visitors reach the page at <code>about/</code>.</p>
 <h2>Local preview</h2>
-<p>After <code>gorky build</code>, <code>deliver/</code> includes generated HTML plus copied <strong><code>styles/</code></strong> and <strong><code>content/</code></strong> assets (images and other non-markdown files from your source <code>content/</code> folder). You can serve the project root or open <code>deliver/</code> directly:</p>
+<p>After <code>gorky build</code>, your output folder contains generated HTML plus copied <strong><code>styles/</code></strong> and non-markdown files under <strong><code>content/</code></strong> (images, etc.).</p>
+<p><strong>If <code>outputDir</code> is <code>deliver</code>:</strong></p>
 <pre><code class="language-bash">cd deliver &amp;&amp; python -m http.server 8000
 </code></pre>
-<p>Or serve the parent folder and browse to <code>/deliver/</code>.</p>
-<p><strong>Any static host:</strong> After <code>gorky build</code>, upload the entire <strong><code>deliver/</code></strong> directory (everything inside it). No other project files are required on the server. Set <code>baseUrl</code> in <code>site-config.js</code> to match where that folder is served (site root vs subpath).</p>
-<h2>Project Structure</h2>
+<p><strong>If <code>outputDir</code> is <code>&#39;&#39;</code> (build at site root):</strong></p>
+<pre><code class="language-bash">python -m http.server 8000
+</code></pre>
+<p>Open <code>http://localhost:8000/</code> and browse the site. Set <strong><code>baseUrl</code></strong> in <code>site-config.js</code> to match how you serve it in production.</p>
+<h2>Project structure</h2>
+<p><strong>GitHub Pages from <code>/docs</code></strong> (recommended for a repo that also holds engine code or other files):</p>
+<pre><code>my-repo/
+├── docs/                    # Gorky site root — enable Pages: Branch main, folder /docs
+│   ├── index.html           # Generated (outputDir: &#39;&#39;)
+│   ├── posts/, post/, …
+│   ├── content/             # Markdown sources
+│   ├── styles/
+│   ├── base.html
+│   ├── site-config.js
+│   └── gorky.config.js
+└── (other repo files)
+</code></pre>
+<p><strong>Default <code>gorky init</code> layout</strong> (<code>outputDir: &#39;deliver&#39;</code>):</p>
 <pre><code>my-site/
-├── deliver/                 # Generated HTML (auto-generated, don&#39;t edit)
-│   ├── index.html           # Home page
-│   ├── styles/              # Copied from your styles/ at build time
-│   ├── content/             # Copied non-.md assets only (e.g. images)
-│   ├── posts/               # Posts listing
-│   ├── post/                # Individual posts
-│   └── {page}/              # Other content pages
+├── deliver/                 # Generated HTML (don&#39;t edit)
+│   ├── index.html
+│   ├── styles/              # Copied at build time
+│   ├── content/             # Copied non-.md assets only
+│   ├── posts/, post/, …
+│   └── README.txt
 ├── content/
-│   ├── home.md              # Your home page content
-│   ├── posts-intro.md       # Optional intro for the posts listing (YAML + markdown)
-│   ├── posts/               # Blog posts directory
-│   │   └── *.md             # Posts with YAML frontmatter (any filename)
-│   ├── images/              # Images directory
-│   └── posts.md             # Auto-generated posts listing (don&#39;t edit)
-├── styles/                  # CSS styling files
-├── base.html                # HTML template
-├── site-config.js           # Site settings and navigation
-├── gorky.config.js          # Optional configuration file
-├── package.json             # Optional (add your own for npm scripts / dependencies)
-└── README.md                # Optional (your repo documentation)
+│   ├── home.md
+│   ├── posts-intro.md
+│   ├── posts/
+│   └── posts.md             # Auto-generated (don&#39;t edit)
+├── styles/
+├── base.html
+├── site-config.js
+├── gorky.config.js
+└── README.md
 </code></pre>
 <h2>Deployment to GitHub Pages</h2>
+<p>GitHub Pages publishes only from:</p>
 <ol>
-<li>Push your code to a GitHub repository</li>
-<li>Go to your repository Settings → Pages</li>
-<li>Select the branch that contains your site (usually <code>main</code> or <code>gh-pages</code>)</li>
-<li>Your site will be available at <code>https://yourusername.github.io/repository-name/deliver/</code></li>
+<li><strong>The root of a branch</strong> (e.g. <code>main</code> or <code>gh-pages</code>), or  </li>
+<li>The <strong><code>/docs</code> folder</strong> on a branch.</li>
 </ol>
-<p><strong>Tip:</strong> Set <code>baseUrl</code> in <code>site-config.js</code> to include the <code>/deliver</code> path (for example <code>https://yourusername.github.io/repository-name/deliver</code>).</p>
-<p><strong>Self-contained output:</strong> The <code>deliver/</code> folder from <code>gorky build</code> is all you need to upload — HTML, <code>styles/</code>, and copied assets under <code>content/</code> (see <code>deliver/README.txt</code>).</p>
-<h2>Optional Configuration</h2>
-<p>Create a <code>gorky.config.js</code> file to customize paths:</p>
+<p>It does <strong>not</strong> treat a subfolder like <code>deliver/</code> as the site root while the rest of the repo is published as-is. Plan your <strong><code>outputDir</code></strong> and <strong><code>baseUrl</code></strong> accordingly.</p>
+<h3>Option A — <code>/docs</code> folder (common for project sites)</h3>
+<ol>
+<li>Put your Gorky site under <strong><code>docs/</code></strong> (or build into <code>docs/</code> with <code>outputDir: &#39;&#39;</code> and run <code>gorky build</code> from <code>docs/</code>).</li>
+<li>In <strong><code>gorky.config.js</code></strong>: <code>outputDir: &#39;&#39;</code> (or <code>&#39;.&#39;</code>).</li>
+<li>In <strong><code>site-config.js</code></strong>: <code>baseUrl: &#39;https://yourusername.github.io/your-repo&#39;</code> (no <code>/deliver</code>).</li>
+<li>Push to GitHub → <strong>Settings → Pages</strong> → Source: deploy from branch <strong><code>main</code></strong>, folder <strong><code>/docs</code></strong>.</li>
+<li>Site URL: <code>https://yourusername.github.io/your-repo/</code></li>
+</ol>
+<h3>Option B — Repository root</h3>
+<ol>
+<li>Keep the site at the repo root with <code>outputDir: &#39;&#39;</code>.</li>
+<li><strong>Settings → Pages</strong> → folder <strong><code>/</code> (root)</strong>.</li>
+<li>For a <strong>user site</strong> repo named <code>yourusername.github.io</code>, use <code>baseUrl: &#39;https://yourusername.github.io&#39;</code>.</li>
+</ol>
+<h3>Option C — <code>deliver/</code> subfolder (other hosts)</h3>
+<p><code>outputDir: &#39;deliver&#39;</code> is fine for local work or hosts where you upload only that folder (Netlify “publish directory”, etc.). For GitHub Pages on the same repo, prefer Option A or B instead of serving <code>/deliver/</code> as a path.</p>
+<h3>Optional: GitHub Actions</h3>
+<p>The template includes <code>.github/workflows/gorky-build.yml</code>. Adjust the commit step to match your <code>outputDir</code> (see comments in that file).</p>
+<p><strong>Self-contained output:</strong> Whatever directory you build into is all you need on the server—HTML, copied <code>styles/</code>, and non-markdown assets under <code>content/</code> (see <code>README.txt</code> in the output folder).</p>
+<h2>Optional configuration</h2>
+<p>Full <code>gorky.config.js</code> example:</p>
 <pre><code class="language-javascript">module.exports = {
   contentDir: &#39;content&#39;,
-  outputDir: &#39;deliver&#39;,
+  outputDir: &#39;&#39;,              // or &#39;deliver&#39; for a subfolder
   outputFile: &#39;index.html&#39;,
   templateFile: &#39;base.html&#39;,
   stylesDir: &#39;styles&#39;
@@ -405,7 +606,7 @@ Your page content...
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script>
         const SITE_CONFIG =             {
-                      "baseUrl": "https://adrenak.github.io/gorky/deliver",
+                      "baseUrl": "https://adrenak.github.io/gorky",
                       "siteName": "Gorky",
                       "authorName": "Vatsal Ambastha",
                       "defaultDescription": "Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.",

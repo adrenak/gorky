@@ -1,8 +1,8 @@
 // ============================================================================
 // BUILD-DOCS.JS
 //
-// Builds the showcase site from docs/ into docs/deliver/ by default, or into
-// docs/ itself when gorky.config.js sets outputDir to '' or '.' (e.g. GitHub Pages /docs).
+// Builds the showcase site from docs/ (outputDir: '' in docs/gorky.config.js writes into
+// docs/ for GitHub Pages publishing from the /docs folder).
 // the docs site always matches the shipped template CSS. Other docs sources
 // (content, base.html, site-config.js, gorky.config.js) stay edited under docs/.
 // ============================================================================

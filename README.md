@@ -45,12 +45,13 @@ If you add your own `package.json` with a `"build": "gorky build"` script, you c
 
 ### 4. Deploy to GitHub Pages
 
-1. Push your code to GitHub
-2. Go to Settings → Pages
-3. Select the branch that contains `deliver/`
-4. Your site is live at `https://yourusername.github.io/your-repo/deliver/`
+GitHub Pages publishes from the **branch root** or the **`/docs` folder** only—not from a nested folder like `deliver/` inside an otherwise unpublished tree.
 
-Set `baseUrl` in `site-config.js` to that URL (including `/deliver`).
+1. Set **`outputDir: ''`** in `gorky.config.js` to build into your site root (typical: run the site from a `docs/` folder and enable **Pages → `/docs`**).
+2. Push to GitHub → **Settings → Pages** → choose branch and **root** or **`/docs`**.
+3. Set **`baseUrl`** in `site-config.js` to the live URL (e.g. `https://yourusername.github.io/your-repo`—no `/deliver`).
+
+See **[Get Started](template/content/getstarted.md)** for full deployment options. Use **`outputDir: 'deliver'`** only if you upload that subfolder to another host or want a separate preview directory.
 
 ## Why Gorky?
 
@@ -91,11 +92,11 @@ This repo contains three parts:
 |------|------|
 | `lib/`, `bin/` | The SSG engine published to npm |
 | `template/` | Canonical starter kit — same shape as a site root: `content/`, `styles/`, `base.html`, configs |
-| `docs/` | Showcase site — its own `content/`, `base.html`, configs; **`npm run build:docs`** copies **`template/styles` → `docs/styles`**, then writes **`docs/deliver/`** |
+| `docs/` | Showcase site — **`npm run build:docs`** syncs **`template/styles` → `docs/styles`**, then **`gorky build`** with **`outputDir: ''`** writes HTML into **`docs/`** for GitHub Pages **/docs** |
 
 Edit the canonical starter under **`template/`** for `gorky init` / upgrades. For shared CSS, change **`template/styles/`** and run **`npm run build:docs`** so both the published template and the docs site stay in sync (**`docs/styles/`** is overwritten by that step). Edit **`docs/content/`** and **`docs/site-config.js`** for showcase-only text and navigation.
 
-**Deploying:** After `gorky build`, upload only the **`deliver/`** folder to any static host — it includes HTML, `styles/`, and non-markdown files from `content/` (see `deliver/README.txt`).
+**Deploying:** Point your host at the folder `gorky build` writes (site root with `outputDir: ''`, or **`deliver/`** with the default). That output is self-contained—HTML, `styles/`, and non-markdown assets from `content/` (see `README.txt` there).
 
 - `gorky init [project-name]` - Initialize a new Gorky site
 - `gorky upgrade [project-name]` - Refresh `base.html` and `styles/` from the Gorky template (leaves README, configs, and `content/` untouched). By default your current template and `styles/` are moved into `backup_<timestamp>/` first; use `--no-backup` to overwrite in place. Use `--to <version>` to pull the template from a specific npm version or tag (e.g. `latest`, `1.0.0`) via a temporary install.
@@ -110,7 +111,7 @@ Edit `site-config.js` to customize site-wide settings, sidebar navigation, and a
 ```javascript
 module.exports = {
   // Basic site settings
-  baseUrl: 'https://yourusername.github.io/your-repo/deliver',
+  baseUrl: 'https://yourusername.github.io/your-repo',
   siteName: 'My Site',
   authorName: 'Your Name',
   defaultDescription: 'Your site description...',
@@ -175,12 +176,14 @@ Create a `gorky.config.js` file to customize paths (optional):
 ```javascript
 module.exports = {
   contentDir: 'content',
-  outputDir: 'deliver',
+  outputDir: 'deliver',  // or '' / '.' to build at site root (GitHub Pages /docs or root)
   outputFile: 'index.html',
   templateFile: 'base.html',
   stylesDir: 'styles'
 };
 ```
+
+CLI: `gorky build -d ''` overrides `outputDir` for a one-off build.
 
 ## License
 

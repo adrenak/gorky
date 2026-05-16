@@ -6,25 +6,39 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      
+
       - name: Build site
         run: npx --yes gorky build
-      
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add deliver/
-          git diff --staged --quiet || git commit -m "Build: regenerate deliver/"
+          OUT=$(node -p "const c=require('./gorky.config.js'); const o=c.outputDir; (o===''||o==='.')?'':o||'deliver'")
+          if [ -z "$OUT" ]; then
+            git add index.html posts post README.txt
+            git add styles content 2>/dev/null || true
+            for d in */; do
+              case "$d" in
+                content/|styles/|posts/|post/|node_modules/|.git/) ;;
+                *)
+                  if [ -f "${d}index.html" ]; then git add "$d"; fi
+                  ;;
+              esac
+            done
+          else
+            git add "$OUT/"
+          fi
+          git diff --staged --quiet || git commit -m "Build: regenerate site output"
           git push

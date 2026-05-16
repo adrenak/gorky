@@ -18,11 +18,13 @@ Gorky makes it incredibly simple to create and maintain a static website using *
 
 ### Perfect for GitHub Pages
 
-Gorky is optimized for GitHub Pages deployment. Simply:
-1. Write your content in markdown
-2. Run `gorky build` (output goes to `deliver/`)
-3. Push to GitHub
-4. Enable GitHub Pages and set `baseUrl` to include `/deliver`
+Gorky fits GitHub Pages’ **root** or **`/docs`** publish folders. Set **`outputDir: ''`** in `gorky.config.js` to build into your site root (e.g. the `docs/` folder), then:
+
+1. Write your content in markdown  
+2. Run `gorky build`  
+3. Push to GitHub  
+4. Enable **Settings → Pages** (branch + **root** or **`/docs`**)  
+5. Set **`baseUrl`** in `site-config.js` to your live URL (no `/deliver` path)
 
 Your site is live!
 
@@ -50,6 +52,6 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Analytics Ready**: Built-in support for GoatCounter analytics
-- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` via `theme` in `site-config.js`; optional visitor **Theme** dropdown (`themeOptions`) with choice persisted in **`localStorage`** (`gorky-theme`). Carousel and code-block colors are driven by **`--color-*`** variables in each palette.
+- ✅ **Easy Theming**: Palettes in `styles/themes/*.css` via `theme` in `site-config.js`; each palette sets **`--color-*`**, **fonts**, and **font sizes**. Optional visitor **Theme** dropdown (`themeOptions`) with choice persisted in **`localStorage`** per site (`themeStorageId` / `baseUrl`).
 - ✅ **Lightweight**: Minimal dependencies, fast load times
 
