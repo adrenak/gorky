@@ -1,13 +1,18 @@
 /* Shared theme rules (uses variables from styles/themes/<palette>.css). Do not edit :root here. */
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: var(--font-family-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif);
+    font-size: var(--font-size-body, 1rem);
     font-weight: var(--font-weight-body);
+}
+
+.sidebar-header h1 {
+    font-family: var(--font-family-heading, var(--font-family-body, inherit));
 }
 
 #markdown-content code,
 #markdown-content pre {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: var(--font-family-mono, 'JetBrains Mono', 'Courier New', monospace);
 }
 
 .sidebar {
@@ -56,7 +61,7 @@ body {
 /* Colors and line-height; padding/overflow in layout.css */
 .main-content {
     background-color: var(--color-content-bg);
-    line-height: 1.7;
+    line-height: var(--line-height-body, 1.7);
     color: var(--color-text);
 }
 

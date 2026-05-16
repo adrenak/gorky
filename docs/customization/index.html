@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to customize fonts, colors, and styling to make your website unique" id="meta-description">
+    <meta name="keywords" content="customization, styling, fonts, colors, CSS, theme" id="meta-keywords">
+    <link rel="canonical" href="https://adrenak.github.io/gorky/deliver/customization/" id="canonical-link">
+    <meta property="og:title" content="Customization">
+    <meta property="og:description" content="Learn how to customize fonts, colors, and styling to make your website unique">
+    <meta property="og:url" content="https://adrenak.github.io/gorky/deliver/customization/">
+    <meta property="og:site_name" content="Gorky">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Customization">
+    <meta name="twitter:description" content="Learn how to customize fonts, colors, and styling to make your website unique">
+    <meta name="twitter:image" content="https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg">
+    <title id="page-title">Customization</title>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Customization","description":"Learn how to customize fonts, colors, and styling to make your website unique","url":"https://adrenak.github.io/gorky/deliver/customization/","image":"https://adrenak.github.io/gorky/deliver/content/images/gorky.jpg"}</script>
+    <script>
+(function () {
+    var search = window.location.search;
+    if (!search) return;
+
+    var params = new URLSearchParams(search);
+    var root = "../";
+    var path = window.location.pathname;
+    var onPostsPage = /\/posts\/?$/.test(path) || /\/posts\/index\.html$/.test(path);
+    var target = null;
+
+    if (params.has('post')) {
+        target = root + 'post/' + encodeURIComponent(params.get('post')) + '/';
+    } else if (params.get('page') === 'posts') {
+        target = root + 'posts/';
+    } else if (params.get('page') === 'home') {
+        target = root || './';
+    } else if (params.has('page')) {
+        target = root + params.get('page') + '/';
+    } else if (params.has('tag') && !onPostsPage) {
+        target = root + 'posts/?tag=' + encodeURIComponent(params.get('tag'));
+    }
+
+    if (target) {
+        window.location.replace(target);
+    }
+})();
+</script>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" id="favicon-link">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" id="apple-touch-icon-link">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/theme-shell.css">
+    <link rel="stylesheet" href="../styles/themes/default.css" id="theme-palette-stylesheet">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/content.css">
+    <link rel="stylesheet" href="../styles/accordion.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-body">
+                <div class="sidebar-header">
+                    <h1>Gorky</h1>
+                </div>
+                <nav class="sidebar-main-nav">
+                    <a href="../" class="nav-link">
+    <span class="nav-icon">🏠</span>
+    <span>Home</span>
+</a>
+<a href="../posts/" class="nav-link">
+    <span class="nav-icon">✍️</span>
+    <span>Posts</span>
+</a>
+
+                </nav>
+                <nav class="sidebar-nav">
+                    <div class="sidebar-section">
+    <h3 class="section-title">Documentation</h3>
+    <ul class="section-list">
+        <li>
+            <a href="../getstarted/" class="nav-link">
+                <span>Get Started</span>
+            </a>
+        </li>
+        <li>
+            <a href="../customization/" class="nav-link active">
+                <span>Customization</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="sidebar-section">
+    <h3 class="section-title">Links</h3>
+    <ul class="section-list">
+        <li>
+            <a href="https://github.com/adrenak/gorky" class="nav-link" target="_blank" rel="noopener noreferrer">
+                <span>GitHub</span>
+                <span class="external-icon">↗</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </nav>
+            </div>
+            <div class="sidebar-theme-switcher">
+  <label class="theme-switcher-label" for="gorky-theme-select">Theme</label>
+  <select id="gorky-theme-select" class="theme-select" aria-label="Color theme">
+    <option value="default" selected>default</option>
+    <option value="candy">candy</option>
+    <option value="coralreef">coralreef</option>
+    <option value="cyberpunk">cyberpunk</option>
+    <option value="desert">desert</option>
+    <option value="dollhouse">dollhouse</option>
+    <option value="earthy">earthy</option>
+    <option value="finding-nemo">finding-nemo</option>
+    <option value="forest">forest</option>
+    <option value="frost">frost</option>
+    <option value="futurism">futurism</option>
+    <option value="hacker">hacker</option>
+    <option value="hellhole">hellhole</option>
+    <option value="magazine">magazine</option>
+    <option value="ocean">ocean</option>
+    <option value="pulpfiction">pulpfiction</option>
+    <option value="rustpunk">rustpunk</option>
+    <option value="simple-dark">simple-dark</option>
+    <option value="simple-light">simple-light</option>
+    <option value="thematrix">thematrix</option>
+    <option value="typewriter">typewriter</option>
+    <option value="underwater">underwater</option>
+    <option value="utopia">utopia</option>
+    <option value="vicecity">vicecity</option>
+  </select>
+</div>
+
+            <div class="sidebar-footer">
+    <a href="https://adrenak.github.io" class="footer-link">2025 © Vatsal Ambastha</a>
+    <a href="https://github.com/adrenak/gorky" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+</div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <main class="main-content">
+            <div id="markdown-content">
+                
+                <h1>Customization Guide</h1>
+<p>This guide will help you customize the look and feel of your Gorky website. <strong>Colors</strong> are driven by CSS variables in <code>styles/themes/&lt;palette&gt;.css</code>; <strong><code>theme</code></strong> in <strong><code>site-config.js</code></strong> selects which palette loads. <strong>Typography and layout hooks</strong> that consume those variables live in <code>styles/theme-shell.css</code>.</p>
+<h2>Link previews when sharing URLs</h2>
+<p>All generated pages include <strong>Open Graph</strong> and <strong>Twitter Card</strong> meta tags for Discord, X/Twitter, Slack, etc.:</p>
+<ul>
+<li><strong><code>title</code></strong> and <strong><code>description</code></strong> come from each page’s markdown frontmatter when set, otherwise from <code>site-config.js</code>.</li>
+<li><strong><code>thumbnail</code></strong> in frontmatter (optional on posts/pages that support YAML) sets the preview image (<code>og:image</code>).</li>
+<li>If there is no thumbnail, previews use <strong><code>site-config.js</code></strong> <strong><code>avatar</code></strong> (your portrait/site image), then <strong><code>favicon</code></strong>, then <strong><code>appleTouchIcon</code></strong>.</li>
+</ul>
+<p>Set <strong><code>baseUrl</code></strong> to your deployed site (including <code>/deliver</code> when needed) so image URLs resolve correctly for crawlers.</p>
+<h2>Theming: palettes and <code>site-config.js</code></h2>
+<p><strong>Switch built-in palettes</strong> by setting <code>theme</code> in <code>site-config.js</code> (no <code>.css</code> suffix):</p>
+<ul>
+<li><code>default</code> — warm paper / stone sidebar  </li>
+<li><code>thematrix</code>, <code>hacker</code> — terminal / phosphor  </li>
+<li><code>desert</code>, <code>earthy</code>, <code>candy</code>, <code>dollhouse</code> — earthy or playful  </li>
+<li><code>simple-light</code>, <code>simple-dark</code> — minimal  </li>
+<li><code>pulpfiction</code> — bold retro contrast  </li>
+<li><code>typewriter</code> — aged paper &amp; ribbon red  </li>
+<li><code>magazine</code> — editorial black rail &amp; red accent  </li>
+<li><code>frost</code> — cool ice &amp; teal  </li>
+<li><code>forest</code> — evergreen rail &amp; moss  </li>
+<li><code>futurism</code> — art deco gold &amp; espresso  </li>
+<li><code>cyberpunk</code> — neon on violet black  </li>
+<li><code>fallout</code> — Pip-Boy green phosphor on vault black  </li>
+<li><code>rustpunk</code> — copper, rust, industrial smoke  </li>
+<li><code>utopia</code> — bright white-sky calm  </li>
+<li><code>hellhole</code> — ember reds on scorched black  </li>
+<li><code>vicecity</code> — 80s Miami neon dusk  </li>
+<li><code>ocean</code> — bright surface sea &amp; teal rail  </li>
+<li><code>underwater</code> — deep blue abyss &amp; cyan glow  </li>
+<li><code>coralreef</code> — sand shoal, reef teal, coral pink  </li>
+<li><code>finding-nemo</code> — playful reef blue, orange &amp; purple pop</li>
+</ul>
+<p>Each palette file under <strong><code>styles/themes/</code></strong> contains <strong>only</strong> a <code>:root { ... }</code> block (font weights and <code>--color-*</code> variables). <strong><code>styles/theme-shell.css</code></strong> applies those variables to the sidebar, content area, links, and blockquotes.</p>
+<p>To add your own palette, copy <strong><code>styles/themes/default.css</code></strong> to <strong><code>styles/themes/mybrand.css</code></strong> (use letters, digits, hyphen, underscore only in the filename), and set <strong><code>theme: &#39;mybrand&#39;</code></strong> in <strong><code>site-config.js</code></strong>. It loads automatically at build time.</p>
+<p>Set optional <strong><code>themeOptions</code></strong> to an array of theme ids (strings). When present, a <strong>Theme</strong> dropdown appears <strong>above the sidebar footer</strong> so visitors can switch <code>styles/themes/&lt;id&gt;.css</code> in the browser.</p>
+<ul>
+<li>The choice is saved in <strong><code>localStorage</code></strong> under the key <strong><code>gorky-theme</code></strong> and reapplied on the next visit <strong>only if</strong> that id is still allowed.</li>
+<li><strong>Allowed ids</strong> are every entry in <strong><code>themeOptions</code></strong> (after normalisation: trimmed, optional <code>.css</code> stripped, letters / digits / <code>-</code> / <code>_</code> only), <strong>plus</strong> the built‑in <strong><code>theme</code></strong> value from config—which is always permitted even if omitted from the array.</li>
+<li>If <code>localStorage</code> is unavailable or the stored id is no longer allowed, the page keeps the stylesheet from the last build (<code>theme</code> in <code>site-config.js</code>).</li>
+</ul>
+<h3>Palette variables for carousels and code</h3>
+<p>Besides layout colors, palette files can define tokens used in <strong><code>styles/content.css</code></strong>:</p>
+<p><strong>Image carousels</strong> (HTML <code>splide</code> + <code>gorky-carousel</code>; see <em>Writing a post</em>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--color-carousel-bg</code></td>
+<td>Carousel panel background</td>
+</tr>
+<tr>
+<td><code>--color-carousel-arrow-bg</code></td>
+<td>Prev/next button background</td>
+</tr>
+<tr>
+<td><code>--color-carousel-arrow-bg-hover</code></td>
+<td>Arrow hover background</td>
+</tr>
+<tr>
+<td><code>--color-carousel-arrow-icon</code></td>
+<td>Chevron <code>fill</code> (SVG)</td>
+</tr>
+<tr>
+<td><code>--color-carousel-arrow-shadow</code></td>
+<td>Arrow <code>box-shadow</code> color</td>
+</tr>
+<tr>
+<td><code>--color-carousel-pagination-dot</code></td>
+<td>Inactive Splide pagination dots</td>
+</tr>
+</tbody></table>
+<p>The <strong>active</strong> dot uses <strong><code>--color-accent</code></strong> (not a separate variable).</p>
+<p><strong>Code blocks</strong> (Prism + <code>--color-code-bg</code>):</p>
+<ul>
+<li><p>Gorky loads Prism’s default CSS, then overrides it so fenced blocks use your palette’s <strong><code>--color-text</code></strong> as the base foreground (Prism otherwise forces near‑black text, which disappears on dark <code>--color-code-bg</code>).</p>
+</li>
+<li><p>Prism’s light‑theme <strong><code>text-shadow</code></strong> on code is removed so it doesn’t create a halo on dark panels.</p>
+</li>
+<li><p><strong>Syntax highlighting</strong> still uses Prism’s token classes. Default token hues match <strong>light</strong> code backgrounds. <strong>Dark</strong> built‑in palettes therefore add explicit token variables (copy from e.g. <code>simple-dark</code> or <code>hellhole</code> if you build a custom dark theme):</p>
+<p><code>--color-code-comment</code>, <code>--color-code-punctuation</code>, <code>--color-code-property</code>, <code>--color-code-string</code>, <code>--color-code-operator</code>, <code>--color-code-keyword</code>, <code>--color-code-function</code>, <code>--color-code-variable</code></p>
+</li>
+<li><p>Optionally set <strong><code>--color-code-foreground</code></strong> if code text should differ from body <strong><code>--color-text</code></strong>; otherwise the base code color follows <strong><code>--color-text</code></strong>.</p>
+</li>
+</ul>
+<h3>Upstream Gorky repository vs a <code>gorky init</code> project</h3>
+<p><strong>If you cloned the Gorky source repo:</strong> <code>npm run build:docs</code> copies <strong><code>template/styles</code> → <code>docs/styles</code></strong> before building <strong><code>docs/deliver/</code></strong>. To change CSS that ships with <strong><code>gorky init</code></strong>, edit <strong><code>template/styles/</code></strong>, then run <strong><code>npm run build:docs</code></strong> to refresh the showcase. Do not rely on editing <strong><code>docs/styles/</code></strong> by itself—it is overwritten by that sync.</p>
+<p><strong>If you created a site with <code>gorky init</code>:</strong> your project only has <strong><code>styles/</code></strong> at the site root. There is no <code>template/</code> → <code>docs/</code> sync; run <strong><code>gorky build</code></strong> as usual.</p>
+<h2>CSS File Structure</h2>
+<ul>
+<li><strong><code>styles/themes/&lt;palette&gt;.css</code></strong> ⭐ — Color and weight variables (<code>:root</code>) for the active <code>theme</code></li>
+<li><strong><code>styles/theme-shell.css</code></strong> — Rules that use those variables (body font, sidebar, links, etc.)</li>
+<li><strong><code>styles/base.css</code></strong> — CSS reset and container layout (rarely needs editing)</li>
+<li><strong><code>styles/layout.css</code></strong> — Layout structure, sidebar, navigation, and spacing</li>
+<li><strong><code>styles/content.css</code></strong> — Article typography, posts list, Splide carousels, Prism/code overrides, images, blockquotes in <code>#markdown-content</code></li>
+<li><strong><code>styles/accordion.css</code></strong> — Collapsible <code>&lt;details&gt;</code> sections in markdown</li>
+<li><strong><code>styles/responsive.css</code></strong> — Responsive breakpoints and mobile menu</li>
+</ul>
+<h2>Customizing Fonts</h2>
+<h3>Main Body Font</h3>
+<p>The main font for all content is set in <code>styles/theme-shell.css</code>:</p>
+<pre><code class="language-css">body {
+    font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+</code></pre>
+<p><strong>To change it</strong>, edit <code>styles/theme-shell.css</code> and replace with your preferred font:</p>
+<pre><code class="language-css">body {
+    font-family: &#39;Your Font Name&#39;, sans-serif;
+}
+</code></pre>
+<p><strong>Using Google Fonts:</strong></p>
+<ol>
+<li><p>Add the font link in <code>base.html</code> (in the <code>&lt;head&gt;</code> section):</p>
+<pre><code class="language-html">&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+</code></pre>
+</li>
+<li><p>Update <code>styles/theme-shell.css</code>:</p>
+<pre><code class="language-css">body {
+    font-family: &#39;Inter&#39;, sans-serif;
+}
+</code></pre>
+</li>
+</ol>
+<p><strong>Popular font choices:</strong></p>
+<ul>
+<li><code>&#39;Inter&#39;, sans-serif</code> - Modern, clean sans-serif</li>
+<li><code>&#39;Merriweather&#39;, serif</code> - Readable serif font</li>
+<li><code>&#39;Playfair Display&#39;, serif</code> - Elegant serif</li>
+</ul>
+<h3>Code Font</h3>
+<p>Code blocks and inline code use a monospace font. Edit <code>styles/theme-shell.css</code>:</p>
+<pre><code class="language-css">#markdown-content code,
+#markdown-content pre {
+    font-family: &#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace;
+}
+</code></pre>
+<p><strong>Popular monospace fonts:</strong></p>
+<ul>
+<li><code>&#39;JetBrains Mono&#39;</code> - Modern monospace (already included via Google Fonts)</li>
+<li><code>&#39;Fira Code&#39;</code> - Programming font with ligatures</li>
+<li><code>&#39;Source Code Pro&#39;</code> - Clean code font</li>
+</ul>
+<h2>Customizing Colors</h2>
+<p>Palette files only define <strong>CSS variables</strong> on <code>:root</code>. Set <strong><code>theme</code></strong> in <strong><code>site-config.js</code></strong> to the filename without <code>.css</code> (e.g. <code>simple-dark</code>).</p>
+<p><strong>Built-in values:</strong> <code>default</code>, <code>thematrix</code>, <code>desert</code>, <code>candy</code>, <code>simple-light</code>, <code>simple-dark</code>, <code>hacker</code>, <code>dollhouse</code>, <code>pulpfiction</code>, <code>earthy</code>, <code>typewriter</code>, <code>magazine</code>, <code>frost</code>, <code>forest</code>, <code>futurism</code>, <code>cyberpunk</code>, <code>fallout</code>, <code>rustpunk</code>, <code>utopia</code>, <code>hellhole</code>, <code>vicecity</code>, <code>ocean</code>, <code>underwater</code>, <code>coralreef</code>, <code>finding-nemo</code>.</p>
+<p>Edit the corresponding file under <strong><code>styles/themes/</code></strong> (for example <strong><code>styles/themes/default.css</code></strong>) to change <code>--color-sidebar-bg</code>, <code>--color-accent</code>, <code>--color-content-bg</code>, <code>--color-code-bg</code>, <code>--color-carousel-bg</code>, carousel arrow / pagination variables, and (on dark themes) <strong><code>--color-code-*</code></strong> syntax tokens. <strong><code>--font-weight-*</code></strong> entries control heading/nav weights. Layout components read most colors in <strong><code>styles/theme-shell.css</code></strong>; carousels, code/Prism overrides, and article typography use <strong><code>styles/content.css</code></strong> — edit <strong><code>theme-shell.css</code></strong> / <strong><code>content.css</code></strong> when you need different selectors or structure, not just different color values.</p>
+<p>Example (abbreviated):</p>
+<pre><code class="language-css">:root {
+    --color-content-bg: #ECE3D4;
+    --color-text: #000;
+    --color-accent: #006703;
+    --color-sidebar-bg: rgb(225, 214, 194);
+    --color-sidebar-active: #846e4c;
+    /* ... see styles/themes/default.css for the full set */
+}
+</code></pre>
+<h2>Quick theme switching</h2>
+<p>In <code>site-config.js</code>:</p>
+<pre><code class="language-js">theme: &#39;simple-dark&#39;,
+</code></pre>
+<p>Other one-line tries: <code>&#39;ocean&#39;</code>, <code>&#39;underwater&#39;</code>, <code>&#39;coralreef&#39;</code>, <code>&#39;finding-nemo&#39;</code>, <code>&#39;fallout&#39;</code>, etc. Rebuild with <code>gorky build</code> and open <code>deliver/</code> to preview.</p>
+<p>Themes are <strong>not</strong> whitelisted in Gorky: any safe basename maps to <strong><code>styles/themes/&lt;theme&gt;.css</code></strong>. Use letters, digits, <strong><code>-</code></strong>, <strong><code>_</code></strong> only; invalid values fall back to <strong><code>default</code></strong>.</p>
+<h2>Content spacing</h2>
+<h3>Line spacing</h3>
+<p>Line height for the reading column is set in <code>styles/theme-shell.css</code> on <code>.main-content</code> (default <code>1.7</code>). Increase or decrease for tighter or roomier paragraphs.</p>
+<h2>Tips</h2>
+<ol>
+<li><p><strong>Start with <code>theme</code> and a palette file</strong> — pick a built-in <code>theme</code>, then tweak variables in the matching <code>styles/themes/&lt;theme&gt;.css</code> before editing <code>theme-shell.css</code>.</p>
+</li>
+<li><p><strong>Test your changes</strong>: After modifying CSS, run <code>gorky build</code> and check pages in <code>deliver/</code>.</p>
+</li>
+<li><p><strong>Browser DevTools</strong>: Use your browser&#39;s developer tools (F12) to inspect elements and test color changes in real-time before editing files.</p>
+</li>
+<li><p><strong>Keep it organized</strong>: Colors and weights belong in palette CSS; shared rules belong in <code>theme-shell.css</code>.</p>
+</li>
+<li><p><strong>Other files</strong>: Layout, content, accordion, and responsive styles live in their named CSS files under <code>styles/</code>.</p>
+</li>
+</ol>
+<h2>Need Help?</h2>
+<ul>
+<li><strong>Colors</strong> — your active <code>styles/themes/&lt;theme&gt;.css</code> and <code>site-config.js</code> <code>theme</code>  </li>
+<li><strong>Carousels / fenced code (Prism)</strong> — <code>styles/content.css</code> + variables in <code>styles/themes/&lt;theme&gt;.css</code>  </li>
+<li><strong>Fonts / layout shell</strong> — <code>styles/theme-shell.css</code> first  </li>
+<li>Read the comments in each CSS file - they describe what each section controls  </li>
+<li>Use browser DevTools to inspect elements and see which CSS file controls them  </li>
+<li>Test changes incrementally - change one thing at a time to see the effect</li>
+</ul>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script>
+        const SITE_CONFIG =             {
+                      "baseUrl": "https://adrenak.github.io/gorky/deliver",
+                      "siteName": "Gorky",
+                      "authorName": "Vatsal Ambastha",
+                      "defaultDescription": "Gorky - A lightweight, markdown-powered static site generator for creating beautiful blogs and personal websites. Perfect for GitHub Pages deployment.",
+                      "defaultKeywords": "gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog",
+                      "favicon": "favicon.ico",
+                      "appleTouchIcon": "apple-touch-icon.png",
+                      "avatar": "content/images/gorky.jpg",
+                      "theme": "default",
+                      "themeOptions": [
+                                "default",
+                                "candy",
+                                "coralreef",
+                                "cyberpunk",
+                                "desert",
+                                "dollhouse",
+                                "earthy",
+                                "finding-nemo",
+                                "forest",
+                                "frost",
+                                "futurism",
+                                "hacker",
+                                "hellhole",
+                                "magazine",
+                                "ocean",
+                                "pulpfiction",
+                                "rustpunk",
+                                "simple-dark",
+                                "simple-light",
+                                "thematrix",
+                                "typewriter",
+                                "underwater",
+                                "utopia",
+                                "vicecity"
+                      ],
+                      "goatCounterEnabled": false,
+                      "goatCounterCode": "yourcode",
+                      "allowLocal": false,
+                      "allowFrame": false,
+                      "noOnload": false,
+                      "sidebar": {
+                                "header": "Gorky",
+                                "homeDisplayName": "🏠 Home",
+                                "postsDisplayName": "✍️ Posts",
+                                "footer": [
+                                          {
+                                                    "text": "2025 © Vatsal Ambastha",
+                                                    "target": "https://adrenak.github.io"
+                                          },
+                                          {
+                                                    "text": "GitHub",
+                                                    "target": "https://github.com/adrenak/gorky",
+                                                    "openInNewTab": true
+                                          }
+                                ],
+                                "sections": {
+                                          "Documentation": {
+                                                    "Get Started": {
+                                                              "target": "?page=getstarted",
+                                                              "openInNewTab": false
+                                                    },
+                                                    "Customization": {
+                                                              "target": "?page=customization",
+                                                              "openInNewTab": false
+                                                    }
+                                          },
+                                          "Links": {
+                                                    "GitHub": {
+                                                              "target": "https://github.com/adrenak/gorky",
+                                                              "openInNewTab": true
+                                                    }
+                                          }
+                                }
+                      }
+            };
+        const ASSET_PREFIX = "../";
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const markdownContent = document.getElementById('markdown-content');
+
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+
+            if (typeof Splide !== 'undefined' && markdownContent) {
+                markdownContent.querySelectorAll('.splide.gorky-carousel').forEach(function (carouselRoot) {
+                    new Splide(carouselRoot, {
+                        type: 'loop',
+                        perPage: 1,
+                        gap: '1rem',
+                        pagination: true,
+                        arrows: true,
+                    }).mount();
+                });
+            }
+
+            if (SITE_CONFIG.favicon) {
+                const faviconLink = document.getElementById('favicon-link');
+                if (faviconLink) {
+                    const faviconPath = SITE_CONFIG.favicon.startsWith('http')
+                        ? SITE_CONFIG.favicon
+                        : ASSET_PREFIX + SITE_CONFIG.favicon.replace(/^\//, '');
+                    faviconLink.setAttribute('href', faviconPath);
+                }
+            }
+            if (SITE_CONFIG.appleTouchIcon) {
+                const appleIconLink = document.getElementById('apple-touch-icon-link');
+                if (appleIconLink) {
+                    const iconPath = SITE_CONFIG.appleTouchIcon.startsWith('http')
+                        ? SITE_CONFIG.appleTouchIcon
+                        : ASSET_PREFIX + SITE_CONFIG.appleTouchIcon.replace(/^\//, '');
+                    appleIconLink.setAttribute('href', iconPath);
+                }
+            }
+
+            (function initThemeSwitcher() {
+                var opts = SITE_CONFIG.themeOptions;
+                if (!Array.isArray(opts) || opts.length === 0) return;
+                var select = document.getElementById('gorky-theme-select');
+                var link = document.getElementById('theme-palette-stylesheet');
+                if (!select || !link) return;
+
+                function safeName(v) {
+                    v = String(v || '').trim();
+                    if (v.endsWith('.css')) v = v.slice(0, -4).trim();
+                    if (!v || v.length > 96 || !/^[a-zA-Z0-9_-]+$/.test(v)) return '';
+                    return v;
+                }
+
+                var allowed = {};
+                opts.forEach(function (o) {
+                    var s = safeName(o);
+                    if (s) allowed[s] = true;
+                });
+                var buildTheme = safeName(SITE_CONFIG.theme) || 'default';
+                allowed[buildTheme] = true;
+
+                function applyTheme(name) {
+                    var n = safeName(name);
+                    if (!n || !allowed[n]) return;
+                    link.setAttribute('href', ASSET_PREFIX + 'styles/themes/' + n + '.css');
+                    try { localStorage.setItem('gorky-theme', n); } catch (err) {}
+                    select.value = n;
+                }
+
+                var stored = '';
+                try { stored = localStorage.getItem('gorky-theme') || ''; } catch (err) {}
+                if (stored && allowed[stored]) {
+                    applyTheme(stored);
+                }
+
+                select.addEventListener('change', function () {
+                    applyTheme(select.value);
+                });
+            })();
+
+            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
+                const tagParam = new URLSearchParams(window.location.search).get('tag');
+                if (tagParam && tagParam.toLowerCase() !== 'all') {
+                    const normalizedTag = tagParam.toLowerCase();
+                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
+                    let visibleCount = 0;
+
+                    entries.forEach(function (entry) {
+                        const tags = (entry.getAttribute('data-tags') || '')
+                            .split(',')
+                            .map(function (tag) { return tag.trim().toLowerCase(); });
+                        const matches = tags.includes(normalizedTag);
+                        entry.style.display = matches ? '' : 'none';
+                        if (matches) visibleCount += 1;
+                    });
+
+                    if (visibleCount === 0) {
+                        const notice = document.createElement('p');
+                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
+                        markdownContent.appendChild(notice);
+                    }
+                }
+            }
+
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', toggleSidebar);
+            }
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+
+            document.querySelectorAll('.nav-link').forEach(function (link) {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            if (SITE_CONFIG.goatCounterEnabled && typeof goatcounter !== 'undefined') {
+                goatcounter.count({
+                    path: location.pathname + location.search
+                });
+            }
+        });
+    </script>
+
+    <script>
+        if (SITE_CONFIG.goatCounterEnabled) {
+            const script = document.createElement('script');
+            script.async = true;
+            script.setAttribute('data-goatcounter', 'https://' + SITE_CONFIG.goatCounterCode + '.goatcounter.com/count');
+            if (SITE_CONFIG.allowLocal) script.setAttribute('data-goatcounter-settings', 'allow_local:true');
+            if (SITE_CONFIG.allowFrame) script.setAttribute('data-goatcounter-settings', 'allow_frame:true');
+            if (SITE_CONFIG.noOnload) script.setAttribute('data-goatcounter-settings', 'no_onload:true');
+            script.src = 'https://gc.zgo.at/count.js';
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>

@@ -1,10 +1,28 @@
 /* Utopia — airy white-blue, hopeful accent, calm rail */
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 :root {
     --font-weight-body: 400;
     --font-weight-nav-active: 500;
     --font-weight-heading: 600;
     --font-weight-section-label: 750;
+    /* Typography */
+    --font-family-body: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-family-heading: var(--font-family-body);
+    --font-family-mono: 'JetBrains Mono', 'Courier New', Consolas, monospace;
+    --font-size-body: 1.125rem;
+    --font-size-h1: 2.4rem;
+    --font-size-h2: 1.5rem;
+    --font-size-h3: 1.25rem;
+    --font-size-sidebar-title: 1.25rem;
+    --font-size-nav: 0.9rem;
+    --font-size-nav-icon: 1.1rem;
+    --font-size-section-label: 0.7rem;
+    --font-size-theme-select: 0.85rem;
+    --font-size-footer: 0.75rem;
+    --font-size-code: 0.9em;
+    --line-height-body: 1.8;
 
     --color-content-bg: #fbfdff;
     --color-text: #334155;

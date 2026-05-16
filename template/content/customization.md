@@ -43,7 +43,7 @@ Set **`baseUrl`** to your deployed site (including `/deliver` when needed) so im
 - `coralreef` — sand shoal, reef teal, coral pink  
 - `finding-nemo` — playful reef blue, orange & purple pop  
 
-Each palette file under **`styles/themes/`** contains **only** a `:root { ... }` block (font weights and `--color-*` variables). **`styles/theme-shell.css`** applies those variables to the sidebar, content area, links, and blockquotes.
+Each palette file under **`styles/themes/`** is a `:root { ... }` block plus an optional **`@import`** for Google Fonts. Variables include **`--font-weight-*`**, **`--font-family-*`**, **`--font-size-*`**, **`--line-height-body`**, and **`--color-*`**. **`styles/theme-shell.css`**, **`layout.css`**, and **`content.css`** consume those tokens for typography and layout.
 
 To add your own palette, copy **`styles/themes/default.css`** to **`styles/themes/mybrand.css`** (use letters, digits, hyphen, underscore only in the filename), and set **`theme: 'mybrand'`** in **`site-config.js`**. It loads automatically at build time.
 
@@ -88,8 +88,8 @@ The **active** dot uses **`--color-accent`** (not a separate variable).
 
 ## CSS File Structure
 
-- **`styles/themes/<palette>.css`** ⭐ — Color and weight variables (`:root`) for the active `theme`
-- **`styles/theme-shell.css`** — Rules that use those variables (body font, sidebar, links, etc.)
+- **`styles/themes/<palette>.css`** ⭐ — Palette variables (`:root`) and optional `@import` for fonts
+- **`styles/theme-shell.css`** — Rules that use those variables (body, sidebar, links, etc.)
 - **`styles/base.css`** — CSS reset and container layout (rarely needs editing)
 - **`styles/layout.css`** — Layout structure, sidebar, navigation, and spacing
 - **`styles/content.css`** — Article typography, posts list, Splide carousels, Prism/code overrides, images, blockquotes in `#markdown-content`
@@ -98,58 +98,35 @@ The **active** dot uses **`--color-accent`** (not a separate variable).
 
 ## Customizing Fonts
 
-### Main Body Font
+Built-in palettes ship with **font families and sizes** tuned to each look (e.g. **magazine** uses Playfair Display + Source Sans 3; **hacker** uses Share Tech Mono throughout). Set them in your active **`styles/themes/<theme>.css`** file—**not** in `theme-shell.css`.
 
-The main font for all content is set in `styles/theme-shell.css`:
+### Typography variables (per theme)
+
+| Variable | Role |
+|----------|------|
+| `--font-family-body` | Body, nav, and paragraphs |
+| `--font-family-heading` | Sidebar title and article `h1`–`h3` (often matches body or a display face) |
+| `--font-family-mono` | Inline code and fenced blocks |
+| `--font-size-body` | Base text size (default `1rem`) |
+| `--font-size-h1`, `--font-size-h2`, `--font-size-h3` | Article headings |
+| `--font-size-sidebar-title`, `--font-size-nav`, `--font-size-footer`, … | Chrome sizes (see `default.css`) |
+| `--line-height-body` | Reading column line height (`.main-content`) |
+| `--font-weight-*` | Body, heading, nav, and section-label weights |
+
+**Google Fonts:** add an `@import` at the top of your palette file (built-in themes already do this when needed):
 
 ```css
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-family-heading: var(--font-family-body);
+    --font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
+    /* --font-size-* and --color-* … */
 }
 ```
 
-**To change it**, edit `styles/theme-shell.css` and replace with your preferred font:
-
-```css
-body {
-    font-family: 'Your Font Name', sans-serif;
-}
-```
-
-**Using Google Fonts:**
-
-1. Add the font link in `base.html` (in the `<head>` section):
-   ```html
-   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-   ```
-
-2. Update `styles/theme-shell.css`:
-   ```css
-   body {
-       font-family: 'Inter', sans-serif;
-   }
-   ```
-
-**Popular font choices:**
-- `'Inter', sans-serif` - Modern, clean sans-serif
-- `'Merriweather', serif` - Readable serif font
-- `'Playfair Display', serif` - Elegant serif
-
-### Code Font
-
-Code blocks and inline code use a monospace font. Edit `styles/theme-shell.css`:
-
-```css
-#markdown-content code,
-#markdown-content pre {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-}
-```
-
-**Popular monospace fonts:**
-- `'JetBrains Mono'` - Modern monospace (already included via Google Fonts)
-- `'Fira Code'` - Programming font with ligatures
-- `'Source Code Pro'` - Clean code font
+When a visitor switches themes in the sidebar dropdown, the new palette stylesheet loads and fonts update with it. You do **not** need a global font `<link>` in `base.html`.
 
 ## Customizing Colors
 
@@ -157,7 +134,7 @@ Palette files only define **CSS variables** on `:root`. Set **`theme`** in **`si
 
 **Built-in values:** `default`, `thematrix`, `desert`, `candy`, `simple-light`, `simple-dark`, `hacker`, `dollhouse`, `pulpfiction`, `earthy`, `typewriter`, `magazine`, `frost`, `forest`, `futurism`, `cyberpunk`, `fallout`, `rustpunk`, `utopia`, `hellhole`, `vicecity`, `ocean`, `underwater`, `coralreef`, `finding-nemo`.
 
-Edit the corresponding file under **`styles/themes/`** (for example **`styles/themes/default.css`**) to change `--color-sidebar-bg`, `--color-accent`, `--color-content-bg`, `--color-code-bg`, `--color-carousel-bg`, carousel arrow / pagination variables, and (on dark themes) **`--color-code-*`** syntax tokens. **`--font-weight-*`** entries control heading/nav weights. Layout components read most colors in **`styles/theme-shell.css`**; carousels, code/Prism overrides, and article typography use **`styles/content.css`** — edit **`theme-shell.css`** / **`content.css`** when you need different selectors or structure, not just different color values.
+Edit the corresponding file under **`styles/themes/`** (for example **`styles/themes/default.css`**) to change colors, typography tokens, and weights. Layout components read most colors in **`styles/theme-shell.css`**; carousels, code/Prism overrides, and article typography use **`styles/content.css`** — edit those only when you need different selectors or structure, not just different token values.
 
 Example (abbreviated):
 
@@ -188,7 +165,7 @@ Themes are **not** whitelisted in Gorky: any safe basename maps to **`styles/the
 
 ### Line spacing
 
-Line height for the reading column is set in `styles/theme-shell.css` on `.main-content` (default `1.7`). Increase or decrease for tighter or roomier paragraphs.
+Line height for the reading column is **`--line-height-body`** in your palette (default `1.7`).
 
 ## Tips
 
@@ -206,7 +183,7 @@ Line height for the reading column is set in `styles/theme-shell.css` on `.main-
 
 - **Colors** — your active `styles/themes/<theme>.css` and `site-config.js` `theme`  
 - **Carousels / fenced code (Prism)** — `styles/content.css` + variables in `styles/themes/<theme>.css`  
-- **Fonts / layout shell** — `styles/theme-shell.css` first  
+- **Fonts / sizes** — `styles/themes/<theme>.css` typography variables; shared rules in `theme-shell.css` / `content.css`  
 - Read the comments in each CSS file - they describe what each section controls  
 - Use browser DevTools to inspect elements and see which CSS file controls them  
 - Test changes incrementally - change one thing at a time to see the effect
