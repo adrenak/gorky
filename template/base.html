@@ -145,7 +145,7 @@
 
             if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
                 const tagParam = new URLSearchParams(window.location.search).get('tag');
-                if (tagParam) {
+                if (tagParam && tagParam.toLowerCase() !== 'all') {
                     const normalizedTag = tagParam.toLowerCase();
                     const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
                     let visibleCount = 0;

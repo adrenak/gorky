@@ -8,7 +8,7 @@ Welcome to the blog. Below you'll find everything I've published, sorted newest 
 
 ## Tags
 
-[tutorial (1)](?tag=tutorial) • [writing (1)](?tag=writing)
+[All (1)](?tag=all) • [tutorial (1)](?tag=tutorial) • [writing (1)](?tag=writing)
 
 ---
 
