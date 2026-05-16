@@ -1,5 +1,19 @@
 /* Page layout, sidebar structure, and navigation */
 
+:root {
+    --mobile-topbar-height: 3rem;
+    --mobile-drawer-width: 85vw;
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    /* Extra cushion for iOS Safari bottom URL bar (not always in safe-area-inset) */
+    --mobile-browser-bottom: 2.75rem;
+}
+
+.mobile-topbar,
+.sidebar-close {
+    display: none;
+}
+
 .main-content {
     flex: 1;
     padding-top: 5rem;

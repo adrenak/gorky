@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="{{META_DESCRIPTION}}" id="meta-description">
     <meta name="keywords" content="{{META_KEYWORDS}}" id="meta-keywords">
     <link rel="canonical" href="{{CANONICAL_URL}}" id="canonical-link">
@@ -26,13 +26,10 @@
 </head>
 <body>
     <div class="container">
-        <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        {{MOBILE_TOPBAR}}
 
         <aside class="sidebar" id="sidebar">
+            <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close menu" hidden><span class="sidebar-close-icon" aria-hidden="true">&times;</span></button>
             <div class="sidebar-body">
                 <div class="sidebar-header">
                     {{SIDEBAR_HEADER}}
@@ -184,21 +181,45 @@
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
+            const sidebarClose = document.getElementById('sidebar-close');
 
-            function toggleSidebar() {
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
-                hamburgerMenu.classList.toggle('active');
+            function openSidebar() {
+                if (!sidebar || !overlay) return;
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                document.body.classList.add('sidebar-open');
+                if (hamburgerMenu) {
+                    hamburgerMenu.setAttribute('aria-expanded', 'true');
+                }
+                if (sidebarClose) {
+                    sidebarClose.hidden = false;
+                }
             }
 
             function closeSidebar() {
+                if (!sidebar || !overlay) return;
                 sidebar.classList.remove('active');
                 overlay.classList.remove('active');
-                hamburgerMenu.classList.remove('active');
+                document.body.classList.remove('sidebar-open');
+                if (hamburgerMenu) {
+                    hamburgerMenu.setAttribute('aria-expanded', 'false');
+                }
+                if (sidebarClose) {
+                    sidebarClose.hidden = true;
+                }
             }
 
             if (hamburgerMenu) {
-                hamburgerMenu.addEventListener('click', toggleSidebar);
+                hamburgerMenu.addEventListener('click', function () {
+                    if (sidebar && sidebar.classList.contains('active')) {
+                        closeSidebar();
+                    } else {
+                        openSidebar();
+                    }
+                });
+            }
+            if (sidebarClose) {
+                sidebarClose.addEventListener('click', closeSidebar);
             }
             if (overlay) {
                 overlay.addEventListener('click', closeSidebar);

@@ -19,6 +19,25 @@ body {
     background-color: var(--color-sidebar-bg);
 }
 
+.mobile-topbar {
+    background-color: var(--color-sidebar-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-topbar-title {
+    color: var(--color-sidebar-title, var(--color-text));
+}
+
+.mobile-menu-toggle span {
+    background-color: var(--color-sidebar-title, var(--color-text));
+}
+
+.sidebar-close {
+    background-color: transparent;
+    color: var(--color-sidebar-title, var(--color-text));
+    border: 1px solid currentColor;
+}
+
 .sidebar-header h1 {
     color: var(--color-sidebar-title, var(--color-text));
 }
