@@ -26,8 +26,15 @@
     var params = new URLSearchParams(search);
     var root = "../";
     var path = window.location.pathname;
-    var onPostsPage = /\/posts\/?$/.test(path) || /\/posts\/index\.html$/.test(path);
     var target = null;
+
+    function tagPathSegment(tag) {
+        tag = String(tag || '').trim();
+        if (!tag) return 'tag';
+        if (tag.length <= 96 && /^[a-zA-Z0-9_-]+$/.test(tag)) return tag;
+        var s = encodeURIComponent(tag).replace(/%/g, '');
+        return s ? s.slice(0, 96) : 'tag';
+    }
 
     if (params.has('post')) {
         target = root + 'post/' + encodeURIComponent(params.get('post')) + '/';
@@ -37,8 +44,13 @@
         target = root || './';
     } else if (params.has('page')) {
         target = root + params.get('page') + '/';
-    } else if (params.has('tag') && !onPostsPage) {
-        target = root + 'posts/?tag=' + encodeURIComponent(params.get('tag'));
+    } else if (params.has('tag')) {
+        var tag = params.get('tag');
+        if (tag && tag.toLowerCase() === 'all') {
+            target = root + 'posts/';
+        } else if (tag) {
+            target = root + 'posts/tag/' + tagPathSegment(tag) + '/';
+        }
     }
 
     if (target) {
@@ -154,14 +166,14 @@
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
         <main class="main-content">
-            <div id="markdown-content" data-enable-tag-filter="true">
+            <div id="markdown-content">
                 
                 <p>Welcome to the blog. Below you&#39;ll find everything I&#39;ve published, sorted newest first.</p>
 <h1>Posts</h1>
 <h2>Tags</h2>
-<p><a href="?tag=all">All (1)</a> • <a href="?tag=tutorial">tutorial (1)</a> • <a href="?tag=writing">writing (1)</a></p>
+<p><a href="./">All (1)</a> • <a href="tag/tutorial/">tutorial (1)</a> • <a href="tag/writing/">writing (1)</a></p>
 <hr>
-<div class="post-entry" data-tags="tutorial,writing">
+<div class="post-entry" data-tags="tutorial,writing" data-listing-index="0">
 <img src="../content/images/gorky.jpg" alt="Writing a post" class="post-thumbnail" />
 <div class="post-content">
 <h2><a href="../post/writing-a-post/">Writing a post</a></h2>
@@ -372,30 +384,6 @@
                     applyTheme(select.value);
                 });
             })();
-
-            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
-                const tagParam = new URLSearchParams(window.location.search).get('tag');
-                if (tagParam && tagParam.toLowerCase() !== 'all') {
-                    const normalizedTag = tagParam.toLowerCase();
-                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
-                    let visibleCount = 0;
-
-                    entries.forEach(function (entry) {
-                        const tags = (entry.getAttribute('data-tags') || '')
-                            .split(',')
-                            .map(function (tag) { return tag.trim().toLowerCase(); });
-                        const matches = tags.includes(normalizedTag);
-                        entry.style.display = matches ? '' : 'none';
-                        if (matches) visibleCount += 1;
-                    });
-
-                    if (visibleCount === 0) {
-                        const notice = document.createElement('p');
-                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
-                        markdownContent.appendChild(notice);
-                    }
-                }
-            }
 
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const sidebar = document.getElementById('sidebar');

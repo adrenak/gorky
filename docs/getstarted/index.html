@@ -26,8 +26,15 @@
     var params = new URLSearchParams(search);
     var root = "../";
     var path = window.location.pathname;
-    var onPostsPage = /\/posts\/?$/.test(path) || /\/posts\/index\.html$/.test(path);
     var target = null;
+
+    function tagPathSegment(tag) {
+        tag = String(tag || '').trim();
+        if (!tag) return 'tag';
+        if (tag.length <= 96 && /^[a-zA-Z0-9_-]+$/.test(tag)) return tag;
+        var s = encodeURIComponent(tag).replace(/%/g, '');
+        return s ? s.slice(0, 96) : 'tag';
+    }
 
     if (params.has('post')) {
         target = root + 'post/' + encodeURIComponent(params.get('post')) + '/';
@@ -37,8 +44,13 @@
         target = root || './';
     } else if (params.has('page')) {
         target = root + params.get('page') + '/';
-    } else if (params.has('tag') && !onPostsPage) {
-        target = root + 'posts/?tag=' + encodeURIComponent(params.get('tag'));
+    } else if (params.has('tag')) {
+        var tag = params.get('tag');
+        if (tag && tag.toLowerCase() === 'all') {
+            target = root + 'posts/';
+        } else if (tag) {
+            target = root + 'posts/tag/' + tagPathSegment(tag) + '/';
+        }
     }
 
     if (target) {
@@ -449,12 +461,12 @@ module.exports = {
 <td><code>about/</code></td>
 </tr>
 </tbody></table>
-<p>Filter posts by tag on the posts listing: <strong><code>posts/?tag=your-tag</code></strong> (same path with a query string).</p>
+<p>Filter posts by tag at <strong><code>posts/tag/your-tag/</code></strong>. With pagination enabled (<code>postsPerPage</code> in <code>site-config.js</code>), additional pages use <strong><code>posts/tag/your-tag/page/N/</code></strong>.</p>
 <p>Example if your site is <code>https://username.github.io/my-repo/</code>:</p>
-<pre><code class="language-text">https://username.github.io/my-repo/posts/?tag=tutorial
+<pre><code class="language-text">https://username.github.io/my-repo/posts/tag/tutorial/
 </code></pre>
-<p>Tag names use the lowercase form for matching (<code>tutorial</code> matches <code>Tutorial</code> in frontmatter). Share that full URL to open the posts page already filtered.</p>
-<p>Legacy <code>?page=</code>, <code>?post=</code>, and <code>?tag=</code> URLs still redirect to these paths.</p>
+<p>Legacy <strong><code>?tag=your-tag</code></strong> URLs (on any page) redirect to <code>posts/tag/your-tag/</code>. Use <strong><code>?tag=all</code></strong> to open the full posts list at <code>posts/</code>.</p>
+<p>Legacy <code>?page=</code> and <code>?post=</code> URLs also redirect to path URLs.</p>
 <h2>Post Format</h2>
 <p>Post files can have any filename. All metadata is defined in YAML frontmatter at the top of each file:</p>
 <pre><code>---
@@ -801,30 +813,6 @@ Your page content...
                     applyTheme(select.value);
                 });
             })();
-
-            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
-                const tagParam = new URLSearchParams(window.location.search).get('tag');
-                if (tagParam && tagParam.toLowerCase() !== 'all') {
-                    const normalizedTag = tagParam.toLowerCase();
-                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
-                    let visibleCount = 0;
-
-                    entries.forEach(function (entry) {
-                        const tags = (entry.getAttribute('data-tags') || '')
-                            .split(',')
-                            .map(function (tag) { return tag.trim().toLowerCase(); });
-                        const matches = tags.includes(normalizedTag);
-                        entry.style.display = matches ? '' : 'none';
-                        if (matches) visibleCount += 1;
-                    });
-
-                    if (visibleCount === 0) {
-                        const notice = document.createElement('p');
-                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
-                        markdownContent.appendChild(notice);
-                    }
-                }
-            }
 
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const sidebar = document.getElementById('sidebar');

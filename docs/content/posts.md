@@ -8,11 +8,11 @@ Welcome to the blog. Below you'll find everything I've published, sorted newest 
 
 ## Tags
 
-[All (1)](?tag=all) • [tutorial (1)](?tag=tutorial) • [writing (1)](?tag=writing)
+[All (1)](./) • [tutorial (1)](tag/tutorial/) • [writing (1)](tag/writing/)
 
 ---
 
-<div class="post-entry" data-tags="tutorial,writing">
+<div class="post-entry" data-tags="tutorial,writing" data-listing-index="0">
 <img src="content/images/gorky.jpg" alt="Writing a post" class="post-thumbnail" />
 <div class="post-content">
 <h2><a href="../post/writing-a-post/">Writing a post</a></h2>

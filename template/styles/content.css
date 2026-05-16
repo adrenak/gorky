@@ -297,3 +297,30 @@
 #markdown-content .gorky-carousel .splide__pagination .splide__pagination__page.is-active {
     background: var(--color-accent);
 }
+
+#markdown-content .posts-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+#markdown-content .posts-pagination-link {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#markdown-content .posts-pagination-link:hover {
+    text-decoration: underline;
+}
+
+#markdown-content .posts-pagination-status {
+    color: var(--color-text-muted, var(--color-text));
+    font-size: 0.95rem;
+}

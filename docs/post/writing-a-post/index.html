@@ -26,8 +26,15 @@
     var params = new URLSearchParams(search);
     var root = "../../";
     var path = window.location.pathname;
-    var onPostsPage = /\/posts\/?$/.test(path) || /\/posts\/index\.html$/.test(path);
     var target = null;
+
+    function tagPathSegment(tag) {
+        tag = String(tag || '').trim();
+        if (!tag) return 'tag';
+        if (tag.length <= 96 && /^[a-zA-Z0-9_-]+$/.test(tag)) return tag;
+        var s = encodeURIComponent(tag).replace(/%/g, '');
+        return s ? s.slice(0, 96) : 'tag';
+    }
 
     if (params.has('post')) {
         target = root + 'post/' + encodeURIComponent(params.get('post')) + '/';
@@ -37,8 +44,13 @@
         target = root || './';
     } else if (params.has('page')) {
         target = root + params.get('page') + '/';
-    } else if (params.has('tag') && !onPostsPage) {
-        target = root + 'posts/?tag=' + encodeURIComponent(params.get('tag'));
+    } else if (params.has('tag')) {
+        var tag = params.get('tag');
+        if (tag && tag.toLowerCase() === 'all') {
+            target = root + 'posts/';
+        } else if (tag) {
+            target = root + 'posts/tag/' + tagPathSegment(tag) + '/';
+        }
     }
 
     if (target) {
@@ -158,7 +170,7 @@
                 <div class="post-metadata">
   <h1 class="post-title">Writing a post</h1>
   <div class="post-date">10 Dec 2025</div>
-  <div class="post-tags">Tagged: <a href="../../posts/?tag=tutorial" class="tag-link">tutorial</a>, <a href="../../posts/?tag=writing" class="tag-link">writing</a></div>
+  <div class="post-tags">Tagged: <a href="../../posts/tag/tutorial/" class="tag-link">tutorial</a>, <a href="../../posts/tag/writing/" class="tag-link">writing</a></div>
 </div>
 
                 <p>Posts in Gorky are written in Markdown, which makes it easy to format your content with simple syntax. However, you can also use HTML tags when you need more control or want to embed rich content like videos or create advanced layouts.</p>
@@ -459,30 +471,6 @@ archived: true
                     applyTheme(select.value);
                 });
             })();
-
-            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
-                const tagParam = new URLSearchParams(window.location.search).get('tag');
-                if (tagParam && tagParam.toLowerCase() !== 'all') {
-                    const normalizedTag = tagParam.toLowerCase();
-                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
-                    let visibleCount = 0;
-
-                    entries.forEach(function (entry) {
-                        const tags = (entry.getAttribute('data-tags') || '')
-                            .split(',')
-                            .map(function (tag) { return tag.trim().toLowerCase(); });
-                        const matches = tags.includes(normalizedTag);
-                        entry.style.display = matches ? '' : 'none';
-                        if (matches) visibleCount += 1;
-                    });
-
-                    if (visibleCount === 0) {
-                        const notice = document.createElement('p');
-                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
-                        markdownContent.appendChild(notice);
-                    }
-                }
-            }
 
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const sidebar = document.getElementById('sidebar');

@@ -39,6 +39,12 @@ module.exports = {
     ],
 
     // GoatCounter Analytics Configuration
+    /**
+     * Posts per listing page (main posts/ and posts/tag/{tag}/). 0 or omitted = one page with all posts.
+     * Legacy ?tag=name redirects to posts/tag/name/ (and posts/tag/name/page/N/ when paginated).
+     */
+    postsPerPage: 0,
+
     goatCounterEnabled: false,
     goatCounterCode: 'yourcode',
     allowLocal: false,

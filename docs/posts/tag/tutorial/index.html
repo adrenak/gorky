@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A lightweight, markdown-powered static site generator" id="meta-description">
-    <meta name="keywords" content="gorky, static site generator, markdown, blog" id="meta-keywords">
-    <link rel="canonical" href="https://adrenak.github.io/gorky/" id="canonical-link">
-    <meta property="og:title" content="Gorky">
-    <meta property="og:description" content="A lightweight, markdown-powered static site generator">
-    <meta property="og:url" content="https://adrenak.github.io/gorky/">
+    <meta name="description" content="Thoughts on code, games, and whatever else I&#039;m tinkering with." id="meta-description">
+    <meta name="keywords" content="gorky, static site generator, markdown, blog, GitHub Pages, JAMstack, static website, markdown blog" id="meta-keywords">
+    <link rel="canonical" href="https://adrenak.github.io/gorky/posts/tag/tutorial/" id="canonical-link">
+    <meta property="og:title" content="Posts tagged “tutorial”">
+    <meta property="og:description" content="Thoughts on code, games, and whatever else I&#039;m tinkering with.">
+    <meta property="og:url" content="https://adrenak.github.io/gorky/posts/tag/tutorial/">
     <meta property="og:site_name" content="Gorky">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://adrenak.github.io/gorky/content/images/gorky.jpg">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Gorky">
-    <meta name="twitter:description" content="A lightweight, markdown-powered static site generator">
+    <meta name="twitter:title" content="Posts tagged “tutorial”">
+    <meta name="twitter:description" content="Thoughts on code, games, and whatever else I&#039;m tinkering with.">
     <meta name="twitter:image" content="https://adrenak.github.io/gorky/content/images/gorky.jpg">
-    <title id="page-title">Gorky</title>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Gorky","description":"A lightweight, markdown-powered static site generator","url":"https://adrenak.github.io/gorky/","image":"https://adrenak.github.io/gorky/content/images/gorky.jpg"}</script>
+    <title id="page-title">Posts tagged “tutorial”</title>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Posts tagged “tutorial”","description":"Thoughts on code, games, and whatever else I'm tinkering with.","url":"https://adrenak.github.io/gorky/posts/tag/tutorial/","image":"https://adrenak.github.io/gorky/content/images/gorky.jpg"}</script>
     <script>
 (function () {
     var search = window.location.search;
     if (!search) return;
 
     var params = new URLSearchParams(search);
-    var root = "";
+    var root = "../../../";
     var path = window.location.pathname;
     var target = null;
 
@@ -58,15 +58,15 @@
     }
 })();
 </script>
-    <link rel="icon" type="image/x-icon" href="favicon.ico" id="favicon-link">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" id="apple-touch-icon-link">
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/theme-shell.css">
-    <link rel="stylesheet" href="styles/themes/default.css" id="theme-palette-stylesheet">
-    <link rel="stylesheet" href="styles/layout.css">
-    <link rel="stylesheet" href="styles/content.css">
-    <link rel="stylesheet" href="styles/accordion.css">
-    <link rel="stylesheet" href="styles/responsive.css">
+    <link rel="icon" type="image/x-icon" href="../../../favicon.ico" id="favicon-link">
+    <link rel="apple-touch-icon" href="../../../apple-touch-icon.png" id="apple-touch-icon-link">
+    <link rel="stylesheet" href="../../../styles/base.css">
+    <link rel="stylesheet" href="../../../styles/theme-shell.css">
+    <link rel="stylesheet" href="../../../styles/themes/default.css" id="theme-palette-stylesheet">
+    <link rel="stylesheet" href="../../../styles/layout.css">
+    <link rel="stylesheet" href="../../../styles/content.css">
+    <link rel="stylesheet" href="../../../styles/accordion.css">
+    <link rel="stylesheet" href="../../../styles/responsive.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
@@ -86,11 +86,11 @@
                     <h1>Gorky</h1>
                 </div>
                 <nav class="sidebar-main-nav">
-                    <a href="./" class="nav-link active">
+                    <a href="../../../" class="nav-link">
     <span class="nav-icon">🏠</span>
     <span>Home</span>
 </a>
-<a href="posts/" class="nav-link">
+<a href="../../../posts/" class="nav-link active">
     <span class="nav-icon">✍️</span>
     <span>Posts</span>
 </a>
@@ -101,12 +101,12 @@
     <h3 class="section-title">Documentation</h3>
     <ul class="section-list">
         <li>
-            <a href="getstarted/" class="nav-link">
+            <a href="../../../getstarted/" class="nav-link">
                 <span>Get Started</span>
             </a>
         </li>
         <li>
-            <a href="customization/" class="nav-link">
+            <a href="../../../customization/" class="nav-link">
                 <span>Customization</span>
             </a>
         </li>
@@ -168,49 +168,18 @@
         <main class="main-content">
             <div id="markdown-content">
                 
-                <h1>Gorky</h1>
-<p><strong>Gorky</strong> is a lightweight, markdown-powered static site generator designed for creating beautiful blogs and personal websites that can be easily deployed to GitHub Pages.</p>
-<p>Gorky is named after <a href="https://en.wikipedia.org/wiki/Maxim_Gorky">Maxim Gorky</a></p>
-<p>The layout and design is inspired from <a href="https://garry.net">garry.net</a>  </p>
-<h2>Why Gorky?</h2>
-<p>Gorky makes it incredibly simple to create and maintain a static website using <strong>markdown files</strong>. No complex build tools, no database setup, just write your content in markdown and Gorky handles the rest.</p>
-<h3>Perfect for GitHub Pages</h3>
-<p>Gorky fits GitHub Pages’ <strong>root</strong> or <strong><code>/docs</code></strong> publish folders. Set <strong><code>outputDir: &#39;&#39;</code></strong> in <code>gorky.config.js</code> to build into your site root (e.g. the <code>docs/</code> folder), then:</p>
-<ol>
-<li>Write your content in markdown  </li>
-<li>Run <code>gorky build</code>  </li>
-<li>Push to GitHub  </li>
-<li>Enable <strong>Settings → Pages</strong> (branch + <strong>root</strong> or <strong><code>/docs</code></strong>)  </li>
-<li>Set <strong><code>baseUrl</code></strong> in <code>site-config.js</code> to your live URL (no <code>/deliver</code> path)</li>
-</ol>
-<p>Your site is live!</p>
-<h3>Markdown-First Approach</h3>
-<p>All your content lives in markdown files. Whether it&#39;s blog posts, documentation, or custom pages, you write everything in familiar markdown syntax. Gorky automatically:</p>
-<ul>
-<li>Converts markdown to beautiful HTML</li>
-<li>Generates navigation from your sidebar configuration</li>
-<li>Creates a posts listing page</li>
-<li>Handles tags and filtering</li>
-<li>Provides syntax highlighting for code blocks</li>
-</ul>
-<h3>Flexible Content Management</h3>
-<ul>
-<li><strong>Blog Posts</strong>: Create posts in the <code>content/posts/</code> folder with YAML frontmatter for metadata</li>
-<li><strong>Custom Pages</strong>: Add any markdown file and link to it from your sidebar</li>
-<li><strong>Dynamic Navigation</strong>: Configure your sidebar through a simple JSON file</li>
-<li><strong>Tag System</strong>: Organize posts with tags and filter by them</li>
-</ul>
-<h3>Features</h3>
-<ul>
-<li>✅ <strong>Responsive Design</strong>: Works beautifully on desktop, tablet, and mobile</li>
-<li>✅ <strong>Syntax Highlighting</strong>: Code blocks automatically highlighted with Prism.js</li>
-<li>✅ <strong>Tag Filtering</strong>: Filter posts by tags with a simple URL parameter</li>
-<li>✅ <strong>Multi-page URLs</strong>: Clean paths for home, posts, and individual posts</li>
-<li>✅ <strong>SEO Friendly</strong>: Meta tags and canonical URLs included</li>
-<li>✅ <strong>Analytics Ready</strong>: Built-in support for GoatCounter analytics</li>
-<li>✅ <strong>Easy Theming</strong>: Palettes in <code>styles/themes/*.css</code> via <code>theme</code> in <code>site-config.js</code>; each palette sets <strong><code>--color-*</code></strong>, <strong>fonts</strong>, and <strong>font sizes</strong>. Optional visitor <strong>Theme</strong> dropdown (<code>themeOptions</code>) with choice persisted in <strong><code>localStorage</code></strong> per site (<code>themeStorageId</code> / <code>baseUrl</code>).</li>
-<li>✅ <strong>Lightweight</strong>: Minimal dependencies, fast load times</li>
-</ul>
+                <h1>Posts tagged “tutorial”</h1>
+<h2>Tags</h2>
+<p><a href="../../">All (1)</a> • <a href="./">tutorial (1)</a> • <a href="../writing/">writing (1)</a></p>
+<hr>
+<div class="post-entry" data-tags="tutorial,writing" data-listing-index="0">
+<img src="../../../content/images/gorky.jpg" alt="Writing a post" class="post-thumbnail" />
+<div class="post-content">
+<h2><a href="../../../post/writing-a-post/">Writing a post</a></h2>
+<p>Learn how to write posts in Gorky using markdown and HTML</p>
+</div>
+</div>
+
 
             </div>
         </main>
@@ -295,7 +264,7 @@
                                 }
                       }
             };
-        const ASSET_PREFIX = "";
+        const ASSET_PREFIX = "../../../";
 
         document.addEventListener('DOMContentLoaded', function () {
             const markdownContent = document.getElementById('markdown-content');

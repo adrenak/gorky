@@ -181,30 +181,6 @@
                 });
             })();
 
-            if (markdownContent && markdownContent.hasAttribute('data-enable-tag-filter')) {
-                const tagParam = new URLSearchParams(window.location.search).get('tag');
-                if (tagParam && tagParam.toLowerCase() !== 'all') {
-                    const normalizedTag = tagParam.toLowerCase();
-                    const entries = markdownContent.querySelectorAll('.post-entry[data-tags]');
-                    let visibleCount = 0;
-
-                    entries.forEach(function (entry) {
-                        const tags = (entry.getAttribute('data-tags') || '')
-                            .split(',')
-                            .map(function (tag) { return tag.trim().toLowerCase(); });
-                        const matches = tags.includes(normalizedTag);
-                        entry.style.display = matches ? '' : 'none';
-                        if (matches) visibleCount += 1;
-                    });
-
-                    if (visibleCount === 0) {
-                        const notice = document.createElement('p');
-                        notice.textContent = 'No posts found for tag "' + tagParam + '".';
-                        markdownContent.appendChild(notice);
-                    }
-                }
-            }
-
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');

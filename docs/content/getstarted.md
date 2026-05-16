@@ -243,17 +243,17 @@ Gorky builds a multi-page static site. URL paths are always relative to wherever
 | Single post | `post/{slug}/` |
 | Custom page (`content/about.md`) | `about/` |
 
-Filter posts by tag on the posts listing: **`posts/?tag=your-tag`** (same path with a query string).
+Filter posts by tag at **`posts/tag/your-tag/`**. With pagination enabled (`postsPerPage` in `site-config.js`), additional pages use **`posts/tag/your-tag/page/N/`**.
 
 Example if your site is `https://username.github.io/my-repo/`:
 
 ```text
-https://username.github.io/my-repo/posts/?tag=tutorial
+https://username.github.io/my-repo/posts/tag/tutorial/
 ```
 
-Tag names use the lowercase form for matching (`tutorial` matches `Tutorial` in frontmatter). Share that full URL to open the posts page already filtered.
+Legacy **`?tag=your-tag`** URLs (on any page) redirect to `posts/tag/your-tag/`. Use **`?tag=all`** to open the full posts list at `posts/`.
 
-Legacy `?page=`, `?post=`, and `?tag=` URLs still redirect to these paths.
+Legacy `?page=` and `?post=` URLs also redirect to path URLs.
 
 ## Post Format
 
