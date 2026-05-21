@@ -1,0 +1,8 @@
+flowchart TD
+    config["redirects.json entry"] --> decide{"proxy mode?"}
+    decide -->|yes| fetch["Fetch URL at build time"]
+    fetch --> file["Write r/slug as plain file"]
+    decide -->|no| html["Write r/slug/index.html"]
+    html --> delay{delay}
+    delay -->|0| instant["Instant browser redirect"]
+    delay -->|greater than 0| hop["Themed page, then redirect"]

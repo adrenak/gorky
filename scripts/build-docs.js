@@ -74,6 +74,9 @@ syncTemplateStylesToDocs();
 buildSite({
     ...config,
     cwd: docsDir,
+}).catch((error) => {
+    console.error('Error building docs site:', error.message);
+    process.exit(1);
 });
 
 console.log('\n✓ Docs site built successfully!');

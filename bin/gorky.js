@@ -47,7 +47,10 @@ program
       cwd: process.cwd()
     };
     
-    buildSite(buildOptions);
+    buildSite(buildOptions).catch((error) => {
+      console.error('Error building site:', error.message);
+      process.exit(1);
+    });
   });
 
 program

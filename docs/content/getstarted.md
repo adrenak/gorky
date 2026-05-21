@@ -385,8 +385,86 @@ my-site/
 ├── base.html
 ├── site-config.js
 ├── gorky.config.js
+├── redirects.json           # Optional short links (see below)
 └── README.md
 ```
+
+## Short link redirects (`/r/`)
+
+Optional **`redirects.json`** at the project root defines short URLs under **`/r/`**. Each entry needs a `url`. Gorky can either **redirect a browser** to that URL or **embed the remote file** in your site (handy for `curl`).
+
+![How Gorky builds each /r/ short link](content/images/redirects-flow.png)
+
+### Two output types
+
+| Mode | When | Build output | Best for |
+|------|------|--------------|----------|
+| **Browser redirect** | Default, or `"proxy": false` | `r/{slug}/index.html` | Discord, your site, social links |
+| **Static proxy** | `"proxy": true`, or auto-detected raw URL + `delay: 0` | `r/{slug}` (plain file, no `.html`) | Scripts and raw text (`curl … \| bash`) |
+
+**Browser redirect**
+
+- `delay: 0` — instant redirect (themed page, no wait).
+- `delay > 0` — optional `message`, then redirect after that many milliseconds.
+- Public URL: `yoursite.com/r/discord/` (trailing slash).
+
+**Static proxy**
+
+- Gorky **downloads the `url` once** during `gorky build` and writes the body into your output folder.
+- Not a live proxy: update the remote file → run `gorky build` again.
+- Public URL: `yoursite.com/r/png2jpg-ffmpeg` (file path, often no trailing slash).
+- Auto-proxy when `delay` is `0` and the URL looks like raw text (gist `/raw/…`, `raw.githubusercontent.com`, `.sh`, `.txt`, etc.). Override with `"proxy": true` or `"proxy": false`.
+
+### Example `redirects.json`
+
+Copy from `redirects.json.example` in the Gorky template, or start with:
+
+```json
+{
+  "defaults": {
+    "delay": 0
+  },
+  "redirects": {
+    "discord": {
+      "url": "https://discord.gg/your-invite",
+      "delay": 2000,
+      "message": "Taking you to our Discord…"
+    },
+    "twitter": "https://twitter.com/you",
+    "png2jpg-ffmpeg": {
+      "url": "https://gist.githubusercontent.com/you/gist-id/raw/png2jpg-ffmpeg.sh",
+      "delay": 0,
+      "proxy": true
+    }
+  }
+}
+```
+
+- `discord` — hopping page (`delay: 2000`).
+- `twitter` — shorthand URL; with `defaults.delay: 0`, instant browser redirect.
+- `png2jpg-ffmpeg` — explicit `"proxy": true` (same as auto-detect for this gist raw URL with `delay: 0`).
+
+Per-entry **`delay` overrides `defaults.delay`**. Example: `defaults.delay: 100` still allows a static file if that entry sets `"delay": 0` and proxies.
+
+### Build and test
+
+```bash
+gorky build
+```
+
+Look for `proxied file(s)` and/or `redirect page(s)` in the build log.
+
+```bash
+# Browser redirect (HTML)
+curl -sL https://yoursite.com/r/discord/ | head -1
+
+# Static proxy (script text)
+curl -s https://yoursite.com/r/png2jpg-ffmpeg | head -1
+```
+
+Do not add **`content/r.md`** if you use redirects—the `r/` output tree is reserved for short links.
+
+Full rules: **`specs/redirects.md`** in the Gorky repo.
 
 ## Deployment to GitHub Pages
 

@@ -580,8 +580,87 @@ Your page content...
 ├── base.html
 ├── site-config.js
 ├── gorky.config.js
+├── redirects.json           # Optional short links (see below)
 └── README.md
 </code></pre>
+<h2>Short link redirects (<code>/r/</code>)</h2>
+<p>Optional <strong><code>redirects.json</code></strong> at the project root defines short URLs under <strong><code>/r/</code></strong>. Each entry needs a <code>url</code>. Gorky can either <strong>redirect a browser</strong> to that URL or <strong>embed the remote file</strong> in your site (handy for <code>curl</code>).</p>
+<p><img src="../content/images/redirects-flow.png" alt="How Gorky builds each /r/ short link"></p>
+<h3>Two output types</h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>When</th>
+<th>Build output</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Browser redirect</strong></td>
+<td>Default, or <code>&quot;proxy&quot;: false</code></td>
+<td><code>r/{slug}/index.html</code></td>
+<td>Discord, your site, social links</td>
+</tr>
+<tr>
+<td><strong>Static proxy</strong></td>
+<td><code>&quot;proxy&quot;: true</code>, or auto-detected raw URL + <code>delay: 0</code></td>
+<td><code>r/{slug}</code> (plain file, no <code>.html</code>)</td>
+<td>Scripts and raw text (<code>curl … | bash</code>)</td>
+</tr>
+</tbody></table>
+<p><strong>Browser redirect</strong></p>
+<ul>
+<li><code>delay: 0</code> — instant redirect (themed page, no wait).</li>
+<li><code>delay &gt; 0</code> — optional <code>message</code>, then redirect after that many milliseconds.</li>
+<li>Public URL: <code>yoursite.com/r/discord/</code> (trailing slash).</li>
+</ul>
+<p><strong>Static proxy</strong></p>
+<ul>
+<li>Gorky <strong>downloads the <code>url</code> once</strong> during <code>gorky build</code> and writes the body into your output folder.</li>
+<li>Not a live proxy: update the remote file → run <code>gorky build</code> again.</li>
+<li>Public URL: <code>yoursite.com/r/png2jpg-ffmpeg</code> (file path, often no trailing slash).</li>
+<li>Auto-proxy when <code>delay</code> is <code>0</code> and the URL looks like raw text (gist <code>/raw/…</code>, <code>raw.githubusercontent.com</code>, <code>.sh</code>, <code>.txt</code>, etc.). Override with <code>&quot;proxy&quot;: true</code> or <code>&quot;proxy&quot;: false</code>.</li>
+</ul>
+<h3>Example <code>redirects.json</code></h3>
+<p>Copy from <code>redirects.json.example</code> in the Gorky template, or start with:</p>
+<pre><code class="language-json">{
+  &quot;defaults&quot;: {
+    &quot;delay&quot;: 0
+  },
+  &quot;redirects&quot;: {
+    &quot;discord&quot;: {
+      &quot;url&quot;: &quot;https://discord.gg/your-invite&quot;,
+      &quot;delay&quot;: 2000,
+      &quot;message&quot;: &quot;Taking you to our Discord…&quot;
+    },
+    &quot;twitter&quot;: &quot;https://twitter.com/you&quot;,
+    &quot;png2jpg-ffmpeg&quot;: {
+      &quot;url&quot;: &quot;https://gist.githubusercontent.com/you/gist-id/raw/png2jpg-ffmpeg.sh&quot;,
+      &quot;delay&quot;: 0,
+      &quot;proxy&quot;: true
+    }
+  }
+}
+</code></pre>
+<ul>
+<li><code>discord</code> — hopping page (<code>delay: 2000</code>).</li>
+<li><code>twitter</code> — shorthand URL; with <code>defaults.delay: 0</code>, instant browser redirect.</li>
+<li><code>png2jpg-ffmpeg</code> — explicit <code>&quot;proxy&quot;: true</code> (same as auto-detect for this gist raw URL with <code>delay: 0</code>).</li>
+</ul>
+<p>Per-entry <strong><code>delay</code> overrides <code>defaults.delay</code></strong>. Example: <code>defaults.delay: 100</code> still allows a static file if that entry sets <code>&quot;delay&quot;: 0</code> and proxies.</p>
+<h3>Build and test</h3>
+<pre><code class="language-bash">gorky build
+</code></pre>
+<p>Look for <code>proxied file(s)</code> and/or <code>redirect page(s)</code> in the build log.</p>
+<pre><code class="language-bash"># Browser redirect (HTML)
+curl -sL https://yoursite.com/r/discord/ | head -1
+
+# Static proxy (script text)
+curl -s https://yoursite.com/r/png2jpg-ffmpeg | head -1
+</code></pre>
+<p>Do not add <strong><code>content/r.md</code></strong> if you use redirects—the <code>r/</code> output tree is reserved for short links.</p>
+<p>Full rules: <strong><code>specs/redirects.md</code></strong> in the Gorky repo.</p>
 <h2>Deployment to GitHub Pages</h2>
 <p>GitHub Pages publishes only from:</p>
 <ol>
