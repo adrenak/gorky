@@ -1,0 +1,17 @@
+{
+  "defaults": {
+    "delay": 0
+  },
+  "redirects": {
+    "/discord": {
+      "url": "https://discord.gg/abcdefgh",
+      "delay": 2000,
+      "message": "Taking you to our Discord server…"
+    },
+    "github": {
+      "url": "https://github.com/you/repo",
+      "delay": 1000
+    },
+    "twitter": "https://twitter.com/you"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "defaults": {
+    "delay": 0
+  },
+  "redirects": {
+    "/author": {
+      "url": "https://www.vatsalambastha.com",
+      "delay": 1000,
+      "message": "Taking you to Vatsal Ambastha's website"
+    },
+    "repo": {
+      "url": "https://github.com/adrenak/gorky",
+      "delay": 1000,
+      "message": "Taking you to the Gorky Github repository"
+    },
+    "twitter": "https://twitter.com/VatsalAmbastha"
+  }
+}

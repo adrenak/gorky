@@ -73,6 +73,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - **Dynamic Navigation**: Configure your sidebar through `site-config.js`
 - **Tag System**: Organize posts with tags and filter by them
 - **Analytics Ready**: Built-in support for GoatCounter analytics
+- **Short links**: Optional `redirects.json` for `/r/{slug}/` redirect URLs
 
 ### Features
 
@@ -80,6 +81,7 @@ All your content lives in markdown files. Whether it's blog posts, documentation
 - ✅ **Syntax Highlighting**: Code blocks automatically highlighted with Prism.js
 - ✅ **Tag Filtering**: Filter posts by tag at `posts/?tag=name`
 - ✅ **Multi-page URLs**: Clean paths for home, posts, and individual posts
+- ✅ **Short redirects**: `/r/{slug}/` from `redirects.json` (optional delay + message)
 - ✅ **SEO Friendly**: Meta tags and canonical URLs included
 - ✅ **Easy Theming**: Palettes in `styles/themes/*.css` and `theme` / optional `themeOptions` in `site-config.js` (visitor picks persist in `localStorage` per site via `themeStorageId` or `baseUrl`; carousel & code colors use `--color-*` variables in each palette)
 - ✅ **Lightweight**: Minimal dependencies, fast load times

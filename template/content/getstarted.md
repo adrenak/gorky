@@ -364,8 +364,21 @@ my-site/
 ├── base.html
 ├── site-config.js
 ├── gorky.config.js
+├── redirects.json           # Optional short links (see below)
 └── README.md
 ```
+
+## Short link redirects (`/r/`)
+
+Optional **`redirects.json`** at the project root defines short URLs under **`/r/{slug}/`** (for example `mywebsite.com/r/discord/`). Each entry needs a target `url`; you can add an optional `delay` (milliseconds) and `message` for a brief hopping page before redirect.
+
+Copy the example from `redirects.json.example` in the Gorky package template (or see **`specs/redirects.md`** in the gorky repo for the full spec). Rebuild after editing:
+
+```bash
+gorky build
+```
+
+Output is written to `r/<slug>/index.html` in your build folder. Do not add **`content/r.md`** if you use redirects—the `r/` directory is reserved for short links.
 
 ## Deployment to GitHub Pages
 
